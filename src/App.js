@@ -843,19 +843,35 @@ const CivilRightsLegalTool = () => {
   useEffect(() => {
     if (selectedState) {
       try {
+        console.log(`Processing state: ${selectedState}`);
+        
         const circuit = federalCircuits[selectedState];
         const stopAndId = stopAndIdStates[selectedState];
         const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
         const circuitInfo = circuit ? circuitAnalysis[circuit.circuit] : null;
         const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
 
+        console.log('Data check:', {
+          selectedState,
+          hasCircuit: !!circuit,
+          hasStopAndId: !!stopAndId,
+          hasFirstAmendment: !!firstAmendmentLandmark,
+          hasCircuitInfo: !!circuitInfo,
+          circuitName: circuit?.circuit
+        });
+
         // Ensure we have required data
-        if (!circuit || !stopAndId) {
-          console.error(`Missing data for state: ${selectedState}`);
+        if (!circuit) {
+          console.error(`Missing circuit data for state: ${selectedState}`);
+          return;
+        }
+        
+        if (!stopAndId) {
+          console.error(`Missing stop and ID data for state: ${selectedState}`);
           return;
         }
 
-        setResults({
+        const newResults = {
           state: states.find(s => s.code === selectedState)?.name,
           circuit,
           stopAndId,
@@ -864,9 +880,12 @@ const CivilRightsLegalTool = () => {
           stateConstitutionalInfo,
           tacticalGuidance: getTacticalGuidance(selectedState, circuit),
           immediateActions: getImmediateActions(selectedState)
-        });
+        };
+
+        console.log('Setting results:', newResults);
+        setResults(newResults);
       } catch (error) {
-        console.error('Error processing state data:', error);
+        console.error('Error processing state data:', error, error.stack);
         setResults(null);
       }
     } else {
