@@ -318,7 +318,7 @@ const CivilRightsLegalTool = () => {
         stateConstitutionalInfo,
         tacticalGuidance: getTacticalGuidance(selectedState, circuit),
         immediateActions: getImmediateActions(selectedState)
-      ];
+      };
 
   const getTacticalGuidance = (state, circuit) => {
     const baseGuidance = {
