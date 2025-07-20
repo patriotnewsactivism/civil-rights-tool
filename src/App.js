@@ -308,6 +308,7 @@ const CivilRightsLegalTool = () => {
       const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
       const circuitInfo = circuitAnalysis[circuit?.circuit];
       const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+    }})
       
      setResults([
   {
