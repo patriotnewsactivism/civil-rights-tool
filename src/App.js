@@ -320,7 +320,7 @@ const CivilRightsLegalTool = () => {
         immediateActions: getImmediateActions(selectedState)
       });
     }
-  }, [selectedState]);
+  };
 
   const getTacticalGuidance = (state, circuit) => {
     const baseGuidance = {
