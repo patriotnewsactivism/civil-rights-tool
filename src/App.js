@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
 
 const CivilRightsLegalTool = () => {
-  const [selectedState, setSelectedState] = useState('');
-  const [results, setResults] = useState(null);
+ const memoFederalCircuits = useMemo(() => federalCircuits, []);
+const memoStopAndIdStates = useMemo(() => stopAndIdStates, []);
+const memoFirstAmendmentLandmarks = useMemo(() => firstAmendmentLandmarks, []);
+const memoCircuitAnalysis = useMemo(() => circuitAnalysis, []);
+const memoStateConstitutionalProtections = useMemo(() => stateConstitutionalProtections, []);
+const memoStates = useMemo(() => states, []);
   
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = {
