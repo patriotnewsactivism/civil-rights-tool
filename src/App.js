@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Scale, FileText, Users, AlertCircle, BookOpen, Gavel, Shield, Eye, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
