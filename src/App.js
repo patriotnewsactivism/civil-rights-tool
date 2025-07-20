@@ -309,7 +309,8 @@ const CivilRightsLegalTool = () => {
       const circuitInfo = circuitAnalysis[circuit?.circuit];
       const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
       
-      setResults({
+     setResults([
+  {
         state: states.find(s => s.code === selectedState)?.name,
         circuit,
         stopAndId,
@@ -318,7 +319,8 @@ const CivilRightsLegalTool = () => {
         stateConstitutionalInfo,
         tacticalGuidance: getTacticalGuidance(selectedState, circuit),
         immediateActions: getImmediateActions(selectedState)
-      };
+      }
+]);
 
   const getTacticalGuidance = (state, circuit) => {
     const baseGuidance = {
