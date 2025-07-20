@@ -587,6 +587,26 @@ const CivilRightsLegalTool = () => {
       tacticalImpact: 'Foundation for associational privacy in organizing',
       modernApplication: 'Protects digital organizing and activist networks'
     },
+    'LA': {
+      caseName: 'Cox v. Louisiana',
+      citation: '379 U.S. 536 (1965)',
+      year: '1965',
+      constitutionalSignificance: 'Civil rights protest limitations and time/place/manner restrictions',
+      facts: 'Reverend Cox led civil rights demonstration near courthouse, arrested for disturbing peace',
+      holding: 'States cannot broadly prohibit peaceful demonstrations but may impose narrow time/place/manner restrictions',
+      tacticalImpact: 'Established framework for protest regulation but with significant limitations',
+      modernApplication: 'WARNING: 5th Circuit McKesson decision has effectively gutted these protections'
+    },
+    'MS': {
+      caseName: 'Mississippi Burning Cases - Civil Rights Workers Murders',
+      citation: 'United States v. Price, 383 U.S. 787 (1966)',
+      year: '1966',
+      constitutionalSignificance: 'Federal prosecution of state actors violating civil rights',
+      facts: 'Murder of civil rights workers James Chaney, Andrew Goodman, and Michael Schwerner',
+      holding: 'Federal courts have jurisdiction over state actors conspiring to violate civil rights',
+      tacticalImpact: 'Established federal oversight of state civil rights violations',
+      modernApplication: 'WARNING: 5th Circuit has severely weakened these protections'
+    },
     'CA': {
       caseName: 'Cohen v. California',
       citation: '403 U.S. 15 (1971)',
@@ -822,22 +842,33 @@ const CivilRightsLegalTool = () => {
 
   useEffect(() => {
     if (selectedState) {
-      const circuit = federalCircuits[selectedState];
-      const stopAndId = stopAndIdStates[selectedState];
-      const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
-      const circuitInfo = circuitAnalysis[circuit?.circuit];
-      const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+      try {
+        const circuit = federalCircuits[selectedState];
+        const stopAndId = stopAndIdStates[selectedState];
+        const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
+        const circuitInfo = circuit ? circuitAnalysis[circuit.circuit] : null;
+        const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
 
-      setResults({
-        state: states.find(s => s.code === selectedState)?.name,
-        circuit,
-        stopAndId,
-        firstAmendmentLandmark,
-        circuitInfo,
-        stateConstitutionalInfo,
-        tacticalGuidance: getTacticalGuidance(selectedState, circuit),
-        immediateActions: getImmediateActions(selectedState)
-      });
+        // Ensure we have required data
+        if (!circuit || !stopAndId) {
+          console.error(`Missing data for state: ${selectedState}`);
+          return;
+        }
+
+        setResults({
+          state: states.find(s => s.code === selectedState)?.name,
+          circuit,
+          stopAndId,
+          firstAmendmentLandmark,
+          circuitInfo,
+          stateConstitutionalInfo,
+          tacticalGuidance: getTacticalGuidance(selectedState, circuit),
+          immediateActions: getImmediateActions(selectedState)
+        });
+      } catch (error) {
+        console.error('Error processing state data:', error);
+        setResults(null);
+      }
     } else {
       setResults(null);
     }
