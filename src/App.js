@@ -683,7 +683,7 @@ const CivilRightsLegalTool = () => {
       approach: 'EXTREMELY HOSTILE',
       qualifiedImmunity: 'Broadest application favoring officers',
       section1983: 'Very high bar for municipal liability',
-      keyStrengths: 'NONE - Avoid this circuit',
+      keyStrengths: ['NONE - Avoid this circuit at all costs'],
       warnings: 'CRITICAL: Creates negligent protest liability. NEVER file organizer cases here.'
     },
     '6th Circuit': {
