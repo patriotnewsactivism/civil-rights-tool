@@ -301,17 +301,16 @@ const CivilRightsLegalTool = () => {
     { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }, { code: 'DC', name: 'District of Columbia' }
   ];
 
-  useEffect(() => {
-    if (selectedState) {
-      const circuit = federalCircuits[selectedState];
-      const stopAndId = stopAndIdStates[selectedState];
-      const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
-      const circuitInfo = circuitAnalysis[circuit?.circuit];
-      const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
-    }})
-      
-     setResults([
-  {
+useEffect(() => {
+  if (selectedState) {
+    const circuit = federalCircuits[selectedState];
+    const stopAndId = stopAndIdStates[selectedState];
+    const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
+    const circuitInfo = circuitAnalysis[circuit?.circuit];
+    const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+
+    setResults([
+      {
         state: states.find(s => s.code === selectedState)?.name,
         circuit,
         stopAndId,
@@ -321,6 +320,17 @@ const CivilRightsLegalTool = () => {
         tacticalGuidance: getTacticalGuidance(selectedState, circuit),
         immediateActions: getImmediateActions(selectedState)
       }
+    ]);
+  }
+}, [
+  selectedState,
+  circuitAnalysis,
+  federalCircuits,
+  firstAmendmentLandmarks,
+  getImmediateActions,
+  stateConstitutionalProtections,
+  states,
+  stopAndIdStates
 ]);
 
   const getTacticalGuidance = (state, circuit) => {
