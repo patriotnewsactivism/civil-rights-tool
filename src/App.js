@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
+import './App.css';
 
 const CivilRightsLegalTool = () => {
- const memoFederalCircuits = useMemo(() => federalCircuits, []);
-const memoStopAndIdStates = useMemo(() => stopAndIdStates, []);
-const memoFirstAmendmentLandmarks = useMemo(() => firstAmendmentLandmarks, []);
-const memoCircuitAnalysis = useMemo(() => circuitAnalysis, []);
-const memoStateConstitutionalProtections = useMemo(() => stateConstitutionalProtections, []);
-const memoStates = useMemo(() => states, []);
-  
+  // State declarations - THIS WAS MISSING IN YOUR ORIGINAL FILE
+  const [selectedState, setSelectedState] = useState('');
+  const [results, setResults] = useState(null);
+
   // Federal Circuit mapping with jurisdictional analysis
-  const federalCircuits = {
+  const federalCircuits = useMemo(() => ({
     'AL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Alabama', 'Middle District of Alabama', 'Southern District of Alabama'] },
     'AK': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Alaska'] },
     'AZ': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Arizona'] },
@@ -62,10 +60,10 @@ const memoStates = useMemo(() => states, []);
     'WI': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Eastern District of Wisconsin', 'Western District of Wisconsin'] },
     'WY': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Wyoming'] },
     'DC': { circuit: 'D.C. Circuit', hostility: 'Moderate', districts: ['District of Columbia'] }
-  };
+  }), []);
 
   // Enhanced Stop and ID States with comprehensive constitutional analysis
-  const stopAndIdStates = {
+  const stopAndIdStates = useMemo(() => ({
     'AL': {
       hasLaw: true,
       statute: 'Ala. Code § 15-5-30',
@@ -180,10 +178,10 @@ const memoStates = useMemo(() => states, []);
       tacticalNotes: 'Origin of Hiibel case provides detailed precedential guidance. 9th Circuit offers protective interpretations.',
       warningLevel: 'Moderate Risk - Well-Established Limits'
     }
-  };
+  }), []);
 
   // Enhanced First Amendment landmark cases with constitutional impact analysis
-  const firstAmendmentLandmarks = {
+  const firstAmendmentLandmarks = useMemo(() => ({
     'AL': {
       caseName: 'NAACP v. Alabama',
       citation: '357 U.S. 449 (1958)',
@@ -234,10 +232,10 @@ const memoStates = useMemo(() => states, []);
       tacticalImpact: 'Strongest possible protection for political speech, even extremist advocacy. Government cannot restrict based on abstract advocacy.',
       modernApplication: 'Gold standard for protecting controversial political speech, but 5th Circuit\'s negligence standard directly contradicts Brandenburg'
     }
-  };
+  }), []);
 
   // Circuit-specific constitutional analysis
-  const circuitAnalysis = {
+  const circuitAnalysis = useMemo(() => ({
     '1st Circuit': {
       approach: 'Protective',
       qualifiedImmunity: 'Strict application requiring clearly established law',
@@ -273,19 +271,19 @@ const memoStates = useMemo(() => states, []);
       keyStrengths: ['Strongest reasonable suspicion requirements', 'Broad recording rights recognition'],
       warnings: 'Excellent jurisdiction but federal appeals may reverse'
     }
-  };
+  }), []);
 
   // State constitutional protections exceeding federal minimums
-  const stateConstitutionalProtections = {
+  const stateConstitutionalProtections = useMemo(() => ({
     'MT': 'Article II, Section 10 - Right to privacy exceeds federal Fourth Amendment protections',
     'CA': 'Article I, Section 1 - Inalienable right to privacy creates stronger protections than federal law',
     'AK': 'Article I, Section 22 - Privacy protections broader than federal constitutional minimums',
     'HI': 'Strong constitutional privacy traditions protecting individual autonomy',
     'MA': 'Article 14 - Protection against unreasonable searches stronger than federal standards',
     'NJ': 'Robust state constitutional privacy jurisprudence exceeding federal protections'
-  };
+  }), []);
 
-  const states = [
+  const states = useMemo(() => [
     { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' },
     { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
     { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'FL', name: 'Florida' },
@@ -303,41 +301,9 @@ const memoStates = useMemo(() => states, []);
     { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' }, { code: 'VT', name: 'Vermont' },
     { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' }, { code: 'WV', name: 'West Virginia' },
     { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }, { code: 'DC', name: 'District of Columbia' }
-  ];
+  ], []);
 
-useEffect(() => {
-  if (selectedState) {
-    const circuit = federalCircuits[selectedState];
-    const stopAndId = stopAndIdStates[selectedState];
-    const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
-    const circuitInfo = circuitAnalysis[circuit?.circuit];
-    const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
-
-    setResults([
-      {
-        state: states.find(s => s.code === selectedState)?.name,
-        circuit,
-        stopAndId,
-        firstAmendmentLandmark,
-        circuitInfo,
-        stateConstitutionalInfo,
-        tacticalGuidance: getTacticalGuidance(selectedState, circuit),
-        immediateActions: getImmediateActions(selectedState)
-      }
-    ]);
-  }
-}, [
-  selectedState,
-  circuitAnalysis,
-  federalCircuits,
-  firstAmendmentLandmarks,
-  getImmediateActions,
-  stateConstitutionalProtections,
-  states,
-  stopAndIdStates
-]);
-
-  const getTacticalGuidance = (state, circuit) => {
+  const getTacticalGuidance = useCallback((state, circuit) => {
     const baseGuidance = {
       universalPrinciples: [
         '"Officer, are you detaining me or am I free to leave?"',
@@ -379,9 +345,9 @@ useEffect(() => {
         'Document all interactions for potential constitutional challenges'
       ]
     };
-  };
+  }, []);
 
-  const getImmediateActions = (state) => {
+  const getImmediateActions = useCallback((state) => {
     const stopAndId = stopAndIdStates[state];
     
     if (!stopAndId?.hasLaw) {
@@ -399,9 +365,9 @@ useEffect(() => {
       'Limit compliance to statutory minimum only',
       'Assert constitutional protections: "I am exercising my right to remain silent beyond identification"'
     ];
-  };
+  }, [stopAndIdStates]);
 
-  const getWarningColor = (warningLevel) => {
+  const getWarningColor = useCallback((warningLevel) => {
     switch (warningLevel) {
       case 'EXTREME DANGER - 5th Circuit Hostility':
         return 'border-red-600 bg-red-900/30';
@@ -414,7 +380,38 @@ useEffect(() => {
       default:
         return 'border-gray-600 bg-gray-900/30';
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (selectedState) {
+      const circuit = federalCircuits[selectedState];
+      const stopAndId = stopAndIdStates[selectedState];
+      const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
+      const circuitInfo = circuitAnalysis[circuit?.circuit];
+      const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+
+      setResults({
+        state: states.find(s => s.code === selectedState)?.name,
+        circuit,
+        stopAndId,
+        firstAmendmentLandmark,
+        circuitInfo,
+        stateConstitutionalInfo,
+        tacticalGuidance: getTacticalGuidance(selectedState, circuit),
+        immediateActions: getImmediateActions(selectedState)
+      });
+    }
+  }, [
+    selectedState,
+    circuitAnalysis,
+    federalCircuits,
+    firstAmendmentLandmarks,
+    getTacticalGuidance,
+    getImmediateActions,
+    stateConstitutionalProtections,
+    states,
+    stopAndIdStates
+  ]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
@@ -734,4 +731,12 @@ useEffect(() => {
   );
 };
 
-export default CivilRightsLegalTool;
+function App() {
+  return (
+    <div className="App">
+      <CivilRightsLegalTool />
+    </div>
+  );
+}
+
+export default App;
