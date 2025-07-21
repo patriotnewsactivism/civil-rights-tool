@@ -816,7 +816,17 @@ const CivilRightsLegalTool = () => {
   const getImmediateActions = useCallback((state) => {
     const stopAndId = stopAndIdStates[state];
     
-    if (!stopAndId?.hasLaw) {
+    // Handle missing stopAndId data gracefully
+    if (!stopAndId) {
+      return [
+        'Data unavailable for this state',
+        'Consult local legal counsel immediately',
+        'Document all interactions carefully',
+        'Assert constitutional protections'
+      ];
+    }
+    
+    if (!stopAndId.hasLaw) {
       return [
         'REFUSE identification unless under arrest',
         'Assert Fourth Amendment protections',
@@ -842,33 +852,49 @@ const CivilRightsLegalTool = () => {
 
   useEffect(() => {
     if (selectedState) {
-      try {
-        const circuit = federalCircuits[selectedState];
-        const stopAndId = stopAndIdStates[selectedState];
-        const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
-        const circuitInfo = circuit ? circuitAnalysis[circuit.circuit] : null;
-        const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+      console.log(`Processing state: ${selectedState}`); // Debug log
+      
+      const circuit = federalCircuits[selectedState];
+      const stopAndId = stopAndIdStates[selectedState];
+      const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
+      const circuitInfo = circuit ? circuitAnalysis[circuit.circuit] : null;
+      const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
 
-        // Ensure we have required data
-        if (!circuit || !stopAndId) {
-          console.error(`Missing data for state: ${selectedState}`);
-          return;
-        }
+      console.log('Circuit data:', circuit); // Debug log
+      console.log('Stop and ID data:', stopAndId); // Debug log
 
-        setResults({
-          state: states.find(s => s.code === selectedState)?.name,
-          circuit,
-          stopAndId,
-          firstAmendmentLandmark,
-          circuitInfo,
-          stateConstitutionalInfo,
-          tacticalGuidance: getTacticalGuidance(selectedState, circuit),
-          immediateActions: getImmediateActions(selectedState)
-        });
-      } catch (error) {
-        console.error('Error processing state data:', error);
+      // More permissive check - only require circuit data
+      if (!circuit) {
+        console.error(`Missing circuit data for state: ${selectedState}`);
         setResults(null);
+        return;
       }
+
+      // Create stopAndId data if missing (should not happen but being defensive)
+      const safeStopAndId = stopAndId || {
+        hasLaw: false,
+        statute: 'Data unavailable',
+        requirements: 'Data unavailable',
+        penalty: 'Data unavailable',
+        constitutionalStrategy: ['Data unavailable'],
+        controllingPrecedents: ['Data unavailable'],
+        tacticalNotes: 'Data unavailable',
+        warningLevel: 'Data unavailable'
+      };
+
+      const newResults = {
+        state: states.find(s => s.code === selectedState)?.name || selectedState,
+        circuit,
+        stopAndId: safeStopAndId,
+        firstAmendmentLandmark,
+        circuitInfo,
+        stateConstitutionalInfo,
+        tacticalGuidance: getTacticalGuidance(selectedState, circuit),
+        immediateActions: getImmediateActions(selectedState)
+      };
+
+      console.log('Setting results:', newResults); // Debug log
+      setResults(newResults);
     } else {
       setResults(null);
     }
@@ -881,11 +907,12 @@ const CivilRightsLegalTool = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-6">
             <Scale className="h-12 w-12 text-blue-400 mr-4" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Constitutional Rights Research Platform
+            <h1 className="text-4xl font-bold constitutional-title">
+              <span className="title-line-break">Constitutional Rights</span>
+              <span>Research Platform</span>
             </h1>
           </div>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="forensic-analysis-text max-w-4xl mx-auto">
             Forensic analysis of systematic constitutional violations through jurisdictional manipulation, 
             documenting patterns of institutional circumvention of citizen rights across America's legal landscape
           </p>
@@ -893,9 +920,12 @@ const CivilRightsLegalTool = () => {
 
         {/* State Selection */}
         <div className="max-w-md mx-auto mb-12">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Select Jurisdiction for Constitutional Analysis
-          </label>
+          <div className="text-center mb-4">
+            <Scale className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+            <p className="instruction-text">
+              Select a jurisdiction to begin constitutional analysis
+            </p>
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <select
@@ -911,11 +941,38 @@ const CivilRightsLegalTool = () => {
               ))}
             </select>
           </div>
+          <div className="mt-4">
+            <p className="description-text text-center">
+              This investigative platform documents systematic patterns of constitutional circumvention through jurisdictional manipulation, 
+              revealing how identical citizen conduct faces dramatically different legal consequences across America's fragmented constitutional landscape.
+            </p>
+          </div>
         </div>
 
         {/* Results */}
         {results && (
           <div className="space-y-8">
+            {/* CRITICAL 5th Circuit Warning - Show prominently for hostile circuits */}
+            {results.circuit?.hostility === 'EXTREMELY HOSTILE' && (
+              <div className="bg-red-900/40 backdrop-blur-sm rounded-xl p-6 border-4 border-red-500 animate-pulse">
+                <div className="flex items-center mb-4">
+                  <AlertTriangle className="h-10 w-10 text-red-400 mr-4" />
+                  <h2 className="text-3xl font-bold text-red-400">
+                    ⚠️ CRITICAL WARNING: {results.circuit.circuit} - EXTREMELY HOSTILE TO CIVIL RIGHTS ⚠️
+                  </h2>
+                </div>
+                <div className="bg-red-800/50 p-4 rounded-lg border border-red-400">
+                  <p className="text-white font-bold text-lg mb-2">
+                    This circuit has created severe constitutional liability for activists and protesters.
+                  </p>
+                  <p className="text-red-200 text-base">
+                    McKesson v. Doe (2023) - This circuit allows negligent liability for protest organizers. 
+                    NEVER file organizer cases here. Extreme caution required for all civil rights activities.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Circuit Hostility Analysis */}
             <div className={`backdrop-blur-sm rounded-xl p-8 border-2 ${
               results.circuit.hostility === 'EXTREMELY HOSTILE' ? 'border-red-500 bg-red-900/20' :
