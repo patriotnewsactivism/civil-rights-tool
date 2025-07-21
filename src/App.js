@@ -1186,6 +1186,17 @@ const CivilRightsLegalTool = () => {
             </div>
           </div>
         )}
+
+        {!selectedState && (
+          <div className="text-center py-16">
+            <Scale className="h-24 w-24 text-blue-400 mx-auto mb-6 opacity-50" />
+            <p className="text-xl text-gray-400 mb-4">Select a jurisdiction to begin constitutional analysis</p>
+            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+              This investigative platform documents systematic patterns of constitutional circumvention through jurisdictional manipulation, 
+              revealing how identical citizen conduct faces dramatically different legal consequences across America's fragmented constitutional landscape.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
