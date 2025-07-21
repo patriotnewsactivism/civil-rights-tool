@@ -46,67 +46,86 @@
   }
 }
 
-/* Very small forensic analysis text */
+/* Larger forensic analysis text */
 .forensic-analysis-text {
-  font-size: 0.65rem;
-  line-height: 1.3;
+  font-size: 0.875rem;
+  line-height: 1.4;
   color: #d1d5db;
   font-weight: 400;
 }
 
 @media (max-width: 768px) {
   .forensic-analysis-text {
-    font-size: 0.6rem;
-    line-height: 1.2;
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
 }
 
 @media (max-width: 480px) {
   .forensic-analysis-text {
-    font-size: 0.55rem;
+    font-size: 0.75rem;
   }
 }
 
-/* Yellow instruction text - very small size */
+/* Yellow instruction text - larger but stays on one line */
 .instruction-text {
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   color: #fbbf24;
   font-weight: 500;
   line-height: 1.2;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 768px) {
   .instruction-text {
-    font-size: 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .instruction-text {
+    font-size: 0.7rem;
   }
 }
 
 @media (max-width: 480px) {
   .instruction-text {
-    font-size: 0.55rem;
+    font-size: 0.65rem;
   }
 }
 
-/* White description text - very small size */
+@media (max-width: 360px) {
+  .instruction-text {
+    font-size: 0.6rem;
+  }
+}
+
+/* White description text - larger, justified with padding */
 .description-text {
-  font-size: 0.65rem;
+  font-size: 0.875rem;
   color: white;
-  line-height: 1.3;
+  line-height: 1.4;
   font-weight: 400;
   margin: 0;
+  text-align: justify;
+  padding: 1.25rem;
 }
 
 @media (max-width: 768px) {
   .description-text {
-    font-size: 0.6rem;
-    line-height: 1.2;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    padding: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .description-text {
-    font-size: 0.55rem;
+    font-size: 0.75rem;
+    padding: 0.75rem;
   }
 }
 
