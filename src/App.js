@@ -881,11 +881,12 @@ const CivilRightsLegalTool = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-6">
             <Scale className="h-12 w-12 text-blue-400 mr-4" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Constitutional Rights Research Platform
+            <h1 className="text-4xl font-bold constitutional-title">
+              <span className="title-line-break">Constitutional Rights</span>
+              <span>Research Platform</span>
             </h1>
           </div>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="forensic-analysis-text max-w-4xl mx-auto">
             Forensic analysis of systematic constitutional violations through jurisdictional manipulation, 
             documenting patterns of institutional circumvention of citizen rights across America's legal landscape
           </p>
@@ -893,9 +894,12 @@ const CivilRightsLegalTool = () => {
 
         {/* State Selection */}
         <div className="max-w-md mx-auto mb-12">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Select Jurisdiction for Constitutional Analysis
-          </label>
+          <div className="text-center mb-4">
+            <Scale className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+            <p className="instruction-text">
+              Select a jurisdiction to begin constitutional analysis
+            </p>
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <select
@@ -910,6 +914,12 @@ const CivilRightsLegalTool = () => {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="mt-4">
+            <p className="description-text text-center">
+              This investigative platform documents systematic patterns of constitutional circumvention through jurisdictional manipulation, 
+              revealing how identical citizen conduct faces dramatically different legal consequences across America's fragmented constitutional landscape.
+            </p>
           </div>
         </div>
 
@@ -1174,17 +1184,6 @@ const CivilRightsLegalTool = () => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {!selectedState && (
-          <div className="text-center py-16">
-            <Scale className="h-24 w-24 text-blue-400 mx-auto mb-6 opacity-50" />
-            <p className="text-xl text-gray-400 mb-4">Select a jurisdiction to begin constitutional analysis</p>
-            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
-              This investigative platform documents systematic patterns of constitutional circumvention through jurisdictional manipulation, 
-              revealing how identical citizen conduct faces dramatically different legal consequences across America's fragmented constitutional landscape.
-            </p>
           </div>
         )}
       </div>
