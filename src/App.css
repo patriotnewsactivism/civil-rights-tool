@@ -1,38 +1,197 @@
-.App {
-  text-align: center;
-}
+/* Constitutional Rights Research Platform Styles */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Title styling with white text and thick black stroke */
+.constitutional-title {
   color: white;
+  text-shadow: 
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000,
+    3px 3px 0 #000,
+    -3px 0 0 #000,
+    3px 0 0 #000,
+    0 -3px 0 #000,
+    0 3px 0 #000,
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+  font-weight: bold;
+  line-height: 1.1;
 }
 
-.App-link {
-  color: #61dafb;
+/* Mobile-specific title line breaking */
+@media (max-width: 768px) {
+  .constitutional-title {
+    font-size: 2rem;
+  }
+  
+  .title-line-break::after {
+    content: '\A';
+    white-space: pre;
+  }
+  
+  .constitutional-title span:last-child {
+    display: block;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (min-width: 769px) {
+  .constitutional-title {
+    font-size: 2.25rem;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .title-line-break::after {
+    content: ' ';
   }
+}
+
+/* Very small forensic analysis text */
+.forensic-analysis-text {
+  font-size: 0.65rem;
+  line-height: 1.3;
+  color: #d1d5db;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .forensic-analysis-text {
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .forensic-analysis-text {
+    font-size: 0.55rem;
+  }
+}
+
+/* Yellow instruction text - very small size */
+.instruction-text {
+  font-size: 0.65rem;
+  color: #fbbf24;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .instruction-text {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .instruction-text {
+    font-size: 0.55rem;
+  }
+}
+
+/* White description text - very small size */
+.description-text {
+  font-size: 0.65rem;
+  color: white;
+  line-height: 1.3;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .description-text {
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .description-text {
+    font-size: 0.55rem;
+  }
+}
+
+/* Additional responsive improvements */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .constitutional-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .constitutional-title {
+    font-size: 1.5rem;
+  }
+  
+  .forensic-analysis-text,
+  .instruction-text,
+  .description-text {
+    font-size: 0.5rem;
+  }
+}
+
+/* Ensure all text remains readable on very small screens */
+@media (max-width: 360px) {
+  .forensic-analysis-text,
+  .instruction-text,
+  .description-text {
+    font-size: 0.475rem;
+    line-height: 1.1;
+  }
+  
+  .constitutional-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Fix any potential text overflow issues */
+.instruction-text,
+.description-text,
+.forensic-analysis-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Ensure the scale icon and text are properly centered */
+.text-center .instruction-text {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Additional utility classes for consistent small text sizing */
+.micro-text {
+  font-size: 0.65rem;
+  line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .micro-text {
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .micro-text {
+    font-size: 0.55rem;
+  }
+}
+
+/* Ensure proper contrast and readability */
+.instruction-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.description-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.forensic-analysis-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
