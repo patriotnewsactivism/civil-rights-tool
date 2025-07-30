@@ -44,7 +44,7 @@ const statePublicRecordsData = {
 ‘SC’: { name: ‘South Carolina’, statute: ‘South Carolina Freedom of Information Act (S.C. Code § 30-4-10)’, timeLimit: ‘15 business days’ },
 ‘SD’: { name: ‘South Dakota’, statute: ‘South Dakota Sunshine Law (SDCL § 1-27-1)’, timeLimit: ‘Reasonable time’ },
 ‘TN’: { name: ‘Tennessee’, statute: ‘Tennessee Public Records Act (T.C.A. § 10-7-503)’, timeLimit: ‘7 business days’ },
-‘TX’: { name: ‘Texas’, statute: ‘Texas Public Information Act (Gov't Code § 552.001)’, timeLimit: ‘10 business days’ },
+‘TX’: { name: ‘Texas’, statute: ‘Texas Public Information Act (Govt Code § 552.001)’, timeLimit: ‘10 business days’ },
 ‘UT’: { name: ‘Utah’, statute: ‘Utah Government Records Access and Management Act (Utah Code § 63G-2-101)’, timeLimit: ‘5-10 business days’ },
 ‘VT’: { name: ‘Vermont’, statute: ‘Vermont Public Records Act (1 V.S.A. § 315)’, timeLimit: ‘3 business days’ },
 ‘VA’: { name: ‘Virginia’, statute: ‘Virginia Freedom of Information Act (Va. Code § 2.2-3700)’, timeLimit: ‘5 business days’ },
