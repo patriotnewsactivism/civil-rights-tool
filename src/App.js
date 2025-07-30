@@ -1,5 +1,5 @@
 
-iimport LegalToolkit from './components/LegalToolkit';
+import LegalToolkit from './components/LegalToolkit';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './App.css';
 import CaseUpload from './components/CaseUpload';
