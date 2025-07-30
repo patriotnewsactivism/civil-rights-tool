@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
 import './App.css';
+import CaseUpload from './components/CaseUpload';
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
@@ -1253,7 +1254,9 @@ function App() {
   return (
     <div className="App">
       <CivilRightsLegalTool />
+       <CaseUpload />
     </div>
+        
   );
 }
 
