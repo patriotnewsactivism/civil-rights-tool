@@ -68,6 +68,8 @@ export default function CaseUpload() {
       date_filed: formData.date_filed || null
     });
 
+        console.log(data);
+
     if (error) {
       console.error('Error inserting case:', error);
       setMessage('\u274c Error adding case: ' + error.message);
