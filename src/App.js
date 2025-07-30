@@ -1,5 +1,6 @@
+
+iimport LegalToolkit from './components/LegalToolkit';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown } from 'lucide-react';
 import './App.css';
 import CaseUpload from './components/CaseUpload';
 
@@ -1255,12 +1256,17 @@ function App() {
   if (path === '/upload') {
     return <CaseUpload />;
   }
+  if (path === '/toolkit') {
+ return <LegalToolkit />;;
+  }
   
   return (
     <div className="App">
       <CivilRightsLegalTool />
              <div className="p-4">
         <a href="/upload" className="text-blue-500 underline">Add New Case</a>
+                <span className="mx-4"></span>
+            <a href="/toolkit" className="text-blue-500 underline">Legal Toolkit</a>
       </div>
     </div>
         
