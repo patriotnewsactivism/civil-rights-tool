@@ -1251,10 +1251,17 @@ const CivilRightsLegalTool = () => {
 };
 
 function App() {
+    const path = window.location.pathname;
+  if (path === '/upload') {
+    return <CaseUpload />;
+  }
+  
   return (
     <div className="App">
       <CivilRightsLegalTool />
-       <CaseUpload />
+             <div className="p-4">
+        <a href="/upload" className="text-blue-500 underline">Add New Case</a>
+      </div>
     </div>
         
   );
