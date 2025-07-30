@@ -3,6 +3,17 @@ import LegalToolkit from './components/LegalToolkit';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './App.css';
 import CaseUpload from './components/CaseUpload';
+import {
+  Scale,
+  Search,
+  AlertTriangle,
+  Gavel,
+  Shield,
+  BookMarked,
+  TrendingDown,
+  AlertCircle
+} from "lucide-react";
+
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
