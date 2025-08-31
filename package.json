@@ -21,6 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+    "prebuild": "node -v && npm -v && echo \"NODE_OPTIONS=$NODE_OPTIONS\" && npx tsc --noEmit",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
