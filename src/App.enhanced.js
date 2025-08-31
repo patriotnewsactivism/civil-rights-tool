@@ -33,8 +33,7 @@ import {
   FileText,
   Users,
   Eye,
-  BookOpen,
-  User
+  BookOpen
 } from "lucide-react";
 
 // Original CivilRightsLegalTool component (imported from App.js)
