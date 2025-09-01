@@ -3,5 +3,5 @@
   publish = "build"    # or "dist" if that’s your output
 
 [build.environment]
-  NODE_VERSION = "20.15.1"        # any Node 20.x LTS
+  NODE_VERSION = "22"        # any Node 20.x LTS
   NPM_FLAGS = "--no-audit --no-fund"
