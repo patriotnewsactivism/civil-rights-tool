@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Constitutional Rights Research Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A sophisticated legal research tool providing forensic analysis of systematic constitutional violations through jurisdictional manipulation, documenting patterns of institutional circumvention of citizen rights across America's legal landscape.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Federal Circuit Analysis**: Comprehensive mapping of circuit court hostility levels and constitutional protection patterns
+- **Stop and ID Laws**: Detailed constitutional analysis of identification statutes across all jurisdictions
+- **First Amendment Landmarks**: Database of landmark cases with tactical impact analysis
+- **Tactical Response Framework**: Immediate response protocols for constitutional encounters
+- **State Constitutional Protections**: Enhanced protections exceeding federal minimums
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- Tailwind CSS
+- Lucide React Icons
+- Modern JavaScript (ES6+)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Deployment Instructions
 
-### `npm test`
+### Local Development
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Install dependencies:
+```bash
+npm install
+```
 
-### `npm run build`
+2. Start development server:
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Open [http://localhost:3000](http://localhost:3000) to view in browser
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Netlify Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Connect Repository**: Link your GitHub repository to Netlify
 
-### `npm run eject`
+2. **Build Settings**: Netlify will automatically detect the build settings from `netlify.toml`:
+   - Build command: `npm run build`
+   - Publish directory: `build`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Deploy**: Push to your main branch to trigger automatic deployment
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Manual Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Build the project:
+```bash
+npm run build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Upload the `build` folder contents to your hosting service
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── App.js                      # Main application component
+├── App.css                     # Application styles
+├── CivilRightsLegalTool.js     # Core legal research component
+├── index.js                    # React entry point
+└── index.css                   # Global styles
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+public/
+├── index.html                  # HTML template
+├── manifest.json               # PWA manifest
+└── favicon.ico                 # Site icon
 
-### Code Splitting
+netlify.toml                    # Netlify configuration
+package.json                    # Dependencies and scripts
+README.md                       # This file
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Legal Disclaimer
 
-### Analyzing the Bundle Size
+This forensic analysis documents systematic constitutional violations and provides general tactical guidance. It does not constitute legal advice. Constitutional law changes rapidly, and circuit precedents evolve constantly. The documented patterns of institutional hostility require specialized legal counsel familiar with current jurisprudential trends.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Contributing
 
-### Making a Progressive Web App
+This platform exposes jurisdictional manipulation of constitutional protections. Contributions from civil rights attorneys, constitutional scholars, and legal researchers are welcome.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is designed for educational and research purposes in support of constitutional rights advocacy.

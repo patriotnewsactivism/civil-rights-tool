@@ -3,6 +3,10 @@ import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, T
 import './App.css';
 
 const CivilRightsLegalTool = () => {
+<<<<<<< Updated upstream
+=======
+  // State declarations
+>>>>>>> Stashed changes
   const [selectedState, setSelectedState] = useState('');
   const [results, setResults] = useState(null);
 
@@ -61,7 +65,11 @@ const CivilRightsLegalTool = () => {
     'DC': { circuit: 'D.C. Circuit', hostility: 'Moderate', districts: ['District of Columbia'] }
   }), []);
 
+<<<<<<< Updated upstream
   // Complete Stop and ID States data for ALL states
+=======
+  // Enhanced Stop and ID States with comprehensive constitutional analysis
+>>>>>>> Stashed changes
   const stopAndIdStates = useMemo(() => ({
     'AL': {
       hasLaw: true,
@@ -575,7 +583,11 @@ const CivilRightsLegalTool = () => {
     }
   }), []);
 
+<<<<<<< Updated upstream
   // First Amendment landmark cases for key states
+=======
+  // Enhanced First Amendment landmark cases with constitutional impact analysis
+>>>>>>> Stashed changes
   const firstAmendmentLandmarks = useMemo(() => ({
     'AL': {
       caseName: 'NAACP v. Alabama',
@@ -649,7 +661,11 @@ const CivilRightsLegalTool = () => {
     }
   }), []);
 
+<<<<<<< Updated upstream
   // Circuit analysis
+=======
+  // Circuit-specific constitutional analysis
+>>>>>>> Stashed changes
   const circuitAnalysis = useMemo(() => ({
     '1st Circuit': {
       approach: 'Protective',
@@ -737,6 +753,7 @@ const CivilRightsLegalTool = () => {
     }
   }), []);
 
+<<<<<<< Updated upstream
   // State constitutional protections
   const stateConstitutionalProtections = useMemo(() => ({
     'MT': 'Article II, Section 10 - Privacy rights exceed federal Fourth Amendment',
@@ -747,6 +764,16 @@ const CivilRightsLegalTool = () => {
     'NJ': 'Robust state privacy jurisprudence exceeding federal protections',
     'NY': 'Strong state constitutional protections in criminal procedure',
     'WA': 'Article I, Section 7 - Strong privacy protections'
+=======
+  // State constitutional protections exceeding federal minimums
+  const stateConstitutionalProtections = useMemo(() => ({
+    'MT': 'Article II, Section 10 - Right to privacy exceeds federal Fourth Amendment protections',
+    'CA': 'Article I, Section 1 - Inalienable right to privacy creates stronger protections than federal law',
+    'AK': 'Article I, Section 22 - Privacy protections broader than federal constitutional minimums',
+    'HI': 'Strong constitutional privacy traditions protecting individual autonomy',
+    'MA': 'Article 14 - Protection against unreasonable searches stronger than federal standards',
+    'NJ': 'Robust state constitutional privacy jurisprudence exceeding federal protections'
+>>>>>>> Stashed changes
   }), []);
 
   const states = useMemo(() => [
@@ -834,6 +861,7 @@ const CivilRightsLegalTool = () => {
   }, [stopAndIdStates]);
 
   const getWarningColor = useCallback((warningLevel) => {
+<<<<<<< Updated upstream
     if (warningLevel?.includes('EXTREME DANGER')) return 'border-red-600 bg-red-900/30';
     if (warningLevel?.includes('Moderate Risk')) return 'border-yellow-600 bg-yellow-900/30';
     if (warningLevel?.includes('Low Risk') || warningLevel?.includes('Minimal Risk')) return 'border-green-600 bg-green-900/30';
@@ -873,6 +901,52 @@ const CivilRightsLegalTool = () => {
       setResults(null);
     }
   }, [selectedState, federalCircuits, stopAndIdStates, firstAmendmentLandmarks, circuitAnalysis, stateConstitutionalProtections, states, getTacticalGuidance, getImmediateActions]);
+=======
+    switch (warningLevel) {
+      case 'EXTREME DANGER - 5th Circuit Hostility':
+        return 'border-red-600 bg-red-900/30';
+      case 'Moderate Risk':
+        return 'border-yellow-600 bg-yellow-900/30';
+      case 'Minimal Risk - Maximum Protection':
+        return 'border-green-600 bg-green-900/30';
+      case 'Low Risk - 9th Circuit Protection':
+        return 'border-blue-600 bg-blue-900/30';
+      default:
+        return 'border-gray-600 bg-gray-900/30';
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedState) {
+      const circuit = federalCircuits[selectedState];
+      const stopAndId = stopAndIdStates[selectedState];
+      const firstAmendmentLandmark = firstAmendmentLandmarks[selectedState];
+      const circuitInfo = circuitAnalysis[circuit?.circuit];
+      const stateConstitutionalInfo = stateConstitutionalProtections[selectedState];
+
+      setResults({
+        state: states.find(s => s.code === selectedState)?.name,
+        circuit,
+        stopAndId,
+        firstAmendmentLandmark,
+        circuitInfo,
+        stateConstitutionalInfo,
+        tacticalGuidance: getTacticalGuidance(selectedState, circuit),
+        immediateActions: getImmediateActions(selectedState)
+      });
+    }
+  }, [
+    selectedState,
+    circuitAnalysis,
+    federalCircuits,
+    firstAmendmentLandmarks,
+    getTacticalGuidance,
+    getImmediateActions,
+    stateConstitutionalProtections,
+    states,
+    stopAndIdStates
+  ]);
+>>>>>>> Stashed changes
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
@@ -1192,6 +1266,7 @@ const CivilRightsLegalTool = () => {
   );
 };
 
+<<<<<<< Updated upstream
 function App() {
   return (
     <div className="App">
@@ -1201,3 +1276,6 @@ function App() {
 }
 
 export default App;
+=======
+export default CivilRightsLegalTool;
+>>>>>>> Stashed changes
