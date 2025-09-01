@@ -1,7 +1,8 @@
 [build]
-  command = "npm ci && npm run build"
-  publish = "build"    # or "dist" if that’s your output
+command = "npm run build"
+publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"        # any Node 20.x LTS
-  NPM_FLAGS = "--no-audit --no-fund"
+NODE_VERSION = "22"
+# If you’ve had peer-dep weirdness, uncomment the next line:
+# NPM_FLAGS = "--legacy-peer-deps"
