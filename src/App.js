@@ -5,6 +5,10 @@ import './App.css';
 const CivilRightsLegalTool = () => {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+  // State declarations
+>>>>>>> Stashed changes
 =======
   // State declarations
 >>>>>>> Stashed changes
@@ -74,6 +78,9 @@ const CivilRightsLegalTool = () => {
 =======
   // Enhanced Stop and ID States with comprehensive constitutional analysis
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -595,6 +602,9 @@ const CivilRightsLegalTool = () => {
 =======
   // Enhanced First Amendment landmark cases with constitutional impact analysis
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -676,6 +686,9 @@ const CivilRightsLegalTool = () => {
 =======
   // Circuit-specific constitutional analysis
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -787,6 +800,9 @@ const CivilRightsLegalTool = () => {
     'MA': 'Article 14 - Protection against unreasonable searches stronger than federal standards',
     'NJ': 'Robust state constitutional privacy jurisprudence exceeding federal protections'
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -879,6 +895,7 @@ const CivilRightsLegalTool = () => {
   const getWarningColor = useCallback((warningLevel) => {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     if (warningLevel?.includes('EXTREME DANGER')) return 'border-red-600 bg-red-900/30';
     if (warningLevel?.includes('Moderate Risk')) return 'border-yellow-600 bg-yellow-900/30';
     if (warningLevel?.includes('Low Risk') || warningLevel?.includes('Minimal Risk')) return 'border-green-600 bg-green-900/30';
@@ -919,6 +936,8 @@ const CivilRightsLegalTool = () => {
     }
   }, [selectedState, federalCircuits, stopAndIdStates, firstAmendmentLandmarks, circuitAnalysis, stateConstitutionalProtections, states, getTacticalGuidance, getImmediateActions]);
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     switch (warningLevel) {
@@ -966,6 +985,9 @@ const CivilRightsLegalTool = () => {
     stopAndIdStates
   ]);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1290,6 +1312,7 @@ const CivilRightsLegalTool = () => {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 function App() {
   return (
     <div className="App">
@@ -1299,6 +1322,9 @@ function App() {
 }
 
 export default App;
+=======
+export default CivilRightsLegalTool;
+>>>>>>> Stashed changes
 =======
 export default CivilRightsLegalTool;
 >>>>>>> Stashed changes
