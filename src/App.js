@@ -4,6 +4,10 @@ import './App.css';
 
 const CivilRightsLegalTool = () => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+  // State declarations
+>>>>>>> Stashed changes
 =======
   // State declarations
 >>>>>>> Stashed changes
@@ -69,6 +73,9 @@ const CivilRightsLegalTool = () => {
   // Complete Stop and ID States data for ALL states
 =======
   // Enhanced Stop and ID States with comprehensive constitutional analysis
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   const stopAndIdStates = useMemo(() => ({
     'AL': {
@@ -587,6 +594,9 @@ const CivilRightsLegalTool = () => {
   // First Amendment landmark cases for key states
 =======
   // Enhanced First Amendment landmark cases with constitutional impact analysis
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   const firstAmendmentLandmarks = useMemo(() => ({
     'AL': {
@@ -665,6 +675,9 @@ const CivilRightsLegalTool = () => {
   // Circuit analysis
 =======
   // Circuit-specific constitutional analysis
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   const circuitAnalysis = useMemo(() => ({
     '1st Circuit': {
@@ -773,6 +786,9 @@ const CivilRightsLegalTool = () => {
     'HI': 'Strong constitutional privacy traditions protecting individual autonomy',
     'MA': 'Article 14 - Protection against unreasonable searches stronger than federal standards',
     'NJ': 'Robust state constitutional privacy jurisprudence exceeding federal protections'
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   }), []);
 
@@ -862,6 +878,7 @@ const CivilRightsLegalTool = () => {
 
   const getWarningColor = useCallback((warningLevel) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     if (warningLevel?.includes('EXTREME DANGER')) return 'border-red-600 bg-red-900/30';
     if (warningLevel?.includes('Moderate Risk')) return 'border-yellow-600 bg-yellow-900/30';
     if (warningLevel?.includes('Low Risk') || warningLevel?.includes('Minimal Risk')) return 'border-green-600 bg-green-900/30';
@@ -902,6 +919,8 @@ const CivilRightsLegalTool = () => {
     }
   }, [selectedState, federalCircuits, stopAndIdStates, firstAmendmentLandmarks, circuitAnalysis, stateConstitutionalProtections, states, getTacticalGuidance, getImmediateActions]);
 =======
+=======
+>>>>>>> Stashed changes
     switch (warningLevel) {
       case 'EXTREME DANGER - 5th Circuit Hostility':
         return 'border-red-600 bg-red-900/30';
@@ -946,6 +965,9 @@ const CivilRightsLegalTool = () => {
     states,
     stopAndIdStates
   ]);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   return (
@@ -1267,6 +1289,7 @@ const CivilRightsLegalTool = () => {
 };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 function App() {
   return (
     <div className="App">
@@ -1276,6 +1299,9 @@ function App() {
 }
 
 export default App;
+=======
+export default CivilRightsLegalTool;
+>>>>>>> Stashed changes
 =======
 export default CivilRightsLegalTool;
 >>>>>>> Stashed changes
