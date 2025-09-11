@@ -1,8 +1,6 @@
 [build]
-command = "npm run build"
-publish = "build"
+  command = "npm ci && npm run build"
+  publish = "dist"
 
 [build.environment]
-NODE_VERSION = "22"
-# If you’ve had peer-dep weirdness, uncomment the next line:
-# NPM_FLAGS = "--legacy-peer-deps"
+  NODE_VERSION = "22.19.0"
