@@ -207,7 +207,7 @@ export const stateProfiles = {
           services: ['Legal assistance', 'Know Your Rights training', 'Policy advocacy']
         },
         {
-          name: 'Lawyers' Committee for Civil Rights of the San Francisco Bay Area',
+          name: "Lawyers' Committee for Civil Rights of the San Francisco Bay Area",
           phone: '415-814-7610',
           website: 'https://www.lccrsf.org',
           services: ['Racial justice', 'Immigrant rights', 'Economic justice']

@@ -1,13 +1,17 @@
 import React from 'react';
-import CivilRightsLegalTool from './CivilRightsLegalTool';
-import './App.css';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
-function App() {
-  return (
-    <div className="App">
-      <CivilRightsLegalTool />
-    </div>
-  );
-}
-
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </ThemeProvider>
+  </React.StrictMode>
+);

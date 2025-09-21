@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext.jsx';
 import { Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
 import Button from '../ui/Button';
 
