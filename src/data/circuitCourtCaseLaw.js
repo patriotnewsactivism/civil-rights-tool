@@ -199,7 +199,7 @@ export const circuitCourtCaseLaw = {
         case: "Bible Believers v. Wayne County, 805 F.3d 228 (6th Cir. 2015)",
         area: "First Amendment, Heckler's Veto",
         holding: "Police violated First Amendment by removing Christian protesters from Arab festival due to hostile crowd.",
-        impact: "Strengthened protections against the "heckler's veto" even for offensive speech.",
+           impact: "Strengthened protections against the heckler's veto even for offensive speech.",
         significance: "Important precedent protecting unpopular speech"
       },
       {

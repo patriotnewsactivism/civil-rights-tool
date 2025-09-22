@@ -8,7 +8,7 @@ import {
   Calendar, 
   Tag, 
   Bookmark, 
-  BookmarkCheck, 
+  Check,
   Download,
   ArrowUpDown,
   Info,
@@ -367,7 +367,7 @@ const CaseExplorer = () => {
         <div className="text-white/70 text-sm">
           {savedCases.length > 0 && (
             <span className="flex items-center">
-              <BookmarkCheck className="h-4 w-4 mr-1 text-blue-400" />
+              <Check className="h-4 w-4 mr-1 text-blue-400" />
               {savedCases.length} saved
             </span>
           )}
@@ -417,7 +417,7 @@ const CaseExplorer = () => {
                       aria-label={isSaved ? "Remove from saved cases" : "Save case"}
                     >
                       {isSaved ? 
-                        <BookmarkCheck className="h-5 w-5 text-blue-400" /> : 
+                        <Check className="h-5 w-5 text-blue-400" /> : 
                         <Bookmark className="h-5 w-5" />
                       }
                     </button>
