@@ -12,6 +12,83 @@
  */
 
 export const stateProfiles = {
+  LA: {
+    name: 'Louisiana',
+    capital: 'Baton Rouge',
+    // Legal information
+    legalInfo: {
+      publicRecords: {
+        statute: 'Louisiana Public Records Act (La. R.S. 44:1 et seq.)',
+        timeLimit: '3 business days for initial response, reasonable time for production',
+        fees: 'Reasonable costs for duplication',
+        exemptions: ['Ongoing criminal investigations', 'Attorney-client privileged information', 'Personal private information', 'Certain law enforcement records'],
+        tips: 'Be specific in your request. Louisiana agencies must provide a written response within 3 business days.'
+      },
+      shieldLaw: {
+        exists: true,
+        description: 'Louisiana has a qualified shield law (La. R.S. 45:1451-1459) that protects journalists from being compelled to disclose sources or information.',
+        caselaw: 'In re Burns (La. App. 1 Cir. 1994) - Court recognized qualified reporter privilege.'
+      },
+      protestRights: {
+        permitRequirements: 'Permits generally required for demonstrations on public property',
+        restrictions: [
+          'No blocking of traffic or building entrances',
+          'Noise ordinances may be enforced',
+          'Counter-protesters must be given equal access'
+        ],
+        policeInteraction: 'Police may order dispersal if demonstration becomes disorderly',
+        recentChanges: 'HB 727 (2018) made it a felony to trespass on critical infrastructure, including pipelines'
+      },
+      policeAccountability: {
+        bodyCamera: 'Not mandated statewide; policies vary by department',
+        complaintProcess: 'File with internal affairs division of relevant department',
+        civilianOversight: 'Limited; New Orleans has civilian oversight board',
+        recordsAccess: 'Police misconduct records generally not public'
+      }
+    },
+    // Key contacts
+    contacts: {
+      legalAid: [
+        {
+          name: 'Louisiana Civil Justice Center',
+          phone: '(504) 355-0970',
+          website: 'https://laciviljustice.org'
+        },
+        {
+          name: 'ACLU of Louisiana',
+          phone: '(504) 522-0617',
+          website: 'https://laaclu.org'
+        }
+      ],
+      publicDefender: {
+        name: 'Louisiana Public Defender Board',
+        phone: '(225) 219-9305',
+        website: 'https://lpdb.la.gov'
+      },
+      attorneyGeneral: {
+        name: 'Louisiana Department of Justice',
+        phone: '(225) 326-6079',
+        website: 'https://agjefflandry.com'
+      }
+    },
+    // Recent incidents
+    recentIncidents: [
+      {
+        date: '2023-06-15',
+        location: 'New Orleans',
+        description: 'Lawsuit filed against NOPD for excessive force during protest',
+        status: 'Pending litigation',
+        source: 'ACLU of Louisiana'
+      },
+      {
+        date: '2022-11-03',
+        location: 'Baton Rouge',
+        description: 'Journalist arrested while covering environmental protest',
+        status: 'Charges dropped',
+        source: 'Freedom of the Press Foundation'
+      }
+    ]
+  },
   AL: {
     name: 'Alabama',
     capital: 'Montgomery',
