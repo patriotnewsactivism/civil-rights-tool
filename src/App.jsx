@@ -78,10 +78,19 @@ const CivilRightsLegalTool = () => {
     setSelectedState(e.target.value);
   }, []);
 
+  const handleMapStateSelect = useCallback((stateCode) => {
+    setSelectedState(stateCode);
+  }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
   };
+
+  // Set dark mode by default
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800' : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'}`}>
@@ -289,7 +298,7 @@ const CivilRightsLegalTool = () => {
             </div>
             
             <div className="grid grid-cols-1 gap-6">
-              <CircuitMap />
+              <CircuitMap selectedState={selectedState} onStateSelect={handleMapStateSelect} />
               <CircuitAnalysisChart />
               <CircuitCourtCaseLawChart />
             </div>
@@ -360,6 +369,23 @@ const CivilRightsLegalTool = () => {
           <CaseExplorer />
         )}
       </div>
+      
+      <footer className={`py-6 px-4 border-t ${darkMode ? 'border-white/10 text-white/50' : 'border-slate-200 text-slate-500'}`}>
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <p className="text-sm">
+                Civil Rights Legal Tool © {new Date().getFullYear()} | For educational purposes only
+              </p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="text-sm hover:underline">Privacy Policy</a>
+              <a href="#" className="text-sm hover:underline">Terms of Use</a>
+              <a href="#" className="text-sm hover:underline">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

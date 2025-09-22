@@ -90,55 +90,200 @@ const CircuitMap = ({ selectedState = null, onStateSelect }) => {
     'DC': { circuit: 'D.C. Circuit', hostility: 'Moderate' },
   };
 
-  // Placeholder for the actual map
-  // In a real implementation, this would be an SVG map of the US with state paths
+  // Group states by circuit
+  const circuitGroups = {};
+  Object.entries(stateCircuitMap).forEach(([stateCode, data]) => {
+    const { circuit } = data;
+    if (!circuitGroups[circuit]) {
+      circuitGroups[circuit] = [];
+    }
+    circuitGroups[circuit].push(stateCode);
+  });
+
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-lg p-4">
-      <h3 className="text-lg font-medium text-white mb-4">Federal Circuit Court Map</h3>
+    <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 rounded-xl p-6 shadow-xl border border-white/20">
+      <h3 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent mb-4">Federal Circuit Court Map</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-96 overflow-y-auto">
-        {Object.entries(stateCircuitMap).map(([stateCode, { circuit, hostility }]) => (
-          <div 
-            key={stateCode}
-            className={`
-              flex items-center p-2 rounded cursor-pointer
-              ${selectedState === stateCode ? 'bg-blue-900/50 border border-blue-500' : 'hover:bg-slate-800'}
-            `}
-            onClick={() => onStateSelect && onStateSelect(stateCode)}
-            onMouseEnter={() => setHoveredState(stateCode)}
-            onMouseLeave={() => setHoveredState(null)}
-          >
-            <div 
-              className="w-4 h-4 rounded-full mr-2" 
-              style={{ backgroundColor: getCircuitColor(circuit) }}
-            ></div>
-            <span className="text-white text-sm">{stateCode}</span>
-            <span className="text-gray-400 text-xs ml-2">{circuit}</span>
-            <div className="ml-auto">
-              {getHostilityIndicator(hostility)}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Circuit Map Visualization */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4">
+          <div className="mb-4 text-white/80 text-sm">
+            Interactive map showing federal circuit jurisdictions and their civil rights posture
+          </div>
+          
+          <div className="relative w-full aspect-[4/3] bg-slate-800 rounded-lg overflow-hidden">
+            {/* Circuit Regions - Simplified Visual Representation */}
+            <div className="absolute inset-0 p-2">
+              {Object.entries(circuitGroups).map(([circuit, states]) => {
+                const color = getCircuitColor(circuit);
+                // Calculate position based on circuit
+                let position = {};
+                switch(circuit) {
+                  case '1st Circuit': 
+                    position = { top: '15%', left: '85%', width: '15%', height: '15%' }; 
+                    break;
+                  case '2nd Circuit': 
+                    position = { top: '20%', left: '80%', width: '15%', height: '15%' }; 
+                    break;
+                  case '3rd Circuit': 
+                    position = { top: '30%', left: '75%', width: '15%', height: '15%' }; 
+                    break;
+                  case '4th Circuit': 
+                    position = { top: '40%', left: '70%', width: '15%', height: '20%' }; 
+                    break;
+                  case '5th Circuit': 
+                    position = { top: '60%', left: '45%', width: '20%', height: '25%' }; 
+                    break;
+                  case '6th Circuit': 
+                    position = { top: '35%', left: '60%', width: '15%', height: '20%' }; 
+                    break;
+                  case '7th Circuit': 
+                    position = { top: '30%', left: '55%', width: '15%', height: '20%' }; 
+                    break;
+                  case '8th Circuit': 
+                    position = { top: '25%', left: '45%', width: '20%', height: '30%' }; 
+                    break;
+                  case '9th Circuit': 
+                    position = { top: '30%', left: '15%', width: '30%', height: '40%' }; 
+                    break;
+                  case '10th Circuit': 
+                    position = { top: '35%', left: '35%', width: '15%', height: '30%' }; 
+                    break;
+                  case '11th Circuit': 
+                    position = { top: '60%', left: '65%', width: '15%', height: '20%' }; 
+                    break;
+                  case 'D.C. Circuit': 
+                    position = { top: '35%', left: '78%', width: '5%', height: '5%' }; 
+                    break;
+                  default:
+                    position = {};
+                }
+                
+                return (
+                  <div 
+                    key={circuit}
+                    className="absolute rounded-lg border-2 border-white/30 flex items-center justify-center cursor-pointer transition-all hover:border-white hover:z-10"
+                    style={{
+                      backgroundColor: `${color}50`,
+                      top: position.top,
+                      left: position.left,
+                      width: position.width,
+                      height: position.height
+                    }}
+                  >
+                    <div className="text-white font-bold text-xs md:text-sm text-center">
+                      {circuit}
+                    </div>
+                  </div>
+                );
+              })}
+              
+              {/* Alaska and Hawaii special positioning */}
+              <div className="absolute bottom-2 left-2 flex space-x-2">
+                <div 
+                  className="rounded-lg border-2 border-white/30 p-1 text-white text-xs"
+                  style={{ backgroundColor: `${getCircuitColor('9th Circuit')}50` }}
+                >
+                  AK
+                </div>
+                <div 
+                  className="rounded-lg border-2 border-white/30 p-1 text-white text-xs"
+                  style={{ backgroundColor: `${getCircuitColor('9th Circuit')}50` }}
+                >
+                  HI
+                </div>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-      
-      <div className="mt-4 border-t border-slate-700 pt-4">
-        <div className="text-sm text-white mb-2">Circuit Legend</div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {['1st Circuit', '2nd Circuit', '3rd Circuit', '4th Circuit', '5th Circuit', '6th Circuit', 
-            '7th Circuit', '8th Circuit', '9th Circuit', '10th Circuit', '11th Circuit', 'D.C. Circuit'].map(circuit => (
-            <div key={circuit} className="flex items-center">
-              <div 
-                className="w-3 h-3 rounded-full mr-1" 
-                style={{ backgroundColor: getCircuitColor(circuit) }}
-              ></div>
-              <span className="text-gray-400 text-xs">{circuit}</span>
+          
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+              <span className="text-white/80 text-xs">Protective</span>
             </div>
-          ))}
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+              <span className="text-white/80 text-xs">Moderate</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+              <span className="text-white/80 text-xs">Hostile</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Circuit List */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4">
+          <div className="mb-4 text-white/80 text-sm">
+            Select a circuit to view details
+          </div>
+          
+          <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
+            {Object.entries(circuitGroups).map(([circuit, states]) => {
+              const color = getCircuitColor(circuit);
+              // Get hostility level (use the first state's hostility as representative)
+              const hostility = stateCircuitMap[states[0]]?.hostility;
+              
+              return (
+                <div 
+                  key={circuit}
+                  className="bg-white/5 hover:bg-white/10 rounded-lg p-3 cursor-pointer transition-all"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div 
+                        className="w-4 h-4 rounded-full mr-2" 
+                        style={{ backgroundColor: color }}
+                      ></div>
+                      <span className="text-white font-medium">{circuit}</span>
+                    </div>
+                    <div>
+                      {hostility === 'EXTREMELY HOSTILE' && (
+                        <span className="bg-red-500/20 text-red-300 text-xs px-2 py-1 rounded-full">
+                          Hostile
+                        </span>
+                      )}
+                      {hostility === 'Protective' && (
+                        <span className="bg-green-500/20 text-green-300 text-xs px-2 py-1 rounded-full">
+                          Protective
+                        </span>
+                      )}
+                      {hostility === 'Moderate' && (
+                        <span className="bg-yellow-500/20 text-yellow-300 text-xs px-2 py-1 rounded-full">
+                          Moderate
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {states.map(state => (
+                      <span 
+                        key={state}
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          selectedState === state 
+                            ? 'bg-blue-500/50 text-white' 
+                            : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onStateSelect && onStateSelect(state);
+                        }}
+                      >
+                        {state}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
       
-      <div className="mt-4 text-xs text-gray-500">
-        Note: This is a simplified representation. In a production version, this would be an interactive SVG map.
+      <div className="mt-4 text-xs text-white/50 italic">
+        Circuit court jurisdictions determine which federal appeals court hears cases from your state.
+        The civil rights posture indicates how favorable the circuit is to civil rights claims.
       </div>
     </div>
   );
