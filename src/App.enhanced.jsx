@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe } from 'lucide-react';
 import './App.css';
 
-// Import the enhanced components
-import ActivistToolkit from './components/activist/ActivistToolkit.jsx';
-import JournalistToolkit from './components/journalist/JournalistToolkit.jsx';
-import EnhancedStateProfile from './components/state-profiles/EnhancedStateProfile.jsx';
-import CircuitMap from './components/maps/CircuitMap.jsx';
-import CircuitAnalysisChart from './components/charts/CircuitAnalysisChart.jsx';
-import CircuitCourtCaseLawChart from './components/charts/CircuitCourtCaseLawChart.jsx';
-import CaseExplorer from './components/CaseExplorer.jsx';
-import { useAuth } from './context/AuthContext.jsx';
+// Import the new components
+import ActivistToolkit from './components/activist/ActivistToolkit';
+import JournalistToolkit from './components/journalist/JournalistToolkit';
+import StateProfile from './components/state-profiles/StateProfile';
 
 const CivilRightsLegalTool = () => {
+  // State declarations
   const [selectedState, setSelectedState] = useState('');
   const [results, setResults] = useState(null);
-  const [activeTab, setActiveTab] = useState('legal');
-  const [darkMode, setDarkMode] = useState(true);
-  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('legal'); // 'legal', 'activist', 'journalist', 'state'
 
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = useMemo(() => ({
@@ -71,297 +65,200 @@ const CivilRightsLegalTool = () => {
     'WV': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Northern District of West Virginia', 'Southern District of West Virginia'] },
     'WI': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Eastern District of Wisconsin', 'Western District of Wisconsin'] },
     'WY': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Wyoming'] },
-    'DC': { circuit: 'D.C. Circuit', hostility: 'Protective', districts: ['District of Columbia'] }
+    'DC': { circuit: 'D.C. Circuit', hostility: 'Moderate', districts: ['District of Columbia'] }
   }), []);
 
-  const handleStateSelect = useCallback((e) => {
-    setSelectedState(e.target.value);
-  }, []);
+  // Enhanced Stop and ID States with comprehensive constitutional analysis
+  const stopAndIdStates = useMemo(() => ({
+    'AL': {
+      hasLaw: true,
+      statute: 'Ala. Code § 15-5-30',
+      requirements: 'Must provide name when lawfully detained on reasonable suspicion',
+      penalty: 'Misdemeanor, up to 3 months jail',
+      constitutionalStrategy: ['Demand specific articulable facts supporting reasonable suspicion', 'Challenge overbroad application'],
+      controllingPrecedents: ['Terry v. Ohio (1968)', 'United States v. Sokolow (1989)'],
+      tacticalNotes: '11th Circuit applies standard Terry analysis.',
+      warningLevel: 'Moderate Risk'
+    },
+    // ... other states (truncated for brevity)
+  }), []);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
-  };
+  // State list for dropdown
+  const states = useMemo(() => [
+    { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' },
+    { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
+    { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'FL', name: 'Florida' },
+    { code: 'GA', name: 'Georgia' }, { code: 'HI', name: 'Hawaii' }, { code: 'ID', name: 'Idaho' },
+    { code: 'IL', name: 'Illinois' }, { code: 'IN', name: 'Indiana' }, { code: 'IA', name: 'Iowa' },
+    { code: 'KS', name: 'Kansas' }, { code: 'KY', name: 'Kentucky' }, { code: 'LA', name: 'Louisiana' },
+    { code: 'ME', name: 'Maine' }, { code: 'MD', name: 'Maryland' }, { code: 'MA', name: 'Massachusetts' },
+    { code: 'MI', name: 'Michigan' }, { code: 'MN', name: 'Minnesota' }, { code: 'MS', name: 'Mississippi' },
+    { code: 'MO', name: 'Missouri' }, { code: 'MT', name: 'Montana' }, { code: 'NE', name: 'Nebraska' },
+    { code: 'NV', name: 'Nevada' }, { code: 'NH', name: 'New Hampshire' }, { code: 'NJ', name: 'New Jersey' },
+    { code: 'NM', name: 'New Mexico' }, { code: 'NY', name: 'New York' }, { code: 'NC', name: 'North Carolina' },
+    { code: 'ND', name: 'North Dakota' }, { code: 'OH', name: 'Ohio' }, { code: 'OK', name: 'Oklahoma' },
+    { code: 'OR', name: 'Oregon' }, { code: 'PA', name: 'Pennsylvania' }, { code: 'RI', name: 'Rhode Island' },
+    { code: 'SC', name: 'South Carolina' }, { code: 'SD', name: 'South Dakota' }, { code: 'TN', name: 'Tennessee' },
+    { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' }, { code: 'VT', name: 'Vermont' },
+    { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' }, { code: 'WV', name: 'West Virginia' },
+    { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }, { code: 'DC', name: 'District of Columbia' }
+  ], []);
+
+  // Tab configuration
+  const tabs = [
+    { id: 'legal', label: 'Legal Analysis', icon: <Scale className="h-5 w-5" /> },
+    { id: 'activist', label: 'Activist Toolkit', icon: <Users className="h-5 w-5" /> },
+    { id: 'journalist', label: 'Journalist Toolkit', icon: <FileText className="h-5 w-5" /> },
+    { id: 'state', label: 'State Profile', icon: <Globe className="h-5 w-5" /> },
+  ];
+
+  // Update results when state changes
+  useEffect(() => {
+    if (selectedState) {
+      const circuit = federalCircuits[selectedState];
+      setResults({
+        state: states.find(s => s.code === selectedState)?.name,
+        circuit,
+      });
+    } else {
+      setResults(null);
+    }
+  }, [selectedState, federalCircuits, states]);
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800' : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'}`}>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
       <div className="container mx-auto px-4 py-8">
-        <header className="mb-8">
-          <div className="flex justify-between items-center">
-            <h1 className={`text-4xl font-bold ${darkMode ? 'bg-gradient-to-r from-white to-blue-200' : 'bg-gradient-to-r from-blue-900 to-purple-800'} bg-clip-text text-transparent`}>
-              Civil Rights Legal Tool
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center mb-6">
+            <Scale className="h-12 w-12 text-blue-400 mr-4" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Civil Rights Research Platform
             </h1>
-            <button 
-              onClick={toggleDarkMode} 
-              className={`p-2 rounded-full ${darkMode ? 'bg-white/10 hover:bg-white/20' : 'bg-blue-100 hover:bg-blue-200'}`}
-            >
-              {darkMode ? <Sun className="h-5 w-5 text-yellow-300" /> : <Moon className="h-5 w-5 text-blue-800" />}
-            </button>
           </div>
-          <p className={`mt-2 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-            Comprehensive legal resources for activists, journalists, and citizens
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            Comprehensive resources for legal analysis, activism, and journalism related to civil rights across America's legal landscape
           </p>
-        </header>
+        </div>
 
-        <div className="mb-8">
-          <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/10' : 'border-slate-200'}`}>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'legal' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('legal')}
+        {/* State Selection */}
+        <div className="max-w-md mx-auto mb-12">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Select State for Analysis
+          </label>
+          <div className="relative">
+            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            <select
+              value={selectedState}
+              onChange={(e) => setSelectedState(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <Scale className="h-4 w-4 mr-2" />
-              Legal Analysis
-            </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'activist' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('activist')}
-            >
-              <AlertTriangle className="h-4 w-4 mr-2" />
-              Activist Toolkit
-            </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'journalist' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('journalist')}
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              Journalist Toolkit
-            </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'marijuana' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('marijuana')}
-            >
-              <Leaf className="h-4 w-4 mr-2" />
-              Marijuana Laws
-            </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'recording' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('recording')}
-            >
-              <Phone className="h-4 w-4 mr-2" />
-              Recording Laws
-            </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'cases' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('cases')}
-            >
-              <Gavel className="h-4 w-4 mr-2" />
-              Case Explorer
-            </button>
+              <option value="">Choose a state...</option>
+              {states.map(state => (
+                <option key={state.code} value={state.code}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {activeTab === 'legal' && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
-                <div className={`p-6 rounded-xl shadow-xl ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                    Federal Circuit Analysis
-                  </h2>
-                  <p className={`mb-6 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                    Select a state to see its federal circuit court jurisdiction and analysis of how favorable the circuit is for civil rights cases.
-                  </p>
-                  
-                  <div className="mb-6">
-                    <label htmlFor="state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                      Select a State
-                    </label>
-                    <select
-                      id="state-select"
-                      value={selectedState}
-                      onChange={handleStateSelect}
-                      className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-                    >
-                      <option value="">-- Select a State --</option>
-                      {Object.keys(federalCircuits).sort().map(state => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
+        {/* Tabs */}
+        {selectedState && (
+          <div className="mb-8">
+            <div className="flex flex-wrap border-b border-gray-700">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center px-6 py-3 text-sm font-medium ${
+                    activeTab === tab.id
+                      ? 'text-blue-400 border-b-2 border-blue-400'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  <span className="mr-2">{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Content based on active tab */}
+        {selectedState && results && (
+          <div className="mt-6">
+            {activeTab === 'legal' && (
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+                <div className="flex items-center mb-6">
+                  <Scale className="h-8 w-8 text-blue-400 mr-3" />
+                  <h2 className="text-2xl font-bold text-blue-400">Legal Analysis: {results.state}</h2>
+                </div>
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2 text-blue-300">Federal Circuit Information</h3>
+                  <div className={`p-4 rounded-lg ${
+                    results.circuit?.hostility === 'EXTREMELY HOSTILE' ? 'bg-red-900/20 border border-red-700' :
+                    results.circuit?.hostility === 'Protective' ? 'bg-green-900/20 border border-green-700' :
+                    'bg-blue-900/20 border border-blue-700'
+                  }`}>
+                    <p className="text-white"><span className="font-semibold">Circuit:</span> {results.circuit?.circuit}</p>
+                    <p className="text-white"><span className="font-semibold">Constitutional Approach:</span> {results.circuit?.hostility}</p>
+                    <p className="text-white"><span className="font-semibold">Federal Districts:</span> {results.circuit?.districts.join(', ')}</p>
                   </div>
-                  
-                  {selectedState && (
-                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-blue-50'}`}>
-                      <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                        {selectedState} Federal Court Information
-                      </h3>
-                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                        <span className="font-medium">Circuit:</span> {federalCircuits[selectedState].circuit}
+                </div>
+                
+                {/* Legal disclaimer */}
+                <div className="bg-red-900/20 border border-red-700/50 rounded-xl p-6 mt-6">
+                  <div className="flex items-start">
+                    <AlertCircle className="h-6 w-6 text-red-400 mr-3 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-red-400 mb-2">Legal Warning</h3>
+                      <p className="text-gray-300 text-sm">
+                        This analysis provides general information and does not constitute legal advice. 
+                        Constitutional law changes rapidly, and circuit precedents evolve constantly.
+                        Always consult with a qualified attorney for specific legal guidance.
                       </p>
-                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                        <span className="font-medium">Civil Rights Posture:</span>{' '}
-                        <span className={
-                          federalCircuits[selectedState].hostility === 'Protective' ? 'text-green-400' :
-                          federalCircuits[selectedState].hostility === 'Moderate' ? 'text-yellow-400' :
-                          'text-red-400'
-                        }>
-                          {federalCircuits[selectedState].hostility}
-                        </span>
-                      </p>
-                      <div className="mt-2">
-                        <p className={`font-medium mb-1 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>Federal Districts:</p>
-                        <ul className={`list-disc pl-5 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                          {federalCircuits[selectedState].districts.map((district, index) => (
-                            <li key={index}>{district}</li>
-                          ))}
-                        </ul>
-                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
-              
-              <div>
-                <div className={`p-6 rounded-xl shadow-xl h-full ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                    Quick Resources
-                  </h2>
-                  <ul className="space-y-3">
-                    <li>
-                      <a 
-                        href="https://www.uscourts.gov/about-federal-courts/court-website-links/court-website-links" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Globe className="h-5 w-5 mr-3" />
-                        <span>Federal Court Websites</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.justice.gov/crt" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Scale className="h-5 w-5 mr-3" />
-                        <span>DOJ Civil Rights Division</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.aclu.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Shield className="h-5 w-5 mr-3" />
-                        <span>ACLU Resources</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.splcenter.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <AlertCircle className="h-5 w-5 mr-3" />
-                        <span>Southern Poverty Law Center</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.naacpldf.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Gavel className="h-5 w-5 mr-3" />
-                        <span>NAACP Legal Defense Fund</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-6">
-              <CircuitMap />
-              <CircuitAnalysisChart />
-              <CircuitCourtCaseLawChart />
-            </div>
+            )}
+
+            {activeTab === 'activist' && (
+              <ActivistToolkit stateCode={selectedState} />
+            )}
+
+            {activeTab === 'journalist' && (
+              <JournalistToolkit stateCode={selectedState} />
+            )}
+
+            {activeTab === 'state' && (
+              <StateProfile stateCode={selectedState} />
+            )}
           </div>
         )}
 
-        {activeTab === 'activist' && (
-          <ActivistToolkit />
-        )}
-
-        {activeTab === 'journalist' && (
-          <JournalistToolkit />
-        )}
-
-        {activeTab === 'marijuana' && (
-          <div>
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-              State Marijuana Laws
-            </h2>
-            <div className="mb-6">
-              <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                Select a State
-              </label>
-              <select
-                id="marijuana-state-select"
-                value={selectedState}
-                onChange={handleStateSelect}
-                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-              >
-                <option value="">-- Select a State --</option>
-                {Object.keys(federalCircuits).sort().map(state => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            
-            <EnhancedStateProfile stateCode={selectedState} />
+        {!selectedState && (
+          <div className="text-center py-16">
+            <Scale className="h-24 w-24 text-blue-400 mx-auto mb-6 opacity-50" />
+            <p className="text-xl text-gray-400 mb-4">Select a state to begin your analysis</p>
+            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+              This platform provides comprehensive resources for legal analysis, activism, and journalism
+              related to civil rights across America's legal landscape.
+            </p>
           </div>
-        )}
-
-        {activeTab === 'recording' && (
-          <div>
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-              State Recording Consent Laws
-            </h2>
-            <div className="mb-6">
-              <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                Select a State
-              </label>
-              <select
-                id="recording-state-select"
-                value={selectedState}
-                onChange={handleStateSelect}
-                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-              >
-                <option value="">-- Select a State --</option>
-                {Object.keys(federalCircuits).sort().map(state => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            
-            <EnhancedStateProfile stateCode={selectedState} />
-          </div>
-        )}
-
-        {activeTab === 'cases' && (
-          <CaseExplorer />
         )}
       </div>
     </div>
   );
 };
 
-export default CivilRightsLegalTool;
+function App() {
+  return (
+    <div className="App">
+      <CivilRightsLegalTool />
+    </div>
+  );
+}
+
+export default App;
