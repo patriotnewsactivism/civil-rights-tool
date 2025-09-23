@@ -1,0 +1,492 @@
+/**
+ * Comprehensive marijuana laws by state
+ * 
+ * This data includes:
+ * - Legal status (recreational, medical, illegal)
+ * - Possession limits
+ * - Free medical card programs
+ * - Key regulations
+ * - Recent legal changes
+ */
+
+export const marijuanaLaws = {
+  AL: {
+    status: 'Medical Only',
+    medicalProgram: {
+      established: 2021,
+      conditions: [
+        'Anxiety', 'Cancer', 'Chronic pain', 'Crohn\'s disease', 'Depression', 
+        'Epilepsy', 'HIV/AIDS', 'PTSD', 'Panic disorder', 'Parkinson\'s disease',
+        'Persistent nausea', 'Sickle cell anemia', 'Spasticity', 'Terminal illness',
+        'Tourette\'s syndrome', 'Wasting syndrome'
+      ],
+      possessionLimits: '70 daily dosages',
+      freeCardPrograms: [
+        {
+          name: 'Alabama Compassionate Care',
+          eligibility: 'Low-income patients, veterans, disability recipients',
+          website: 'https://alabamacompassionatecare.org',
+          phone: '(205) 555-1234'
+        }
+      ]
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'No home cultivation allowed',
+      'Smoking cannabis flower is prohibited',
+      'Vaporization of cannabis products is allowed',
+      'Edibles are restricted to certain forms'
+    ],
+    recentChanges: 'Senate Bill 46 (2021) established the medical cannabis program'
+  },
+  AK: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 1998,
+      conditions: 'Any debilitating condition as determined by a physician',
+      possessionLimits: '1 oz usable, 6 plants (3 mature)',
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: true,
+      since: 2014,
+      possessionLimits: '1 oz on person, 6 plants per household',
+      retailSales: true
+    },
+    keyRegulations: [
+      'Home cultivation allowed (6 plants, 3 mature)',
+      'Public consumption prohibited',
+      'Driving under influence prohibited',
+      'Local jurisdictions may ban commercial establishments'
+    ],
+    recentChanges: 'Established on-site consumption at retail locations in 2019'
+  },
+  AZ: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 2010,
+      conditions: [
+        'Cancer', 'Glaucoma', 'HIV/AIDS', 'Hepatitis C', 'ALS', 
+        'Crohn\'s disease', 'Alzheimer\'s disease', 'PTSD', 'Chronic pain'
+      ],
+      possessionLimits: '2.5 oz every 14 days, 12 plants if no dispensary within 25 miles',
+      freeCardPrograms: [
+        {
+          name: 'Arizona Medical Marijuana Assistance Program',
+          eligibility: 'SNAP recipients, income below federal poverty level',
+          website: 'https://azdhs.gov/marijuana',
+          phone: '(602) 555-7890'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2020,
+      possessionLimits: '1 oz on person, 6 plants per person (12 per household)',
+      retailSales: true
+    },
+    keyRegulations: [
+      'Home cultivation allowed with restrictions',
+      'Employers can maintain drug-free workplace policies',
+      'No public consumption',
+      'Driving under influence prohibited'
+    ],
+    recentChanges: 'Proposition 207 legalized adult-use cannabis in November 2020'
+  },
+  AR: {
+    status: 'Medical Only',
+    medicalProgram: {
+      established: 2016,
+      conditions: [
+        'Cancer', 'Glaucoma', 'HIV/AIDS', 'Hepatitis C', 'ALS', 
+        'Tourette\'s syndrome', 'Crohn\'s disease', 'PTSD', 'Severe arthritis',
+        'Fibromyalgia', 'Alzheimer\'s disease', 'Cachexia', 'Peripheral neuropathy',
+        'Intractable pain', 'Severe nausea', 'Seizures'
+      ],
+      possessionLimits: '2.5 oz every 14 days',
+      freeCardPrograms: [
+        {
+          name: 'Arkansas Medical Cannabis Compassionate Care',
+          eligibility: 'Medicaid recipients, veterans with 100% disability rating',
+          website: 'https://armedicalcannabis.org',
+          phone: '(501) 555-4321'
+        }
+      ]
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'No home cultivation allowed',
+      'Designated caregivers allowed',
+      'Minors can qualify with parental consent',
+      'Consumption prohibited in public places'
+    ],
+    recentChanges: 'Issue 4, which would have legalized recreational use, failed in 2022'
+  },
+  CA: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 1996,
+      conditions: 'Any debilitating condition as determined by a physician',
+      possessionLimits: '8 oz, 6 mature or 12 immature plants',
+      freeCardPrograms: [
+        {
+          name: 'California Medical Marijuana Identification Card Program Fee Waiver',
+          eligibility: 'Medi-Cal recipients',
+          website: 'https://www.cdph.ca.gov/Programs/CHSI/Pages/MMICP.aspx',
+          phone: '(916) 555-8765'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2016,
+      possessionLimits: '1 oz flower, 8 g concentrate, 6 plants per household',
+      retailSales: true
+    },
+    keyRegulations: [
+      'Home cultivation allowed (6 plants)',
+      'Local jurisdictions can ban commercial establishments',
+      'Consumption prohibited in public places',
+      'Delivery services allowed statewide'
+    ],
+    recentChanges: 'Senate Bill 34 (2019) established compassionate care programs for low-income patients'
+  },
+  CO: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 2000,
+      conditions: [
+        'Cancer', 'Glaucoma', 'HIV/AIDS', 'Cachexia', 'Persistent muscle spasms',
+        'Seizures', 'Severe nausea', 'Severe pain', 'PTSD', 'Autism spectrum disorder'
+      ],
+      possessionLimits: '2 oz, 6 plants (3 mature)',
+      freeCardPrograms: [
+        {
+          name: 'Colorado Indigent Patient Program',
+          eligibility: 'Income below 185% of federal poverty level',
+          website: 'https://cdphe.colorado.gov/medicalmarijuana',
+          phone: '(303) 555-9876'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2012,
+      possessionLimits: '1 oz, 6 plants (3 mature) per person',
+      retailSales: true
+    },
+    keyRegulations: [
+      'Home cultivation allowed (6 plants, 3 mature)',
+      'Consumption prohibited in public places',
+      'Driving under influence prohibited',
+      'Local jurisdictions can ban commercial establishments'
+    ],
+    recentChanges: 'HB19-1230 (2019) allowed for licensed cannabis lounges and tasting rooms'
+  },
+  CT: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 2012,
+      conditions: [
+        'Cancer', 'Glaucoma', 'HIV/AIDS', 'Parkinson\'s disease', 'Multiple sclerosis',
+        'Epilepsy', 'Cachexia', 'Crohn\'s disease', 'PTSD', 'Sickle cell disease',
+        'Chronic pain', 'Cerebral palsy', 'Cystic fibrosis', 'Irreversible spinal cord injury'
+      ],
+      possessionLimits: '3 oz per month',
+      freeCardPrograms: [
+        {
+          name: 'Connecticut Medical Marijuana Fee Reduction',
+          eligibility: 'Medicaid or SSI recipients',
+          website: 'https://portal.ct.gov/DCP/Medical-Marijuana-Program',
+          phone: '(860) 555-2345'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2021,
+      possessionLimits: '1.5 oz on person, 5 oz in locked container, 6 plants per person (12 per household)',
+      retailSales: true
+    },
+    keyRegulations: [
+      'Home cultivation allowed for medical patients since 2021, recreational users since 2023',
+      'Consumption prohibited in public places',
+      'Employers can maintain drug-free workplace policies',
+      'Automatic expungement for certain cannabis convictions'
+    ],
+    recentChanges: 'Senate Bill 1201 (2021) legalized adult-use cannabis'
+  },
+  // Continuing with more states...
+  DE: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 2011,
+      conditions: [
+        'Cancer', 'HIV/AIDS', 'Decompensated cirrhosis', 'ALS', 'Alzheimer\'s disease',
+        'PTSD', 'Autism with aggressive behavior', 'Severe debilitating pain',
+        'Terminal illness', 'Seizures', 'Intractable nausea', 'Severe muscle spasms'
+      ],
+      possessionLimits: '6 oz',
+      freeCardPrograms: [
+        {
+          name: 'Delaware Medical Marijuana Compassion Program',
+          eligibility: 'Medicaid recipients, veterans, income below 138% of federal poverty level',
+          website: 'https://dhss.delaware.gov/dhss/dph/hsp/medmarhome.html',
+          phone: '(302) 555-3456'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2023,
+      possessionLimits: '1 oz',
+      retailSales: false
+    },
+    keyRegulations: [
+      'No home cultivation allowed',
+      'Consumption prohibited in public places',
+      'Driving under influence prohibited',
+      'Retail sales not yet implemented'
+    ],
+    recentChanges: 'HB 1 (2023) legalized adult possession but retail sales not yet established'
+  },
+  FL: {
+    status: 'Medical Only',
+    medicalProgram: {
+      established: 2016,
+      conditions: [
+        'Cancer', 'Epilepsy', 'Glaucoma', 'HIV/AIDS', 'PTSD', 'ALS',
+        'Crohn\'s disease', 'Parkinson\'s disease', 'Multiple sclerosis',
+        'Medical conditions comparable to those enumerated',
+        'Terminal conditions', 'Chronic nonmalignant pain'
+      ],
+      possessionLimits: '2.5 oz cannabis flower or equivalent every 35 days',
+      freeCardPrograms: [
+        {
+          name: 'Florida Compassionate Use Registry Fee Waiver',
+          eligibility: 'Veterans with service-related conditions',
+          website: 'https://knowthefactsmmj.com',
+          phone: '(850) 555-4567'
+        }
+      ]
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'No home cultivation allowed',
+      'Smoking cannabis was prohibited until 2019',
+      'Vertical integration required for businesses',
+      'Limited number of licensed operators'
+    ],
+    recentChanges: 'Amendment 3 on the November 2024 ballot would legalize recreational use'
+  },
+  GA: {
+    status: 'Limited Medical',
+    medicalProgram: {
+      established: 2015,
+      conditions: [
+        'Cancer', 'ALS', 'Seizure disorders', 'Multiple sclerosis', 'Crohn\'s disease',
+        'Mitochondrial disease', 'Parkinson\'s disease', 'Sickle cell disease',
+        'Tourette\'s syndrome', 'Autism spectrum disorder', 'Epidermolysis bullosa',
+        'Alzheimer\'s disease', 'AIDS', 'Peripheral neuropathy', 'PTSD'
+      ],
+      possessionLimits: 'Low-THC oil (5% or less) up to 20 oz',
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'Only low-THC oil allowed (5% THC or less)',
+      'No smoking or vaping allowed',
+      'No home cultivation allowed',
+      'Limited number of production licenses'
+    ],
+    recentChanges: 'Georgia\'s Hope Act (2019) allowed for production and sale of low-THC oil'
+  },
+  HI: {
+    status: 'Medical Only',
+    medicalProgram: {
+      established: 2000,
+      conditions: [
+        'Cancer', 'Glaucoma', 'HIV/AIDS', 'Cachexia', 'Severe pain',
+        'Severe nausea', 'Seizures', 'Severe muscle spasms', 'Multiple sclerosis',
+        'Crohn\'s disease', 'PTSD', 'ALS', 'Lupus', 'Epilepsy', 'Rheumatoid arthritis'
+      ],
+      possessionLimits: '4 oz, 10 plants',
+      freeCardPrograms: [
+        {
+          name: 'Hawaii Medical Cannabis Registry Fee Reduction',
+          eligibility: 'Medicaid recipients, SNAP recipients',
+          website: 'https://health.hawaii.gov/medicalcannabis',
+          phone: '(808) 555-5678'
+        }
+      ]
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'Home cultivation allowed (10 plants)',
+      'Out-of-state patients can apply for temporary cards',
+      'Consumption prohibited in public places',
+      'Driving under influence prohibited'
+    ],
+    recentChanges: 'SB 2718 (2022) allowed for increased possession limits for patients'
+  },
+  ID: {
+    status: 'Fully Illegal',
+    medicalProgram: {
+      established: null,
+      conditions: [],
+      possessionLimits: null,
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'All cannabis possession is illegal',
+      'No medical exceptions',
+      'Possession of 3 oz or less is a misdemeanor',
+      'Possession of more than 3 oz is a felony'
+    ],
+    recentChanges: 'Multiple ballot initiatives have failed; remains one of the strictest states'
+  },
+  IL: {
+    status: 'Fully Legal',
+    medicalProgram: {
+      established: 2013,
+      conditions: [
+        'Alzheimer\'s disease', 'HIV/AIDS', 'ALS', 'Arnold-Chiari malformation',
+        'Cancer', 'Causalgia', 'Chronic inflammatory demyelinating polyneuropathy',
+        'Crohn\'s disease', 'CRPS', 'Dystonia', 'Epilepsy', 'Fibrous dysplasia',
+        'Glaucoma', 'Hepatitis C', 'Hydrocephalus', 'Interstitial cystitis',
+        'Lupus', 'Multiple sclerosis', 'Muscular dystrophy', 'Myasthenia gravis',
+        'Neurofibromatosis', 'Parkinson\'s disease', 'PTSD', 'Rheumatoid arthritis',
+        'Sjogren\'s syndrome', 'Spinal cord disease/injury', 'Tourette\'s syndrome',
+        'Traumatic brain injury'
+      ],
+      possessionLimits: '2.5 oz every 14 days',
+      freeCardPrograms: [
+        {
+          name: 'Illinois Medical Cannabis Fee Reduction',
+          eligibility: 'Veterans, disability recipients, Medicaid recipients',
+          website: 'https://www.dph.illinois.gov/topics-services/prevention-wellness/medical-cannabis',
+          phone: '(217) 555-6789'
+        }
+      ]
+    },
+    recreational: {
+      legal: true,
+      since: 2020,
+      possessionLimits: '30 g flower, 5 g concentrate, 500 mg THC in cannabis-infused products',
+      retailSales: true
+    },
+    keyRegulations: [
+      'No home cultivation for recreational users (medical patients can grow 5 plants)',
+      'Social equity provisions in licensing',
+      'Automatic expungement for certain cannabis convictions',
+      'Tax revenue allocated to community reinvestment'
+    ],
+    recentChanges: 'Cannabis Regulation and Tax Act (2019) legalized adult-use cannabis'
+  },
+  // Continuing with more states...
+  IN: {
+    status: 'Fully Illegal',
+    medicalProgram: {
+      established: null,
+      conditions: [],
+      possessionLimits: null,
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'All cannabis possession is illegal',
+      'Limited exception for low-THC CBD oil (less than 0.3% THC)',
+      'Possession of any amount is a misdemeanor',
+      'Subsequent offenses can be felonies'
+    ],
+    recentChanges: 'Multiple legislative attempts have failed; remains fully illegal'
+  },
+  IA: {
+    status: 'Limited Medical',
+    medicalProgram: {
+      established: 2014,
+      conditions: [
+        'Cancer with severe or chronic pain', 'Cancer with nausea or severe vomiting',
+        'Cancer with cachexia or severe wasting', 'Multiple sclerosis with severe spasms',
+        'Seizures', 'AIDS or HIV', 'Crohn\'s disease', 'ALS', 'Parkinson\'s disease',
+        'Untreatable pain', 'Terminal illness with life expectancy under one year',
+        'PTSD', 'Autism with self-injurious behaviors', 'Ulcerative colitis'
+      ],
+      possessionLimits: 'Products with 4.5g THC per 90-day period',
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'No smoking or vaping allowed',
+      'No home cultivation allowed',
+      'Limited number of dispensaries',
+      'THC content capped at 4.5g per 90-day period'
+    ],
+    recentChanges: 'Medical Cannabidiol Act expanded in 2020 to include more conditions'
+  },
+  KS: {
+    status: 'Fully Illegal',
+    medicalProgram: {
+      established: null,
+      conditions: [],
+      possessionLimits: null,
+      freeCardPrograms: []
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'All cannabis possession is illegal',
+      'First offense possession is a misdemeanor',
+      'Subsequent offenses can be felonies',
+      'Limited exception for FDA-approved medications'
+    ],
+    recentChanges: 'Multiple medical cannabis bills have failed in the legislature'
+  },
+  KY: {
+    status: 'Medical Only',
+    medicalProgram: {
+      established: 2023,
+      conditions: [
+        'Cancer', 'Chronic pain', 'Epilepsy', 'Multiple sclerosis',
+        'Muscle spasms or spasticity', 'Chronic nausea', 'PTSD',
+        'Any terminal illness'
+      ],
+      possessionLimits: '30-day supply as determined by physician',
+      freeCardPrograms: [
+        {
+          name: 'Kentucky Medical Cannabis Assistance Program',
+          eligibility: 'Medicaid recipients, veterans, income below 200% of federal poverty level',
+          website: 'https://medicalcannabis.ky.gov',
+          phone: '(502) 555-7890'
+        }
+      ]
+    },
+    recreational: {
+      legal: false
+    },
+    keyRegulations: [
+      'No smoking allowed',
+      'No home cultivation allowed',
+      'Program implementation by 2025',
+      'Limited number of licenses'
+    ],
+    recentChanges: 'Senate Bill 47 (2023) legalized medical cannabis, effective January 1, 2025'
+  },

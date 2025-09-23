@@ -1,0 +1,393 @@
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun } from 'lucide-react';
+import './App.css';
+
+// Import the enhanced components
+import ActivistToolkit from './components/activist/ActivistToolkit.jsx';
+import JournalistToolkit from './components/journalist/JournalistToolkit.jsx';
+import EnhancedStateProfile from './components/state-profiles/EnhancedStateProfile.jsx';
+import CircuitMap from './components/maps/CircuitMap.jsx';
+import CircuitAnalysisChart from './components/charts/CircuitAnalysisChart.jsx';
+import CircuitCourtCaseLawChart from './components/charts/CircuitCourtCaseLawChart.jsx';
+import CaseExplorer from './components/CaseExplorer.jsx';
+import { useAuth } from './context/AuthContext.jsx';
+
+const CivilRightsLegalTool = () => {
+  const [selectedState, setSelectedState] = useState('');
+  const [results, setResults] = useState(null);
+  const [activeTab, setActiveTab] = useState('legal');
+  const [darkMode, setDarkMode] = useState(true);
+  const { user } = useAuth();
+
+  // Federal Circuit mapping with jurisdictional analysis
+  const federalCircuits = useMemo(() => ({
+    'AL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Alabama', 'Middle District of Alabama', 'Southern District of Alabama'] },
+    'AK': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Alaska'] },
+    'AZ': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Arizona'] },
+    'AR': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Eastern District of Arkansas', 'Western District of Arkansas'] },
+    'CA': { circuit: '9th Circuit', hostility: 'Protective', districts: ['Northern District of California', 'Central District of California', 'Eastern District of California', 'Southern District of California'] },
+    'CO': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Colorado'] },
+    'CT': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['District of Connecticut'] },
+    'DE': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['District of Delaware'] },
+    'FL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Florida', 'Middle District of Florida', 'Southern District of Florida'] },
+    'GA': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Georgia', 'Middle District of Georgia', 'Southern District of Georgia'] },
+    'HI': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Hawaii'] },
+    'ID': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Idaho'] },
+    'IL': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Northern District of Illinois', 'Central District of Illinois', 'Southern District of Illinois'] },
+    'IN': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Northern District of Indiana', 'Southern District of Indiana'] },
+    'IA': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Northern District of Iowa', 'Southern District of Iowa'] },
+    'KS': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Kansas'] },
+    'KY': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Kentucky', 'Western District of Kentucky'] },
+    'LA': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Eastern District of Louisiana', 'Middle District of Louisiana', 'Western District of Louisiana'] },
+    'ME': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Maine'] },
+    'MD': { circuit: '4th Circuit', hostility: 'Protective', districts: ['District of Maryland'] },
+    'MA': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Massachusetts'] },
+    'MI': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Michigan', 'Western District of Michigan'] },
+    'MN': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of Minnesota'] },
+    'MS': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Northern District of Mississippi', 'Southern District of Mississippi'] },
+    'MO': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Eastern District of Missouri', 'Western District of Missouri'] },
+    'MT': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Montana'] },
+    'NE': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of Nebraska'] },
+    'NV': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Nevada'] },
+    'NH': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of New Hampshire'] },
+    'NJ': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['District of New Jersey'] },
+    'NM': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of New Mexico'] },
+    'NY': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['Northern District of New York', 'Southern District of New York', 'Eastern District of New York', 'Western District of New York'] },
+    'NC': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Eastern District of North Carolina', 'Middle District of North Carolina', 'Western District of North Carolina'] },
+    'ND': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of North Dakota'] },
+    'OH': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Northern District of Ohio', 'Southern District of Ohio'] },
+    'OK': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['Northern District of Oklahoma', 'Eastern District of Oklahoma', 'Western District of Oklahoma'] },
+    'OR': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Oregon'] },
+    'PA': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['Eastern District of Pennsylvania', 'Middle District of Pennsylvania', 'Western District of Pennsylvania'] },
+    'RI': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Rhode Island'] },
+    'SC': { circuit: '4th Circuit', hostility: 'Protective', districts: ['District of South Carolina'] },
+    'SD': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of South Dakota'] },
+    'TN': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Tennessee', 'Middle District of Tennessee', 'Western District of Tennessee'] },
+    'TX': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Northern District of Texas', 'Southern District of Texas', 'Eastern District of Texas', 'Western District of Texas'] },
+    'UT': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Utah'] },
+    'VT': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['District of Vermont'] },
+    'VA': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Eastern District of Virginia', 'Western District of Virginia'] },
+    'WA': { circuit: '9th Circuit', hostility: 'Protective', districts: ['Eastern District of Washington', 'Western District of Washington'] },
+    'WV': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Northern District of West Virginia', 'Southern District of West Virginia'] },
+    'WI': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Eastern District of Wisconsin', 'Western District of Wisconsin'] },
+    'WY': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Wyoming'] },
+    'DC': { circuit: 'D.C. Circuit', hostility: 'Protective', districts: ['District of Columbia'] }
+  }), []);
+
+  const handleStateSelect = useCallback((e) => {
+    setSelectedState(e.target.value);
+  }, []);
+
+  const handleMapStateSelect = useCallback((stateCode) => {
+    setSelectedState(stateCode);
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  // Set dark mode by default
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
+  return (
+    <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800' : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'}`}>
+      <div className="container mx-auto px-4 py-8">
+        <header className="mb-8">
+          <div className="flex justify-between items-center">
+            <h1 className={`text-4xl font-bold ${darkMode ? 'bg-gradient-to-r from-white to-blue-200' : 'bg-gradient-to-r from-blue-900 to-purple-800'} bg-clip-text text-transparent`}>
+              Civil Rights Legal Tool
+            </h1>
+            <button 
+              onClick={toggleDarkMode} 
+              className={`p-2 rounded-full ${darkMode ? 'bg-white/10 hover:bg-white/20' : 'bg-blue-100 hover:bg-blue-200'}`}
+            >
+              {darkMode ? <Sun className="h-5 w-5 text-yellow-300" /> : <Moon className="h-5 w-5 text-blue-800" />}
+            </button>
+          </div>
+          <p className={`mt-2 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+            Comprehensive legal resources for activists, journalists, and citizens
+          </p>
+        </header>
+
+        <div className="mb-8">
+          <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'legal' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('legal')}
+            >
+              <Scale className="h-4 w-4 mr-2" />
+              Legal Analysis
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'activist' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('activist')}
+            >
+              <AlertTriangle className="h-4 w-4 mr-2" />
+              Activist Toolkit
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'journalist' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('journalist')}
+            >
+              <Camera className="h-4 w-4 mr-2" />
+              Journalist Toolkit
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'marijuana' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('marijuana')}
+            >
+              <Leaf className="h-4 w-4 mr-2" />
+              Marijuana Laws
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'recording' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('recording')}
+            >
+              <Phone className="h-4 w-4 mr-2" />
+              Recording Laws
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'cases' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('cases')}
+            >
+              <Gavel className="h-4 w-4 mr-2" />
+              Case Explorer
+            </button>
+          </div>
+        </div>
+
+        {activeTab === 'legal' && (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2">
+                <div className={`p-6 rounded-xl shadow-xl ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                    Federal Circuit Analysis
+                  </h2>
+                  <p className={`mb-6 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                    Select a state to see its federal circuit court jurisdiction and analysis of how favorable the circuit is for civil rights cases.
+                  </p>
+                  
+                  <div className="mb-6">
+                    <label htmlFor="state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                      Select a State
+                    </label>
+                    <select
+                      id="state-select"
+                      value={selectedState}
+                      onChange={handleStateSelect}
+                      className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                    >
+                      <option value="">-- Select a State --</option>
+                      {Object.keys(federalCircuits).sort().map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  {selectedState && (
+                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-blue-50'}`}>
+                      <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                        {selectedState} Federal Court Information
+                      </h3>
+                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                        <span className="font-medium">Circuit:</span> {federalCircuits[selectedState].circuit}
+                      </p>
+                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                        <span className="font-medium">Civil Rights Posture:</span>{' '}
+                        <span className={
+                          federalCircuits[selectedState].hostility === 'Protective' ? 'text-green-400' :
+                          federalCircuits[selectedState].hostility === 'Moderate' ? 'text-yellow-400' :
+                          'text-red-400'
+                        }>
+                          {federalCircuits[selectedState].hostility}
+                        </span>
+                      </p>
+                      <div className="mt-2">
+                        <p className={`font-medium mb-1 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>Federal Districts:</p>
+                        <ul className={`list-disc pl-5 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                          {federalCircuits[selectedState].districts.map((district, index) => (
+                            <li key={index}>{district}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div>
+                <div className={`p-6 rounded-xl shadow-xl h-full ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
+                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                    Quick Resources
+                  </h2>
+                  <ul className="space-y-3">
+                    <li>
+                      <a 
+                        href="https://www.uscourts.gov/about-federal-courts/court-website-links/court-website-links" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                      >
+                        <Globe className="h-5 w-5 mr-3" />
+                        <span>Federal Court Websites</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.justice.gov/crt" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                      >
+                        <Scale className="h-5 w-5 mr-3" />
+                        <span>DOJ Civil Rights Division</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.aclu.org/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                      >
+                        <Shield className="h-5 w-5 mr-3" />
+                        <span>ACLU Resources</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.splcenter.org/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                      >
+                        <AlertCircle className="h-5 w-5 mr-3" />
+                        <span>Southern Poverty Law Center</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.naacpldf.org/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                      >
+                        <Gavel className="h-5 w-5 mr-3" />
+                        <span>NAACP Legal Defense Fund</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-6">
+              <CircuitMap selectedState={selectedState} onStateSelect={handleMapStateSelect} />
+              <CircuitAnalysisChart />
+              <CircuitCourtCaseLawChart />
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'activist' && (
+          <ActivistToolkit />
+        )}
+
+        {activeTab === 'journalist' && (
+          <JournalistToolkit />
+        )}
+
+        {activeTab === 'marijuana' && (
+          <div>
+            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+              State Marijuana Laws
+            </h2>
+            <div className="mb-6">
+              <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                Select a State
+              </label>
+              <select
+                id="marijuana-state-select"
+                value={selectedState}
+                onChange={handleStateSelect}
+                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+              >
+                <option value="">-- Select a State --</option>
+                {Object.keys(federalCircuits).sort().map(state => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
+              </select>
+            </div>
+            
+            <EnhancedStateProfile stateCode={selectedState} />
+          </div>
+        )}
+
+        {activeTab === 'recording' && (
+          <div>
+            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+              State Recording Consent Laws
+            </h2>
+            <div className="mb-6">
+              <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                Select a State
+              </label>
+              <select
+                id="recording-state-select"
+                value={selectedState}
+                onChange={handleStateSelect}
+                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+              >
+                <option value="">-- Select a State --</option>
+                {Object.keys(federalCircuits).sort().map(state => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
+              </select>
+            </div>
+            
+            <EnhancedStateProfile stateCode={selectedState} />
+          </div>
+        )}
+
+        {activeTab === 'cases' && (
+          <CaseExplorer />
+        )}
+      </div>
+      
+      <footer className={`py-6 px-4 border-t ${darkMode ? 'border-white/10 text-white/50' : 'border-slate-200 text-slate-500'}`}>
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <p className="text-sm">
+                Civil Rights Legal Tool © {new Date().getFullYear()} | For educational purposes only
+              </p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="text-sm hover:underline">Privacy Policy</a>
+              <a href="#" className="text-sm hover:underline">Terms of Use</a>
+              <a href="#" className="text-sm hover:underline">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default CivilRightsLegalTool;
