@@ -87,7 +87,35 @@ export const stateProfiles = {
         status: 'Charges dropped',
         source: 'Freedom of the Press Foundation'
       }
-    ]
+    ],
+    // Medical marijuana information
+    medicalMarijuana: {
+      status: 'medical-only',
+      legal: true,
+      recreational: false,
+      decriminalized: true,
+      freeCardPrograms: [
+        {
+          name: 'Elevate Holistics',
+          description: 'Free medical marijuana cards for new patients through partnership with The Apothecary Shoppe',
+          website: 'https://app2.elevate-holistics.com/elevate/customer/partner/the-apothecary-shoppe',
+          promoCode: 'APOTHECARYFREE',
+          eligibility: 'New patients only'
+        },
+        {
+          name: 'GoodCannaNow',
+          description: 'Free medical cannabis certification for new patients in Louisiana',
+          website: 'https://app.goodcannanow.com/goodcannanow/',
+          eligibility: 'New patients with no current or prior certification'
+        },
+        {
+          name: 'Patient Access to Medicine Program (PAM)',
+          description: 'Program designed to help Louisiana patients access medical marijuana by reducing financial barriers',
+          website: 'https://app.smartsheet.com/b/form/95439e7817384833981df645d7bfccc0',
+          eligibility: 'Louisiana residents seeking medical marijuana access'
+        }
+      ]
+    }
   },
   AL: {
     name: 'Alabama',
