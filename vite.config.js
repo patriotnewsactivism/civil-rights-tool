@@ -7,5 +7,5 @@ export default defineConfig({
     minify: "esbuild",
     sourcemap: false
   },
-  base: "/" // Changed from "./" to "/" for proper path resolution
+  base: "/" // Use "/" not "./"
 });
