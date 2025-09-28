@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [supabaseAvailable, setSupabaseAvailable] = useState(true);
 
   // Check for user session on initial load
   useEffect(() => {
@@ -16,7 +17,25 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true);
         
-        // Get session data
+        // Test Supabase connection first
+        try {
+          // Simple ping to check if Supabase is available
+          const { error: pingError } = await supabase.from('test').select('count').limit(1);
+          
+          if (pingError && (pingError.message.includes('fetch failed') || pingError.code === 'PGRST301')) {
+            console.warn('Supabase connection unavailable:', pingError);
+            setSupabaseAvailable(false);
+            setLoading(false);
+            return;
+          }
+        } catch (pingError) {
+          console.warn('Error checking Supabase availability:', pingError);
+          setSupabaseAvailable(false);
+          setLoading(false);
+          return;
+        }
+        
+        // If we get here, Supabase is available, so proceed with auth
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
@@ -29,6 +48,11 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         console.error('Error checking auth status:', error);
         setError(error.message);
+        
+        // If this is a connection error, mark Supabase as unavailable
+        if (error.message.includes('fetch failed')) {
+          setSupabaseAvailable(false);
+        }
       } finally {
         setLoading(false);
       }
@@ -36,28 +60,47 @@ export const AuthProvider = ({ children }) => {
     
     checkUser();
     
-    // Set up auth state change listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          setUser(session.user);
-        } else {
-          setUser(null);
-        }
-        setLoading(false);
+    // Only set up auth listener if Supabase is available
+    let authListener = null;
+    
+    if (supabaseAvailable) {
+      try {
+        const { data: listener } = supabase.auth.onAuthStateChange(
+          async (event, session) => {
+            if (session?.user) {
+              setUser(session.user);
+            } else {
+              setUser(null);
+            }
+            setLoading(false);
+          }
+        );
+        
+        authListener = listener;
+      } catch (error) {
+        console.error('Error setting up auth listener:', error);
+        setSupabaseAvailable(false);
       }
-    );
+    }
     
     // Clean up subscription
     return () => {
       if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe();
+        try {
+          authListener.subscription.unsubscribe();
+        } catch (error) {
+          console.error('Error unsubscribing from auth listener:', error);
+        }
       }
     };
   }, []);
 
   // Sign up function
   const signUp = async (email, password) => {
+    if (!supabaseAvailable) {
+      throw new Error('Database service is currently unavailable. Please try again later.');
+    }
+    
     try {
       setLoading(true);
       setError(null);
@@ -83,6 +126,10 @@ export const AuthProvider = ({ children }) => {
 
   // Sign in function
   const signIn = async (email, password) => {
+    if (!supabaseAvailable) {
+      throw new Error('Database service is currently unavailable. Please try again later.');
+    }
+    
     try {
       setLoading(true);
       setError(null);
@@ -108,6 +155,10 @@ export const AuthProvider = ({ children }) => {
 
   // Sign out function
   const signOut = async () => {
+    if (!supabaseAvailable) {
+      throw new Error('Database service is currently unavailable. Please try again later.');
+    }
+    
     try {
       setLoading(true);
       setError(null);
@@ -128,6 +179,10 @@ export const AuthProvider = ({ children }) => {
 
   // Reset password function
   const resetPassword = async (email) => {
+    if (!supabaseAvailable) {
+      throw new Error('Database service is currently unavailable. Please try again later.');
+    }
+    
     try {
       setLoading(true);
       setError(null);
@@ -152,6 +207,10 @@ export const AuthProvider = ({ children }) => {
 
   // Update password function
   const updatePassword = async (newPassword) => {
+    if (!supabaseAvailable) {
+      throw new Error('Database service is currently unavailable. Please try again later.');
+    }
+    
     try {
       setLoading(true);
       setError(null);
@@ -179,6 +238,7 @@ export const AuthProvider = ({ children }) => {
       user,
       loading,
       error,
+      supabaseAvailable,
       signUp,
       signIn,
       signOut,

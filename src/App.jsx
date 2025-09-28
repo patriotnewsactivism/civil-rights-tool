@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun } from 'lucide-react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon } from 'lucide-react';
 import './App.css';
 
 // Import the enhanced components
@@ -17,7 +17,21 @@ const CivilRightsLegalTool = () => {
   const [results, setResults] = useState(null);
   const [activeTab, setActiveTab] = useState('legal');
   const [darkMode, setDarkMode] = useState(true);
-  const { user } = useAuth();
+  const { user, supabaseAvailable } = useAuth();
+  
+  // Display a banner if Supabase is unavailable
+  const DatabaseUnavailableBanner = () => {
+    if (supabaseAvailable) return null;
+    
+    return (
+      <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-3">
+        <AlertOctagon className="h-5 w-5 text-red-400 flex-shrink-0" />
+        <p className="text-white/90 text-sm">
+          Database connection is currently unavailable. Some features may be limited.
+        </p>
+      </div>
+    );
+  };
 
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = useMemo(() => ({
@@ -110,6 +124,9 @@ const CivilRightsLegalTool = () => {
           <p className={`mt-2 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
             Comprehensive legal resources for activists, journalists, and citizens
           </p>
+          
+          {/* Database unavailable banner */}
+          <DatabaseUnavailableBanner />
         </header>
 
         <div className="mb-8">
