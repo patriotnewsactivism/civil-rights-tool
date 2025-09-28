@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 
 // Create the context
@@ -10,6 +10,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [supabaseAvailable, setSupabaseAvailable] = useState(true);
+  const [authInitialized, setAuthInitialized] = useState(false);
+
+  // Check Supabase availability
+  const checkSupabaseAvailability = useCallback(async () => {
+    try {
+      // Use the availability check from our enhanced client
+      const isAvailable = await supabase.checkAvailability();
+      setSupabaseAvailable(isAvailable);
+      return isAvailable;
+    } catch (error) {
+      console.error('Error checking Supabase availability:', error);
+      setSupabaseAvailable(false);
+      return false;
+    }
+  }, []);
 
   // Check for user session on initial load
   useEffect(() => {
@@ -17,71 +32,78 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true);
         
-        // Test Supabase connection first
-        try {
-          // Simple ping to check if Supabase is available
-          const { error: pingError } = await supabase.from('test').select('count').limit(1);
-          
-          if (pingError && (pingError.message.includes('fetch failed') || pingError.code === 'PGRST301')) {
-            console.warn('Supabase connection unavailable:', pingError);
-            setSupabaseAvailable(false);
-            setLoading(false);
-            return;
-          }
-        } catch (pingError) {
-          console.warn('Error checking Supabase availability:', pingError);
-          setSupabaseAvailable(false);
+        // First check if Supabase is available
+        const isAvailable = await checkSupabaseAvailability();
+        
+        if (!isAvailable) {
+          console.warn('Supabase is not available, skipping auth initialization');
           setLoading(false);
+          setAuthInitialized(true);
           return;
         }
         
-        // If we get here, Supabase is available, so proceed with auth
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          throw error;
-        }
-        
-        if (session?.user) {
-          setUser(session.user);
+        // If Supabase is available, get the session
+        try {
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (error) {
+            throw error;
+          }
+          
+          if (session?.user) {
+            setUser(session.user);
+          }
+        } catch (error) {
+          console.error('Error checking auth status:', error);
+          setError(error.message);
+          
+          // If this is a connection error, mark Supabase as unavailable
+          if (error.message?.includes('fetch failed') || error.message?.includes('network')) {
+            setSupabaseAvailable(false);
+          }
+        } finally {
+          setLoading(false);
+          setAuthInitialized(true);
         }
       } catch (error) {
-        console.error('Error checking auth status:', error);
+        console.error('Unexpected error in auth initialization:', error);
         setError(error.message);
-        
-        // If this is a connection error, mark Supabase as unavailable
-        if (error.message.includes('fetch failed')) {
-          setSupabaseAvailable(false);
-        }
-      } finally {
+        setSupabaseAvailable(false);
         setLoading(false);
+        setAuthInitialized(true);
       }
     };
     
     checkUser();
-    
-    // Only set up auth listener if Supabase is available
+  }, [checkSupabaseAvailability]);
+
+  // Set up auth state change listener when Supabase is available
+  useEffect(() => {
     let authListener = null;
     
-    if (supabaseAvailable) {
-      try {
-        const { data: listener } = supabase.auth.onAuthStateChange(
-          async (event, session) => {
-            if (session?.user) {
-              setUser(session.user);
-            } else {
-              setUser(null);
+    const setupAuthListener = async () => {
+      if (supabaseAvailable && authInitialized) {
+        try {
+          const { data: listener } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+              if (session?.user) {
+                setUser(session.user);
+              } else {
+                setUser(null);
+              }
+              setLoading(false);
             }
-            setLoading(false);
-          }
-        );
-        
-        authListener = listener;
-      } catch (error) {
-        console.error('Error setting up auth listener:', error);
-        setSupabaseAvailable(false);
+          );
+          
+          authListener = listener;
+        } catch (error) {
+          console.error('Error setting up auth listener:', error);
+          setSupabaseAvailable(false);
+        }
       }
-    }
+    };
+    
+    setupAuthListener();
     
     // Clean up subscription
     return () => {
@@ -93,12 +115,36 @@ export const AuthProvider = ({ children }) => {
         }
       }
     };
-  }, []);
+  }, [supabaseAvailable, authInitialized]);
+
+  // Retry connection to Supabase periodically if it's unavailable
+  useEffect(() => {
+    let retryInterval = null;
+    
+    if (!supabaseAvailable && authInitialized) {
+      // Try to reconnect every 30 seconds
+      retryInterval = setInterval(async () => {
+        console.log('Attempting to reconnect to Supabase...');
+        const isAvailable = await checkSupabaseAvailability();
+        
+        if (isAvailable) {
+          console.log('Successfully reconnected to Supabase');
+          clearInterval(retryInterval);
+        }
+      }, 30000);
+    }
+    
+    return () => {
+      if (retryInterval) {
+        clearInterval(retryInterval);
+      }
+    };
+  }, [supabaseAvailable, authInitialized, checkSupabaseAvailability]);
 
   // Sign up function
   const signUp = async (email, password) => {
     if (!supabaseAvailable) {
-      throw new Error('Database service is currently unavailable. Please try again later.');
+      throw new Error('Authentication service is currently unavailable. Please try again later.');
     }
     
     try {
@@ -118,6 +164,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error signing up:', error);
       setError(error.message);
+      
+      // Check if Supabase is still available
+      await checkSupabaseAvailability();
+      
       throw error;
     } finally {
       setLoading(false);
@@ -127,7 +177,7 @@ export const AuthProvider = ({ children }) => {
   // Sign in function
   const signIn = async (email, password) => {
     if (!supabaseAvailable) {
-      throw new Error('Database service is currently unavailable. Please try again later.');
+      throw new Error('Authentication service is currently unavailable. Please try again later.');
     }
     
     try {
@@ -147,6 +197,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error signing in:', error);
       setError(error.message);
+      
+      // Check if Supabase is still available
+      await checkSupabaseAvailability();
+      
       throw error;
     } finally {
       setLoading(false);
@@ -156,7 +210,7 @@ export const AuthProvider = ({ children }) => {
   // Sign out function
   const signOut = async () => {
     if (!supabaseAvailable) {
-      throw new Error('Database service is currently unavailable. Please try again later.');
+      throw new Error('Authentication service is currently unavailable. Please try again later.');
     }
     
     try {
@@ -171,6 +225,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error signing out:', error);
       setError(error.message);
+      
+      // Check if Supabase is still available
+      await checkSupabaseAvailability();
+      
       throw error;
     } finally {
       setLoading(false);
@@ -180,7 +238,7 @@ export const AuthProvider = ({ children }) => {
   // Reset password function
   const resetPassword = async (email) => {
     if (!supabaseAvailable) {
-      throw new Error('Database service is currently unavailable. Please try again later.');
+      throw new Error('Authentication service is currently unavailable. Please try again later.');
     }
     
     try {
@@ -199,6 +257,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error resetting password:', error);
       setError(error.message);
+      
+      // Check if Supabase is still available
+      await checkSupabaseAvailability();
+      
       throw error;
     } finally {
       setLoading(false);
@@ -208,7 +270,7 @@ export const AuthProvider = ({ children }) => {
   // Update password function
   const updatePassword = async (newPassword) => {
     if (!supabaseAvailable) {
-      throw new Error('Database service is currently unavailable. Please try again later.');
+      throw new Error('Authentication service is currently unavailable. Please try again later.');
     }
     
     try {
@@ -227,6 +289,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error updating password:', error);
       setError(error.message);
+      
+      // Check if Supabase is still available
+      await checkSupabaseAvailability();
+      
       throw error;
     } finally {
       setLoading(false);
@@ -239,11 +305,13 @@ export const AuthProvider = ({ children }) => {
       loading,
       error,
       supabaseAvailable,
+      authInitialized,
       signUp,
       signIn,
       signOut,
       resetPassword,
-      updatePassword
+      updatePassword,
+      checkSupabaseAvailability
     }}>
       {children}
     </AuthContext.Provider>
