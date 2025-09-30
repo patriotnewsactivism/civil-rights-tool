@@ -52,101 +52,6 @@ const CivilRightsLegalTool = () => {
     setTimeout(() => setIsRetrying(false), 1000);
   };
   
-  // Display a banner if Supabase is unavailable
-  const DatabaseUnavailableBanner = () => {
-    if (supabaseAvailable) return null;
-    
-    return (
-      <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
-        <div className="flex items-center gap-3">
-          <AlertOctagon className="h-5 w-5 text-red-400 flex-shrink-0" />
-          <p className="text-white/90 text-sm flex-grow">
-            Database connection is currently unavailable. Some features may be limited.
-          </p>
-          <button 
-            onClick={handleRetryConnection}
-            disabled={isRetrying}
-            className="flex items-center gap-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-xs text-white/80 transition-colors"
-          >
-            {isRetrying ? (
-              <>
-                <RefreshCw className="h-3 w-3 animate-spin" />
-                <span>Retrying...</span>
-              </>
-            ) : (
-              <>
-                <Wifi className="h-3 w-3" />
-                <span>Retry Connection</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
-  // Federal Circuit mapping with jurisdictional analysis
-  const federalCircuits = useMemo(() => ({
-    'AL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Alabama', 'Middle District of Alabama', 'Southern District of Alabama'] },
-    'AK': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Alaska'] },
-    'AZ': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Arizona'] },
-    'AR': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Eastern District of Arkansas', 'Western District of Arkansas'] },
-    'CA': { circuit: '9th Circuit', hostility: 'Protective', districts: ['Northern District of California', 'Central District of California', 'Eastern District of California', 'Southern District of California'] },
-    'CO': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Colorado'] },
-    'CT': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['District of Connecticut'] },
-    'DE': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['District of Delaware'] },
-    'FL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Florida', 'Middle District of Florida', 'Southern District of Florida'] },
-    'GA': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Georgia', 'Middle District of Georgia', 'Southern District of Georgia'] },
-    'HI': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Hawaii'] },
-    'ID': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Idaho'] },
-    'IL': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Northern District of Illinois', 'Central District of Illinois', 'Southern District of Illinois'] },
-    'IN': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Northern District of Indiana', 'Southern District of Indiana'] },
-    'IA': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Northern District of Iowa', 'Southern District of Iowa'] },
-    'KS': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Kansas'] },
-    'KY': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Kentucky', 'Western District of Kentucky'] },
-    'LA': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Eastern District of Louisiana', 'Middle District of Louisiana', 'Western District of Louisiana'] },
-    'ME': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Maine'] },
-    'MD': { circuit: '4th Circuit', hostility: 'Protective', districts: ['District of Maryland'] },
-    'MA': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Massachusetts'] },
-    'MI': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Michigan', 'Western District of Michigan'] },
-    'MN': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of Minnesota'] },
-    'MS': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Northern District of Mississippi', 'Southern District of Mississippi'] },
-    'MO': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['Eastern District of Missouri', 'Western District of Missouri'] },
-    'MT': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Montana'] },
-    'NE': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of Nebraska'] },
-    'NV': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Nevada'] },
-    'NH': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of New Hampshire'] },
-    'NJ': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['District of New Jersey'] },
-    'NM': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of New Mexico'] },
-    'NY': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['Northern District of New York', 'Southern District of New York', 'Eastern District of New York', 'Western District of New York'] },
-    'NC': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Eastern District of North Carolina', 'Middle District of North Carolina', 'Western District of North Carolina'] },
-    'ND': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of North Dakota'] },
-    'OH': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Northern District of Ohio', 'Southern District of Ohio'] },
-    'OK': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['Northern District of Oklahoma', 'Eastern District of Oklahoma', 'Western District of Oklahoma'] },
-    'OR': { circuit: '9th Circuit', hostility: 'Protective', districts: ['District of Oregon'] },
-    'PA': { circuit: '3rd Circuit', hostility: 'Moderate', districts: ['Eastern District of Pennsylvania', 'Middle District of Pennsylvania', 'Western District of Pennsylvania'] },
-    'RI': { circuit: '1st Circuit', hostility: 'Protective', districts: ['District of Rhode Island'] },
-    'SC': { circuit: '4th Circuit', hostility: 'Protective', districts: ['District of South Carolina'] },
-    'SD': { circuit: '8th Circuit', hostility: 'Moderate', districts: ['District of South Dakota'] },
-    'TN': { circuit: '6th Circuit', hostility: 'Moderate', districts: ['Eastern District of Tennessee', 'Middle District of Tennessee', 'Western District of Tennessee'] },
-    'TX': { circuit: '5th Circuit', hostility: 'EXTREMELY HOSTILE', districts: ['Northern District of Texas', 'Southern District of Texas', 'Eastern District of Texas', 'Western District of Texas'] },
-    'UT': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Utah'] },
-    'VT': { circuit: '2nd Circuit', hostility: 'Protective', districts: ['District of Vermont'] },
-    'VA': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Eastern District of Virginia', 'Western District of Virginia'] },
-    'WA': { circuit: '9th Circuit', hostility: 'Protective', districts: ['Eastern District of Washington', 'Western District of Washington'] },
-    'WV': { circuit: '4th Circuit', hostility: 'Protective', districts: ['Northern District of West Virginia', 'Southern District of West Virginia'] },
-    'WI': { circuit: '7th Circuit', hostility: 'Moderate', districts: ['Eastern District of Wisconsin', 'Western District of Wisconsin'] },
-    'WY': { circuit: '10th Circuit', hostility: 'Moderate', districts: ['District of Wyoming'] },
-    'DC': { circuit: 'D.C. Circuit', hostility: 'Protective', districts: ['District of Columbia'] }
-  }), []);
-
-  const handleStateSelect = useCallback((e) => {
-    setSelectedState(e.target.value);
-  }, []);
-
-  const handleMapStateSelect = useCallback((stateCode) => {
-    setSelectedState(stateCode);
-  }, []);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -188,15 +93,14 @@ const CivilRightsLegalTool = () => {
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
               onClick={() => setActiveTab('legal')}
-            >
-              <Scale className="h-4 w-4 mr-2" />
+              >
+                <Scale className="h-4 w-4 mr-2" />
               Legal Analysis
             </button>
             <button
               className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'activist' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('activist')}
             >
               <AlertTriangle className="h-4 w-4 mr-2" />
               Activist Toolkit
