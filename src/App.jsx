@@ -11,6 +11,7 @@ const CircuitMap = React.lazy(() => import('./components/maps/CircuitMap.jsx'));
 const CircuitAnalysisChart = React.lazy(() => import('./components/charts/CircuitAnalysisChart.jsx'));
 const CircuitCourtCaseLawChart = React.lazy(() => import('./components/charts/CircuitCourtCaseLawChart.jsx'));
 const CaseExplorer = React.lazy(() => import('./components/CaseExplorer.jsx'));
+const LegalToolkitPro = React.lazy(() => import('./components/LegalToolkitPro.jsx'));
 
 import { useAuth } from './context/AuthContext.jsx';
 import { useTheme } from './context/ThemeContext.jsx';
@@ -34,6 +35,7 @@ const SafeCircuitMap = withErrorBoundary(CircuitMap);
 const SafeCircuitAnalysisChart = withErrorBoundary(CircuitAnalysisChart);
 const SafeCircuitCourtCaseLawChart = withErrorBoundary(CircuitCourtCaseLawChart);
 const SafeCaseExplorer = withErrorBoundary(CaseExplorer);
+   const SafeLegalToolkitPro = withErrorBoundary(LegalToolkitPro);
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
@@ -235,6 +237,15 @@ const CivilRightsLegalTool = () => {
               <Gavel className="h-4 w-4 mr-2" />
               Case Explorer
             </button>
+               <button
+                 className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkit' ? 
+                   (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                   (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+                 onClick={() => setActiveTab('toolkit')}
+               >
+                 <FileText className="h-4 w-4 mr-2" />
+                 Legal Toolkit Pro
+               </button>
           </div>
         </div>
 
@@ -470,6 +481,13 @@ const CivilRightsLegalTool = () => {
               </Suspense>
             </ErrorBoundary>
           )}
+             {activeTab === 'toolkit' && (
+               <ErrorBoundary>
+                 <Suspense fallback={<ComponentLoading />}>
+                   <SafeLegalToolkitPro />
+                 </Suspense>
+               </ErrorBoundary>
+             )}
         </ErrorBoundary>
       </div>
       

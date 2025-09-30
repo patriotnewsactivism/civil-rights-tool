@@ -4,6 +4,7 @@ import './index.css';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { SubscriptionProvider } from './context/SubscriptionContext.jsx';
 
 // Use lazy loading for the main App component
 const App = React.lazy(() => import('./App.jsx'));
