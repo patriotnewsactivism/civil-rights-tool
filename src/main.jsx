@@ -67,10 +67,12 @@ try {
       <ErrorBoundary fallback={CriticalErrorFallback}>
         <ThemeProvider>
           <AuthProvider>
-            <Suspense fallback={<LoadingFallback />}>
-              <App />
-            </Suspense>
-          </AuthProvider>
+               <SubscriptionProvider>
+                 <Suspense fallback={<LoadingFallback />}>
+                   <App />
+                 </Suspense>
+               </SubscriptionProvider>
+             </AuthProvider>
         </ThemeProvider>
       </ErrorBoundary>
     </React.StrictMode>
