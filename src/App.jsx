@@ -1,23 +1,87 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi } from 'lucide-react';
 import './App.css';
+import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
 
-// Import the enhanced components
-import ActivistToolkit from './components/activist/ActivistToolkit.jsx';
-import JournalistToolkit from './components/journalist/JournalistToolkit.jsx';
-import EnhancedStateProfile from './components/state-profiles/EnhancedStateProfile.jsx';
-import CircuitMap from './components/maps/CircuitMap.jsx';
-import CircuitAnalysisChart from './components/charts/CircuitAnalysisChart.jsx';
-import CircuitCourtCaseLawChart from './components/charts/CircuitCourtCaseLawChart.jsx';
-import CaseExplorer from './components/CaseExplorer.jsx';
+// Import the enhanced components with lazy loading
+const ActivistToolkit = React.lazy(() => import('./components/activist/ActivistToolkit.jsx'));
+const JournalistToolkit = React.lazy(() => import('./components/journalist/JournalistToolkit.jsx'));
+const EnhancedStateProfile = React.lazy(() => import('./components/state-profiles/EnhancedStateProfile.jsx'));
+const CircuitMap = React.lazy(() => import('./components/maps/CircuitMap.jsx'));
+const CircuitAnalysisChart = React.lazy(() => import('./components/charts/CircuitAnalysisChart.jsx'));
+const CircuitCourtCaseLawChart = React.lazy(() => import('./components/charts/CircuitCourtCaseLawChart.jsx'));
+const CaseExplorer = React.lazy(() => import('./components/CaseExplorer.jsx'));
+
 import { useAuth } from './context/AuthContext.jsx';
+import { useTheme } from './context/ThemeContext.jsx';
+
+// Component loading fallback
+const ComponentLoading = () => (
+  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-8 animate-pulse">
+    <div className="h-8 bg-white/10 rounded w-1/3 mb-4"></div>
+    <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+    <div className="h-4 bg-white/10 rounded w-2/3 mb-2"></div>
+    <div className="h-4 bg-white/10 rounded w-1/2 mb-4"></div>
+    <div className="h-32 bg-white/10 rounded mb-4"></div>
+  </div>
+);
+
+// Wrap each component with error boundary
+const SafeActivistToolkit = withErrorBoundary(ActivistToolkit);
+const SafeJournalistToolkit = withErrorBoundary(JournalistToolkit);
+const SafeEnhancedStateProfile = withErrorBoundary(EnhancedStateProfile);
+const SafeCircuitMap = withErrorBoundary(CircuitMap);
+const SafeCircuitAnalysisChart = withErrorBoundary(CircuitAnalysisChart);
+const SafeCircuitCourtCaseLawChart = withErrorBoundary(CircuitCourtCaseLawChart);
+const SafeCaseExplorer = withErrorBoundary(CaseExplorer);
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
   const [results, setResults] = useState(null);
   const [activeTab, setActiveTab] = useState('legal');
-  const [darkMode, setDarkMode] = useState(true);
-  const { user } = useAuth();
+  const { darkMode, toggleTheme } = useTheme();
+  const { user, supabaseAvailable, checkSupabaseAvailability } = useAuth();
+  const [isRetrying, setIsRetrying] = useState(false);
+  
+  // Handle retry connection
+  const handleRetryConnection = async () => {
+    setIsRetrying(true);
+    await checkSupabaseAvailability();
+    setTimeout(() => setIsRetrying(false), 1000);
+  };
+  
+  // Display a banner if Supabase is unavailable
+  const DatabaseUnavailableBanner = () => {
+    if (supabaseAvailable) return null;
+    
+    return (
+      <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
+        <div className="flex items-center gap-3">
+          <AlertOctagon className="h-5 w-5 text-red-400 flex-shrink-0" />
+          <p className="text-white/90 text-sm flex-grow">
+            Database connection is currently unavailable. Some features may be limited.
+          </p>
+          <button 
+            onClick={handleRetryConnection}
+            disabled={isRetrying}
+            className="flex items-center gap-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-xs text-white/80 transition-colors"
+          >
+            {isRetrying ? (
+              <>
+                <RefreshCw className="h-3 w-3 animate-spin" />
+                <span>Retrying...</span>
+              </>
+            ) : (
+              <>
+                <Wifi className="h-3 w-3" />
+                <span>Retry Connection</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = useMemo(() => ({
@@ -101,7 +165,7 @@ const CivilRightsLegalTool = () => {
               Civil Rights Legal Tool
             </h1>
             <button 
-              onClick={toggleDarkMode} 
+              onClick={toggleTheme} 
               className={`p-2 rounded-full ${darkMode ? 'bg-white/10 hover:bg-white/20' : 'bg-blue-100 hover:bg-blue-200'}`}
             >
               {darkMode ? <Sun className="h-5 w-5 text-yellow-300" /> : <Moon className="h-5 w-5 text-blue-800" />}
@@ -110,6 +174,9 @@ const CivilRightsLegalTool = () => {
           <p className={`mt-2 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
             Comprehensive legal resources for activists, journalists, and citizens
           </p>
+          
+          {/* Database unavailable banner */}
+          <DatabaseUnavailableBanner />
         </header>
 
         <div className="mb-8">
@@ -171,203 +238,239 @@ const CivilRightsLegalTool = () => {
           </div>
         </div>
 
-        {activeTab === 'legal' && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
-                <div className={`p-6 rounded-xl shadow-xl ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                    Federal Circuit Analysis
-                  </h2>
-                  <p className={`mb-6 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                    Select a state to see its federal circuit court jurisdiction and analysis of how favorable the circuit is for civil rights cases.
-                  </p>
-                  
-                  <div className="mb-6">
-                    <label htmlFor="state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                      Select a State
-                    </label>
-                    <select
-                      id="state-select"
-                      value={selectedState}
-                      onChange={handleStateSelect}
-                      className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-                    >
-                      <option value="">-- Select a State --</option>
-                      {Object.keys(federalCircuits).sort().map(state => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  {selectedState && (
-                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-blue-50'}`}>
-                      <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                        {selectedState} Federal Court Information
-                      </h3>
-                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                        <span className="font-medium">Circuit:</span> {federalCircuits[selectedState].circuit}
-                      </p>
-                      <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                        <span className="font-medium">Civil Rights Posture:</span>{' '}
-                        <span className={
-                          federalCircuits[selectedState].hostility === 'Protective' ? 'text-green-400' :
-                          federalCircuits[selectedState].hostility === 'Moderate' ? 'text-yellow-400' :
-                          'text-red-400'
-                        }>
-                          {federalCircuits[selectedState].hostility}
-                        </span>
-                      </p>
-                      <div className="mt-2">
-                        <p className={`font-medium mb-1 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>Federal Districts:</p>
-                        <ul className={`list-disc pl-5 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                          {federalCircuits[selectedState].districts.map((district, index) => (
-                            <li key={index}>{district}</li>
-                          ))}
-                        </ul>
-                      </div>
+        <ErrorBoundary>
+          {activeTab === 'legal' && (
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-2">
+                  <div className={`p-6 rounded-xl shadow-xl ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
+                    <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                      Federal Circuit Analysis
+                    </h2>
+                    <p className={`mb-6 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                      Select a state to see its federal circuit court jurisdiction and analysis of how favorable the circuit is for civil rights cases.
+                    </p>
+                    
+                    <div className="mb-6">
+                      <label htmlFor="state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                        Select a State
+                      </label>
+                      <select
+                        id="state-select"
+                        value={selectedState}
+                        onChange={handleStateSelect}
+                        className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                      >
+                        <option value="">-- Select a State --</option>
+                        {Object.keys(federalCircuits).sort().map(state => (
+                          <option key={state} value={state}>{state}</option>
+                        ))}
+                      </select>
                     </div>
-                  )}
+                    
+                    {selectedState && (
+                      <div className={`p-4 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-blue-50'}`}>
+                        <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                          {selectedState} Federal Court Information
+                        </h3>
+                        <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                          <span className="font-medium">Circuit:</span> {federalCircuits[selectedState].circuit}
+                        </p>
+                        <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                          <span className="font-medium">Civil Rights Posture:</span>{' '}
+                          <span className={
+                            federalCircuits[selectedState].hostility === 'Protective' ? 'text-green-400' :
+                            federalCircuits[selectedState].hostility === 'Moderate' ? 'text-yellow-400' :
+                            'text-red-400'
+                          }>
+                            {federalCircuits[selectedState].hostility}
+                          </span>
+                        </p>
+                        <div className="mt-2">
+                          <p className={`font-medium mb-1 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>Federal Districts:</p>
+                          <ul className={`list-disc pl-5 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                            {federalCircuits[selectedState].districts.map((district, index) => (
+                              <li key={index}>{district}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div>
+                  <div className={`p-6 rounded-xl shadow-xl h-full ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
+                    <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                      Quick Resources
+                    </h2>
+                    <ul className="space-y-3">
+                      <li>
+                        <a 
+                          href="https://www.uscourts.gov/about-federal-courts/court-website-links/court-website-links" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                        >
+                          <Globe className="h-5 w-5 mr-3" />
+                          <span>Federal Court Websites</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          href="https://www.justice.gov/crt" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                        >
+                          <Scale className="h-5 w-5 mr-3" />
+                          <span>DOJ Civil Rights Division</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          href="https://www.aclu.org/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                        >
+                          <Shield className="h-5 w-5 mr-3" />
+                          <span>ACLU Resources</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          href="https://www.splcenter.org/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                        >
+                          <AlertCircle className="h-5 w-5 mr-3" />
+                          <span>Southern Poverty Law Center</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          href="https://www.naacpldf.org/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
+                        >
+                          <Gavel className="h-5 w-5 mr-3" />
+                          <span>NAACP Legal Defense Fund</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               
-              <div>
-                <div className={`p-6 rounded-xl shadow-xl h-full ${darkMode ? 'bg-white/5 backdrop-blur-sm border border-white/10' : 'bg-white border border-slate-200'}`}>
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                    Quick Resources
-                  </h2>
-                  <ul className="space-y-3">
-                    <li>
-                      <a 
-                        href="https://www.uscourts.gov/about-federal-courts/court-website-links/court-website-links" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Globe className="h-5 w-5 mr-3" />
-                        <span>Federal Court Websites</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.justice.gov/crt" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Scale className="h-5 w-5 mr-3" />
-                        <span>DOJ Civil Rights Division</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.aclu.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Shield className="h-5 w-5 mr-3" />
-                        <span>ACLU Resources</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.splcenter.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <AlertCircle className="h-5 w-5 mr-3" />
-                        <span>Southern Poverty Law Center</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="https://www.naacpldf.org/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`flex items-center p-3 rounded-lg ${darkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-800'}`}
-                      >
-                        <Gavel className="h-5 w-5 mr-3" />
-                        <span>NAACP Legal Defense Fund</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div className="grid grid-cols-1 gap-6">
+                <ErrorBoundary>
+                  <Suspense fallback={<ComponentLoading />}>
+                    <SafeCircuitMap selectedState={selectedState} onStateSelect={handleMapStateSelect} />
+                  </Suspense>
+                </ErrorBoundary>
+                
+                <ErrorBoundary>
+                  <Suspense fallback={<ComponentLoading />}>
+                    <SafeCircuitAnalysisChart />
+                  </Suspense>
+                </ErrorBoundary>
+                
+                <ErrorBoundary>
+                  <Suspense fallback={<ComponentLoading />}>
+                    <SafeCircuitCourtCaseLawChart />
+                  </Suspense>
+                </ErrorBoundary>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 gap-6">
-              <CircuitMap selectedState={selectedState} onStateSelect={handleMapStateSelect} />
-              <CircuitAnalysisChart />
-              <CircuitCourtCaseLawChart />
+          )}
+
+          {activeTab === 'activist' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafeActivistToolkit />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+
+          {activeTab === 'journalist' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafeJournalistToolkit />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+
+          {activeTab === 'marijuana' && (
+            <div>
+              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                State Marijuana Laws
+              </h2>
+              <div className="mb-6">
+                <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                  Select a State
+                </label>
+                <select
+                  id="marijuana-state-select"
+                  value={selectedState}
+                  onChange={handleStateSelect}
+                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                >
+                  <option value="">-- Select a State --</option>
+                  {Object.keys(federalCircuits).sort().map(state => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <ErrorBoundary>
+                <Suspense fallback={<ComponentLoading />}>
+                  <SafeEnhancedStateProfile stateCode={selectedState} />
+                </Suspense>
+              </ErrorBoundary>
             </div>
-          </div>
-        )}
+          )}
 
-        {activeTab === 'activist' && (
-          <ActivistToolkit />
-        )}
-
-        {activeTab === 'journalist' && (
-          <JournalistToolkit />
-        )}
-
-        {activeTab === 'marijuana' && (
-          <div>
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-              State Marijuana Laws
-            </h2>
-            <div className="mb-6">
-              <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                Select a State
-              </label>
-              <select
-                id="marijuana-state-select"
-                value={selectedState}
-                onChange={handleStateSelect}
-                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-              >
-                <option value="">-- Select a State --</option>
-                {Object.keys(federalCircuits).sort().map(state => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
+          {activeTab === 'recording' && (
+            <div>
+              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                State Recording Consent Laws
+              </h2>
+              <div className="mb-6">
+                <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                  Select a State
+                </label>
+                <select
+                  id="recording-state-select"
+                  value={selectedState}
+                  onChange={handleStateSelect}
+                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                >
+                  <option value="">-- Select a State --</option>
+                  {Object.keys(federalCircuits).sort().map(state => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <ErrorBoundary>
+                <Suspense fallback={<ComponentLoading />}>
+                  <SafeEnhancedStateProfile stateCode={selectedState} />
+                </Suspense>
+              </ErrorBoundary>
             </div>
-            
-            <EnhancedStateProfile stateCode={selectedState} />
-          </div>
-        )}
+          )}
 
-        {activeTab === 'recording' && (
-          <div>
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-              State Recording Consent Laws
-            </h2>
-            <div className="mb-6">
-              <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                Select a State
-              </label>
-              <select
-                id="recording-state-select"
-                value={selectedState}
-                onChange={handleStateSelect}
-                className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-              >
-                <option value="">-- Select a State --</option>
-                {Object.keys(federalCircuits).sort().map(state => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            
-            <EnhancedStateProfile stateCode={selectedState} />
-          </div>
-        )}
-
-        {activeTab === 'cases' && (
-          <CaseExplorer />
-        )}
+          {activeTab === 'cases' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafeCaseExplorer />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+        </ErrorBoundary>
       </div>
       
       <footer className={`py-6 px-4 border-t ${darkMode ? 'border-white/10 text-white/50' : 'border-slate-200 text-slate-500'}`}>
