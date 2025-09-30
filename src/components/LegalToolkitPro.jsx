@@ -692,26 +692,26 @@ export default function LegalToolkitPro() {
               <div className="flex justify-center">
                 <div 
                   ref={idCardRef} 
-                  className="relative w-[420px] h-[300px] rounded-2xl border border-white/10 shadow-xl text-white text-xs leading-tight"
+                  className="relative w-[500px] h-[350px] rounded-2xl border border-white/10 shadow-xl text-white text-xs leading-tight"
                   style={{ 
                     background: "linear-gradient(135deg, #1B365D 0%, #2C5AA0 100%)", 
                     fontFamily: "Inter, system-ui, Arial, sans-serif" 
                   }}
                 >
                   <div className="text-center border-b border-white/20 pb-2 px-4 pt-3">
-                    <div className="text-base font-bold tracking-wide">
+                    <div className="text-lg font-bold tracking-wide">
                       {(prForState?.name || "[STATE NAME]").toUpperCase()}
                     </div>
-                    <div className="text-sm font-semibold">CIVIL RIGHTS & LAWS REFERENCE CARD</div>
+                    <div className="text-base font-semibold">CIVIL RIGHTS & LAWS REFERENCE CARD</div>
                   </div>
-                  <div className="flex gap-4 px-4 pt-3" style={{ height: 200 }}>
+                  <div className="flex gap-4 px-4 pt-3" style={{ height: 270 }}>
                     <div className="flex-1">
-                      <div className="text-xs font-bold mb-1 text-yellow-300">CONSTITUTIONAL RIGHTS</div>
+                      <div className="text-sm font-bold mb-1 text-yellow-300">CONSTITUTIONAL RIGHTS</div>
                       <div className="text-xs mb-1">• I do not consent to searches</div>
                       <div className="text-xs mb-1">• I invoke my right to remain silent</div>
                       <div className="text-xs mb-1">• I do not waive any rights</div>
                       <div className="text-xs mb-2">• I want a lawyer if detained</div>
-                      <div className="text-xs font-bold mb-1 text-yellow-300">STATE LAWS</div>
+                      <div className="text-sm font-bold mb-1 text-yellow-300">STATE LAWS</div>
                       <div className="text-xs mb-1">
                         {rightsForState?.stopAndID ? `✓ Stop & ID: ${rightsForState.law}` : "✗ No Stop & ID Law"}
                       </div>
@@ -722,7 +722,7 @@ export default function LegalToolkitPro() {
                       <div className="text-xs mb-1">FOIA Response: {prForState?.displayTime || "N/A"}</div>
                     </div>
                     <div className="flex-1">
-                      <div className="text-xs font-bold mb-1 text-yellow-300">POLICE ENCOUNTER SCRIPT</div>
+                      <div className="text-sm font-bold mb-1 text-yellow-300">POLICE ENCOUNTER SCRIPT</div>
                       <div className="text-xs mb-1 font-semibold">"Officer, am I being detained or am I free to go?"</div>
                       <div className="text-xs">If <b>FREE TO GO</b>:</div>
                       <div className="text-xs italic mb-1">"I choose to leave now. Have a good day."</div>
