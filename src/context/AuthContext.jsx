@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, isUsingMockClient } from '../lib/supabase';
 
 // Create the context
 const AuthContext = createContext();
@@ -15,12 +15,18 @@ export const AuthProvider = ({ children }) => {
   // Check Supabase availability
   const checkSupabaseAvailability = useCallback(async () => {
     try {
+      // If we're using the mock client, Supabase is not available
+      if (isUsingMockClient) {
+        setSupabaseAvailable(false);
+        return false;
+      }
+      
       // Use the availability check from our enhanced client
       const isAvailable = await supabase.checkAvailability();
       setSupabaseAvailable(isAvailable);
       return isAvailable;
     } catch (error) {
-      console.error('Error checking Supabase availability:', error);
+      console.warn('Error checking Supabase availability:', error);
       setSupabaseAvailable(false);
       return false;
     }
@@ -31,6 +37,15 @@ export const AuthProvider = ({ children }) => {
     const checkUser = async () => {
       try {
         setLoading(true);
+        
+        // If we're using the mock client, skip auth initialization
+        if (isUsingMockClient) {
+          console.info('Using mock Supabase client, authentication is not available');
+          setSupabaseAvailable(false);
+          setLoading(false);
+          setAuthInitialized(true);
+          return;
+        }
         
         // First check if Supabase is available
         const isAvailable = await checkSupabaseAvailability();
@@ -54,7 +69,7 @@ export const AuthProvider = ({ children }) => {
             setUser(session.user);
           }
         } catch (error) {
-          console.error('Error checking auth status:', error);
+          console.warn('Error checking auth status:', error);
           setError(error.message);
           
           // If this is a connection error, mark Supabase as unavailable
@@ -66,7 +81,7 @@ export const AuthProvider = ({ children }) => {
           setAuthInitialized(true);
         }
       } catch (error) {
-        console.error('Unexpected error in auth initialization:', error);
+        console.warn('Unexpected error in auth initialization:', error);
         setError(error.message);
         setSupabaseAvailable(false);
         setLoading(false);
@@ -121,7 +136,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let retryInterval = null;
     
-    if (!supabaseAvailable && authInitialized) {
+    // Don't retry if we're using the mock client
+    if (!supabaseAvailable && authInitialized && !isUsingMockClient) {
       // Try to reconnect every 30 seconds
       retryInterval = setInterval(async () => {
         console.log('Attempting to reconnect to Supabase...');

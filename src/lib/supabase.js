@@ -4,35 +4,125 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://xvvdelxlwjfazksvneom.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2dmRlbHhsd2pmYXprc3ZuZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2NDgwNDQsImV4cCI6MjA2OTIyNDA0NH0.yN9_-zEuMIorZxUNBCdE1o8haP59imBp-lLKXPbu8J8';
 
-// Create the Supabase client
-const supabaseClient = createClient(supabaseUrl, supabaseKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true
-  },
-  global: {
-    // Set longer timeout for requests
-    fetch: (url, options) => {
-      return fetch(url, { ...options, timeout: 30000 });
-    }
+// Create a mock Supabase client that doesn't make any network requests
+class MockSupabaseClient {
+  constructor() {
+    this.isAvailable = false;
+    this.lastError = new Error('Supabase is not configured or unavailable');
   }
-});
+  
+  async checkAvailability() {
+    return false;
+  }
+  
+  get auth() {
+    return {
+      getSession: async () => ({ data: { session: null }, error: null }),
+      signUp: async () => ({ data: null, error: new Error('Authentication is not available') }),
+      signInWithPassword: async () => ({ data: null, error: new Error('Authentication is not available') }),
+      signOut: async () => ({ error: null }),
+      resetPasswordForEmail: async () => ({ data: null, error: new Error('Authentication is not available') }),
+      updateUser: async () => ({ data: null, error: new Error('Authentication is not available') }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+    };
+  }
+  
+  from(table) {
+    return {
+      select: () => ({
+        then: (resolve) => resolve({ data: [], error: null }),
+        catch: (reject) => reject(new Error('Database is not available')),
+        single: async () => ({ data: null, error: null }),
+        maybeSingle: async () => ({ data: null, error: null }),
+        limit: () => this.from(table).select(),
+        order: () => this.from(table).select(),
+        range: () => this.from(table).select(),
+        eq: () => this.from(table).select(),
+        neq: () => this.from(table).select(),
+        gt: () => this.from(table).select(),
+        lt: () => this.from(table).select(),
+        gte: () => this.from(table).select(),
+        lte: () => this.from(table).select(),
+        like: () => this.from(table).select(),
+        ilike: () => this.from(table).select(),
+        in: () => this.from(table).select(),
+        contains: () => this.from(table).select(),
+        containedBy: () => this.from(table).select(),
+        filter: () => this.from(table).select(),
+        match: () => this.from(table).select()
+      }),
+      insert: async () => ({ data: null, error: new Error('Database is not available') }),
+      update: async () => ({ data: null, error: new Error('Database is not available') }),
+      delete: async () => ({ data: null, error: new Error('Database is not available') }),
+      upsert: async () => ({ data: null, error: new Error('Database is not available') })
+    };
+  }
+  
+  storage() {
+    return {
+      from: () => ({
+        upload: async () => ({ data: null, error: new Error('Storage is not available') }),
+        download: async () => ({ data: null, error: new Error('Storage is not available') }),
+        list: async () => ({ data: [], error: null }),
+        remove: async () => ({ data: null, error: new Error('Storage is not available') })
+      })
+    };
+  }
+  
+  rpc(fn, params) {
+    return Promise.resolve({ data: null, error: new Error('Database is not available') });
+  }
+  
+  async executeQuery(queryFn, retries = 0) {
+    return { data: null, error: new Error('Database is not available') };
+  }
+}
+
+// Try to create a real Supabase client, but fall back to mock if it fails
+let supabaseClient;
+let useMockClient = false;
+
+try {
+  // Check if the URL is valid
+  if (!supabaseUrl || supabaseUrl === '' || !supabaseUrl.includes('supabase.co')) {
+    console.warn('Invalid Supabase URL, using mock client');
+    useMockClient = true;
+  } else {
+    supabaseClient = createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
+  }
+} catch (error) {
+  console.error('Error creating Supabase client:', error);
+  useMockClient = true;
+}
 
 // Enhanced Supabase client with retry logic and better error handling
 class EnhancedSupabaseClient {
-  constructor(client) {
-    this.client = client;
+  constructor(client, isMock = false) {
+    this.client = client || new MockSupabaseClient();
+    this.isMock = isMock;
     this.maxRetries = 3;
-    this.isAvailable = true;
+    this.isAvailable = !isMock;
     this.lastError = null;
     
-    // Check if Supabase is available on initialization
-    this.checkAvailability();
+    // Don't check availability if using mock client
+    if (!isMock) {
+      this.checkAvailability();
+    }
   }
   
   // Method to check if Supabase is available
   async checkAvailability() {
+    if (this.isMock) {
+      this.isAvailable = false;
+      return false;
+    }
+    
     try {
       // Simple ping to check if Supabase is available
       const { error } = await this.client.from('test').select('count').limit(1);
@@ -48,7 +138,7 @@ class EnhancedSupabaseClient {
       this.lastError = null;
       return true;
     } catch (error) {
-      console.error('Error checking Supabase availability:', error);
+      console.warn('Error checking Supabase availability:', error);
       this.isAvailable = false;
       this.lastError = error;
       return false;
@@ -57,11 +147,15 @@ class EnhancedSupabaseClient {
   
   // Method to execute a Supabase query with retry logic
   async executeQuery(queryFn, retries = 0) {
+    if (this.isMock) {
+      return { data: null, error: new Error('Database is not available') };
+    }
+    
     try {
       // If Supabase is not available and we've already tried the max number of retries,
-      // throw an error immediately
+      // return an error immediately
       if (!this.isAvailable && retries >= this.maxRetries) {
-        throw new Error('Supabase is not available');
+        return { data: null, error: new Error('Supabase is not available') };
       }
       
       // Execute the query
@@ -88,7 +182,7 @@ class EnhancedSupabaseClient {
           this.lastError = result.error;
         }
         
-        throw result.error;
+        return result;
       }
       
       // If we get here, Supabase is available
@@ -106,7 +200,7 @@ class EnhancedSupabaseClient {
         this.lastError = error;
       }
       
-      throw error;
+      return { data: null, error };
     }
   }
   
@@ -116,6 +210,10 @@ class EnhancedSupabaseClient {
   }
   
   from(table) {
+    if (this.isMock) {
+      return this.client.from(table);
+    }
+    
     const originalFrom = this.client.from(table);
     
     // Wrap all methods with retry logic
@@ -143,68 +241,68 @@ class EnhancedSupabaseClient {
             return this.executeQuery(() => maybeSingleQuery);
           },
           limit: (count) => {
-            const limitQuery = query.limit(count);
-            return wrappedQuery; // Return the wrapped query for chaining
+            query.limit(count);
+            return wrappedQuery;
           },
           order: (column, options) => {
             query.order(column, options);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           range: (from, to) => {
             query.range(from, to);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           eq: (column, value) => {
             query.eq(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           neq: (column, value) => {
             query.neq(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           gt: (column, value) => {
             query.gt(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           lt: (column, value) => {
             query.lt(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           gte: (column, value) => {
             query.gte(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           lte: (column, value) => {
             query.lte(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           like: (column, value) => {
             query.like(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           ilike: (column, value) => {
             query.ilike(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           in: (column, values) => {
             query.in(column, values);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           contains: (column, value) => {
             query.contains(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           containedBy: (column, value) => {
             query.containedBy(column, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
           filter: (column, operator, value) => {
             query.filter(column, operator, value);
-            return wrappedQuery; // Return the wrapped query for chaining
+            return wrappedQuery;
           },
-          match: (query) => {
-            query.match(query);
-            return wrappedQuery; // Return the wrapped query for chaining
+          match: (matchQuery) => {
+            query.match(matchQuery);
+            return wrappedQuery;
           },
         };
         
@@ -233,17 +331,27 @@ class EnhancedSupabaseClient {
   
   // Add other Supabase methods as needed
   storage() {
-    return this.client.storage;
+    return this.client.storage();
   }
   
   rpc(fn, params) {
+    if (this.isMock) {
+      return this.client.rpc(fn, params);
+    }
+    
     const query = this.client.rpc(fn, params);
     return this.executeQuery(() => query);
   }
 }
 
-// Export the enhanced Supabase client
-export const supabase = new EnhancedSupabaseClient(supabaseClient);
+// Export the enhanced Supabase client (using mock if necessary)
+export const supabase = new EnhancedSupabaseClient(
+  useMockClient ? new MockSupabaseClient() : supabaseClient,
+  useMockClient
+);
 
 // Export the original client for direct access if needed
-export const supabaseOriginal = supabaseClient;
+export const supabaseOriginal = useMockClient ? new MockSupabaseClient() : supabaseClient;
+
+// Export a flag to indicate if we're using the mock client
+export const isUsingMockClient = useMockClient;
