@@ -12,8 +12,6 @@ const CircuitAnalysisChart = React.lazy(() => import('./components/charts/Circui
 const CircuitCourtCaseLawChart = React.lazy(() => import('./components/charts/CircuitCourtCaseLawChart.jsx'));
 const CaseExplorer = React.lazy(() => import('./components/CaseExplorer.jsx'));
 const LegalToolkitPro = React.lazy(() => import('./components/LegalToolkitPro.jsx'));
-const ResourcesAndLaws = React.lazy(() => import('./components/ResourcesAndLaws.jsx'));
-const ToolkitsHub = React.lazy(() => import('./components/ToolkitsHub.jsx'));
 
 import { useAuth } from './context/AuthContext.jsx';
 import { useTheme } from './context/ThemeContext.jsx';
@@ -37,9 +35,7 @@ const SafeCircuitMap = withErrorBoundary(CircuitMap);
 const SafeCircuitAnalysisChart = withErrorBoundary(CircuitAnalysisChart);
 const SafeCircuitCourtCaseLawChart = withErrorBoundary(CircuitCourtCaseLawChart);
 const SafeCaseExplorer = withErrorBoundary(CaseExplorer);
-const SafeLegalToolkitPro = withErrorBoundary(LegalToolkitPro);
-const SafeResourcesAndLaws = withErrorBoundary(ResourcesAndLaws);
-const SafeToolkitsHub = withErrorBoundary(ToolkitsHub);
+   const SafeLegalToolkitPro = withErrorBoundary(LegalToolkitPro);
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
@@ -56,6 +52,39 @@ const CivilRightsLegalTool = () => {
     setTimeout(() => setIsRetrying(false), 1000);
   };
   
+  // Display a banner if Supabase is unavailable
+  const DatabaseUnavailableBanner = () => {
+    if (supabaseAvailable) return null;
+    
+    return (
+      <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
+        <div className="flex items-center gap-3">
+          <AlertOctagon className="h-5 w-5 text-red-400 flex-shrink-0" />
+          <p className="text-white/90 text-sm flex-grow">
+            Database connection is currently unavailable. Some features may be limited.
+          </p>
+          <button 
+            onClick={handleRetryConnection}
+            disabled={isRetrying}
+            className="flex items-center gap-1 px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-xs text-white/80 transition-colors"
+          >
+            {isRetrying ? (
+              <>
+                <RefreshCw className="h-3 w-3 animate-spin" />
+                <span>Retrying...</span>
+              </>
+            ) : (
+              <>
+                <Wifi className="h-3 w-3" />
+                <span>Retry Connection</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = useMemo(() => ({
     'AL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Alabama', 'Middle District of Alabama', 'Southern District of Alabama'] },
@@ -159,26 +188,45 @@ const CivilRightsLegalTool = () => {
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
               onClick={() => setActiveTab('legal')}
-              >
-                <Scale className="h-4 w-4 mr-2" />
+            >
+              <Scale className="h-4 w-4 mr-2" />
               Legal Analysis
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'resources' ? 
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'activist' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('activist')}
             >
-              <BookMarked className="h-4 w-4 mr-2" />
-              Resources & Laws
+              <AlertTriangle className="h-4 w-4 mr-2" />
+              Activist Toolkit
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkits' ? 
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'journalist' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('toolkits')}
+              onClick={() => setActiveTab('journalist')}
             >
-              <Users className="h-4 w-4 mr-2" />
-              Toolkits
+              <Camera className="h-4 w-4 mr-2" />
+              Journalist Toolkit
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'marijuana' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('marijuana')}
+            >
+              <Leaf className="h-4 w-4 mr-2" />
+              Marijuana Laws
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'recording' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              onClick={() => setActiveTab('recording')}
+            >
+              <Phone className="h-4 w-4 mr-2" />
+              Recording Laws
             </button>
             <button
               className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'cases' ? 
@@ -189,15 +237,15 @@ const CivilRightsLegalTool = () => {
               <Gavel className="h-4 w-4 mr-2" />
               Case Explorer
             </button>
-            <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkit' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('toolkit')}
-            >
-              <FileText className="h-4 w-4 mr-2" />
-              Legal Toolkit Pro
-            </button>
+               <button
+                 className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkit' ? 
+                   (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
+                   (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+                 onClick={() => setActiveTab('toolkit')}
+               >
+                 <FileText className="h-4 w-4 mr-2" />
+                 Legal Toolkit Pro
+               </button>
           </div>
         </div>
 
@@ -350,20 +398,80 @@ const CivilRightsLegalTool = () => {
             </div>
           )}
 
-          {activeTab === 'resources' && (
+          {activeTab === 'activist' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <SafeResourcesAndLaws selectedState={selectedState} darkMode={darkMode} />
+                <SafeActivistToolkit />
               </Suspense>
             </ErrorBoundary>
           )}
 
-          {activeTab === 'toolkits' && (
+          {activeTab === 'journalist' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <SafeToolkitsHub selectedState={selectedState} darkMode={darkMode} />
+                <SafeJournalistToolkit />
               </Suspense>
             </ErrorBoundary>
+          )}
+
+          {activeTab === 'marijuana' && (
+            <div>
+              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                State Marijuana Laws
+              </h2>
+              <div className="mb-6">
+                <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                  Select a State
+                </label>
+                <select
+                  id="marijuana-state-select"
+                  value={selectedState}
+                  onChange={handleStateSelect}
+                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                >
+                  <option value="">-- Select a State --</option>
+                  {Object.keys(federalCircuits).sort().map(state => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <ErrorBoundary>
+                <Suspense fallback={<ComponentLoading />}>
+                  <SafeEnhancedStateProfile stateCode={selectedState} />
+                </Suspense>
+              </ErrorBoundary>
+            </div>
+          )}
+
+          {activeTab === 'recording' && (
+            <div>
+              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+                State Recording Consent Laws
+              </h2>
+              <div className="mb-6">
+                <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
+                  Select a State
+                </label>
+                <select
+                  id="recording-state-select"
+                  value={selectedState}
+                  onChange={handleStateSelect}
+                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+                >
+                  <option value="">-- Select a State --</option>
+                  {Object.keys(federalCircuits).sort().map(state => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <ErrorBoundary>
+                <Suspense fallback={<ComponentLoading />}>
+                  <SafeEnhancedStateProfile stateCode={selectedState} />
+                </Suspense>
+              </ErrorBoundary>
+            </div>
           )}
 
           {activeTab === 'cases' && (
@@ -373,14 +481,13 @@ const CivilRightsLegalTool = () => {
               </Suspense>
             </ErrorBoundary>
           )}
-          
-          {activeTab === 'toolkit' && (
-            <ErrorBoundary>
-              <Suspense fallback={<ComponentLoading />}>
-                <SafeLegalToolkitPro />
-              </Suspense>
-            </ErrorBoundary>
-          )}
+             {activeTab === 'toolkit' && (
+               <ErrorBoundary>
+                 <Suspense fallback={<ComponentLoading />}>
+                   <SafeLegalToolkitPro />
+                 </Suspense>
+               </ErrorBoundary>
+             )}
         </ErrorBoundary>
       </div>
       
