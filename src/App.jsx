@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'reac
 import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi } from 'lucide-react';
 import './App.css';
 import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
+import DatabaseUnavailableBanner from './components/DatabaseUnavailableBanner.jsx';
 
 // Import the enhanced components with lazy loading
 const ActivistToolkit = React.lazy(() => import('./components/activist/ActivistToolkit.jsx'));
