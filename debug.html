@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug - Civil Rights Tool</title>
+    <script>
+        // Debug script to catch errors
+        window.addEventListener('error', function(e) {
+            document.body.innerHTML += '<div style="background: red; color: white; padding: 10px; margin: 10px;">ERROR: ' + e.message + '</div>';
+            document.body.innerHTML += '<div style="background: yellow; color: black; padding: 10px; margin: 10px;">File: ' + e.filename + '</div>';
+            document.body.innerHTML += '<div style="background: yellow; color: black; padding: 10px; margin: 10px;">Line: ' + e.lineno + '</div>';
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            document.body.innerHTML += '<div style="background: orange; color: white; padding: 10px; margin: 10px;">PROMISE REJECTION: ' + e.reason + '</div>';
+        });
+    </script>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <h1>Debug Mode - Checking for errors...</h1>
+    <p>Open browser console (F12) to see detailed errors</p>
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

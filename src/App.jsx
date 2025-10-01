@@ -231,28 +231,28 @@ const CivilRightsLegalTool = () => {
                       </select>
                     </div>
                     
-                    {selectedState && (
+                    {selectedState && federalCircuits[selectedState] && (
                       <div className={`p-4 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-blue-50'}`}>
                         <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                           {selectedState} Federal Court Information
                         </h3>
                         <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                          <span className="font-medium">Circuit:</span> {federalCircuits[selectedState].circuit}
+                          <span className="font-medium">Circuit:</span> {federalCircuits[selectedState]?.circuit || 'N/A'}
                         </p>
                         <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
                           <span className="font-medium">Civil Rights Posture:</span>{' '}
                           <span className={
-                            federalCircuits[selectedState].hostility === 'Protective' ? 'text-green-400' :
-                            federalCircuits[selectedState].hostility === 'Moderate' ? 'text-yellow-400' :
+                            federalCircuits[selectedState]?.hostility === 'Protective' ? 'text-green-400' :
+                            federalCircuits[selectedState]?.hostility === 'Moderate' ? 'text-yellow-400' :
                             'text-red-400'
                           }>
-                            {federalCircuits[selectedState].hostility}
+                            {federalCircuits[selectedState]?.hostility || 'Unknown'}
                           </span>
                         </p>
                         <div className="mt-2">
                           <p className={`font-medium mb-1 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>Federal Districts:</p>
                           <ul className={`list-disc pl-5 ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                            {federalCircuits[selectedState].districts.map((district, index) => (
+                            {(federalCircuits[selectedState]?.districts || []).map((district, index) => (
                               <li key={index}>{district}</li>
                             ))}
                           </ul>
