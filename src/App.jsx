@@ -175,7 +175,7 @@ const CivilRightsLegalTool = () => {
               className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkits' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
                 (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
-              onClick={() => setActiveTab('journalist')}
+              onClick={() => setActiveTab('toolkits')}
             >
               <Users className="h-4 w-4 mr-2" />
               Toolkits
@@ -367,79 +367,20 @@ const CivilRightsLegalTool = () => {
           )}
 
           {activeTab === 'cases' && (
-            <div>
-              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                State Marijuana Laws
-              </h2>
-              <div className="mb-6">
-                <label htmlFor="marijuana-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                  Select a State
-                </label>
-                <select
-                  id="marijuana-state-select"
-                  value={selectedState}
-                  onChange={handleStateSelect}
-                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-                >
-                  <option value="">-- Select a State --</option>
-                  {Object.keys(federalCircuits).sort().map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <ErrorBoundary>
-                <Suspense fallback={<ComponentLoading />}>
-                  <SafeEnhancedStateProfile stateCode={selectedState} />
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-          )}
-
-          {activeTab === 'recording' && (
-            <div>
-              <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-                State Recording Consent Laws
-              </h2>
-              <div className="mb-6">
-                <label htmlFor="recording-state-select" className={`block mb-2 font-medium ${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                  Select a State
-                </label>
-                <select
-                  id="recording-state-select"
-                  value={selectedState}
-                  onChange={handleStateSelect}
-                  className={`w-full p-2 rounded-lg border ${darkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
-                >
-                  <option value="">-- Select a State --</option>
-                  {Object.keys(federalCircuits).sort().map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <ErrorBoundary>
-                <Suspense fallback={<ComponentLoading />}>
-                  <SafeEnhancedStateProfile stateCode={selectedState} />
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-          )}
-
-          {activeTab === 'cases' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
                 <SafeCaseExplorer />
               </Suspense>
             </ErrorBoundary>
           )}
-             {activeTab === 'toolkit' && (
-               <ErrorBoundary>
-                 <Suspense fallback={<ComponentLoading />}>
-                   <SafeLegalToolkitPro />
-                 </Suspense>
-               </ErrorBoundary>
-             )}
+          
+          {activeTab === 'toolkit' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafeLegalToolkitPro />
+              </Suspense>
+            </ErrorBoundary>
+          )}
         </ErrorBoundary>
       </div>
       

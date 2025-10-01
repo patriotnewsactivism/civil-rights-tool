@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnostic - Civil Rights Tool</title>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <h1>Civil Rights Tool Diagnostic</h1>
+    <p>Testing application loading...</p>
+    
+    <h2>JavaScript Console Errors:</h2>
+    <div id="errors"></div>
+    
+    <h2>Network Status:</h2>
+    <div id="status">Checking...</div>
+    
+    <script>
+        const errorsDiv = document.getElementById('errors');
+        const statusDiv = document.getElementById('status');
+        
+        // Capture console errors
+        window.addEventListener('error', function(e) {
+            errorsDiv.innerHTML += `<p style="color: red;">${e.message}</p>`;
+        });
+        
+        // Test fetch to the dev server
+        fetch('http://localhost:5173/src/main.jsx')
+            .then(response => {
+                statusDiv.innerHTML = `Status: ${response.status} ${response.statusText}`;
+                return response.text().then(text => {
+                    if (response.ok) {
+                        statusDiv.innerHTML += '<br>✅ Main script loaded successfully';
+                    } else {
+                        statusDiv.innerHTML += `<br>❌ Error loading script: ${text.substring(0, 200)}...`;
+                    }
+                });
+            })
+            .catch(error => {
+                statusDiv.innerHTML = `❌ Network Error: ${error.message}`;
+            });
+    </script>
+</body>
+</html>
