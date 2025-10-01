@@ -3,6 +3,8 @@ import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, T
 import './App.css';
 import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
 import DatabaseUnavailableBanner from './components/DatabaseUnavailableBanner.jsx';
+import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws.jsx';
+import EnhancedCaseExplorer from './components/EnhancedCaseExplorer.jsx';
 
 // Import the enhanced components with lazy loading
 const ActivistToolkit = React.lazy(() => import('./components/activist/ActivistToolkit.jsx'));
@@ -11,9 +13,9 @@ const EnhancedStateProfile = React.lazy(() => import('./components/state-profile
 const CircuitMap = React.lazy(() => import('./components/maps/CircuitMap.jsx'));
 const CircuitAnalysisChart = React.lazy(() => import('./components/charts/CircuitAnalysisChart.jsx'));
 const CircuitCourtCaseLawChart = React.lazy(() => import('./components/charts/CircuitCourtCaseLawChart.jsx'));
-const CaseExplorer = React.lazy(() => import('./components/CaseExplorer.jsx'));
+const CaseExplorer = React.lazy(() => import('./components/EnhancedCaseExplorer.jsx'));
 const LegalToolkitPro = React.lazy(() => import('./components/LegalToolkitPro.jsx'));
-const ResourcesAndLaws = React.lazy(() => import('./components/ResourcesAndLaws.jsx'));
+const ResourcesAndLaws = React.lazy(() => import('./components/EnhancedResourcesAndLaws.jsx'));
 const ToolkitsHub = React.lazy(() => import('./components/ToolkitsHub.jsx'));
 
 import { useAuth } from './context/AuthContext.jsx';
