@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'reac
 import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi } from 'lucide-react';
 import './App.css';
 import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
-import DatabaseUnavailableBanner from './components/DatabaseUnavailableBanner.jsx';
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws.jsx';
 import EnhancedCaseExplorer from './components/EnhancedCaseExplorer.jsx';
 
@@ -151,8 +150,6 @@ const CivilRightsLegalTool = () => {
             Comprehensive legal resources for activists, journalists, and citizens
           </p>
           
-          {/* Database unavailable banner */}
-          <DatabaseUnavailableBanner />
         </header>
 
         <div className="mb-8">
