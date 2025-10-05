@@ -23,14 +23,14 @@ import { useTheme } from './context/ThemeContext.jsx';
 
 // Component loading fallback
 const ComponentLoading = () => (
-  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-8 animate-pulse">
-    <div className="h-8 bg-white/10 rounded w-1/3 mb-4"></div>
-    <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
-    <div className="h-4 bg-white/10 rounded w-2/3 mb-2"></div>
-    <div className="h-4 bg-white/10 rounded w-1/2 mb-4"></div>
-    <div className="h-32 bg-white/10 rounded mb-4"></div>
-  </div>
-);
+    <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg p-8 animate-pulse">
+      <div className="h-8 bg-white/30 rounded w-1/3 mb-4"></div>
+      <div className="h-4 bg-white/30 rounded w-3/4 mb-2"></div>
+      <div className="h-4 bg-white/30 rounded w-2/3 mb-2"></div>
+      <div className="h-4 bg-white/30 rounded w-1/2 mb-4"></div>
+      <div className="h-32 bg-white/30 rounded mb-4"></div>
+    </div>
+  );
 
 // Wrap each component with error boundary
 const SafeActivistToolkit = withErrorBoundary(ActivistToolkit);
@@ -51,14 +51,14 @@ const CivilRightsLegalTool = () => {
   const { darkMode, toggleTheme } = useTheme();
   const { user, supabaseAvailable, checkSupabaseAvailability } = useAuth();
   const [isRetrying, setIsRetrying] = useState(false);
-  
+
   // Handle retry connection
   const handleRetryConnection = async () => {
     setIsRetrying(true);
     await checkSupabaseAvailability();
     setTimeout(() => setIsRetrying(false), 1000);
   };
-  
+
   // Federal Circuit mapping with jurisdictional analysis
   const federalCircuits = useMemo(() => ({
     'AL': { circuit: '11th Circuit', hostility: 'Moderate', districts: ['Northern District of Alabama', 'Middle District of Alabama', 'Southern District of Alabama'] },
@@ -156,49 +156,50 @@ const CivilRightsLegalTool = () => {
         </header>
 
         <div className="mb-8">
-          <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/30' : 'border-slate-400'}`}>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'legal' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'legal' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
               onClick={() => setActiveTab('legal')}
               >
-                <Scale className="h-4 w-4 mr-2" />
+                <Scale className="h-5 w-5 mr-2" />
               Legal Analysis
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'resources' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'resources' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('resources')}
             >
-              <BookMarked className="h-4 w-4 mr-2" />
+              <BookMarked className="h-5 w-5 mr-2" />
               Resources & Laws
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkits' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'toolkits' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
               onClick={() => setActiveTab('toolkits')}
             >
-              <Users className="h-4 w-4 mr-2" />
+              <Users className="h-5 w-5 mr-2" />
               Toolkits
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'cases' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'cases' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
               onClick={() => setActiveTab('cases')}
             >
-              <Gavel className="h-4 w-4 mr-2" />
+              <Gavel className="h-5 w-5 mr-2" />
               Case Explorer
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-medium text-sm ${activeTab === 'toolkit' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-500' : 'text-blue-900 border-b-2 border-blue-500') : 
-                (darkMode ? 'text-white/70 hover:text-white' : 'text-slate-600 hover:text-blue-900')}`}
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'toolkit' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
               onClick={() => setActiveTab('toolkit')}
             >
-              <FileText className="h-4 w-4 mr-2" />
+              <FileText className="h-5 w-5 mr-2" />
               Legal Toolkit Pro
             </button>
           </div>
@@ -243,7 +244,7 @@ const CivilRightsLegalTool = () => {
                           <span className="font-medium">Circuit:</span> {federalCircuits[selectedState]?.circuit || 'N/A'}
                         </p>
                         <p className={`${darkMode ? 'text-white/70' : 'text-slate-600'}`}>
-                          <span className="font-medium">Civil Rights Posture:</span>{' '}
+                          <span className="font-medium">Civil Rights Posture:</span> 
                           <span className={
                             federalCircuits[selectedState]?.hostility === 'Protective' ? 'text-green-400' :
                             federalCircuits[selectedState]?.hostility === 'Moderate' ? 'text-yellow-400' :

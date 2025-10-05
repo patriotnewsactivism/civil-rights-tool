@@ -26,52 +26,52 @@ html, body, #root {
   height: 100%;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar with better contrast */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
 
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.6);
 }
 
-/* Glass morphism effects */
+/* Glass morphism effects with better contrast */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .dark .glass-card {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Gradient text */
+/* Gradient text with better contrast */
 .gradient-text {
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(to right, #ffffff, #a5b4fc);
@@ -97,71 +97,71 @@ html, body, #root {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Custom styles for tabs */
+/* Custom styles for tabs with better contrast */
 .tab-active {
-  @apply text-white border-b-2 border-blue-500;
+  @apply text-white border-b-2 border-blue-400;
 }
 
 .dark .tab-active {
-  @apply text-blue-900 border-b-2 border-blue-500;
+  @apply text-blue-800 border-b-2 border-blue-400;
 }
 
 .tab-inactive {
-  @apply text-white/70 hover:text-white;
+  @apply text-white/80 hover:text-white;
 }
 
 .dark .tab-inactive {
-  @apply text-slate-600 hover:text-blue-900;
+  @apply text-slate-500 hover:text-blue-800;
 }
 
-/* Custom styles for buttons */
+/* Custom styles for buttons with better contrast */
 .btn-primary {
-  @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors;
+  @apply px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors;
 }
 
 .dark .btn-primary {
-  @apply bg-blue-800 hover:bg-blue-900;
+  @apply bg-blue-700 hover:bg-blue-800;
 }
 
 .btn-secondary {
-  @apply px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors;
+  @apply px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors;
 }
 
 .dark .btn-secondary {
-  @apply bg-slate-200 hover:bg-slate-300 text-slate-800;
+  @apply bg-slate-300 hover:bg-slate-400 text-slate-900;
 }
 
-/* Status indicators */
+/* Status indicators with better contrast */
 .status-legal {
-  @apply bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-green-500/30 text-green-100 px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .status-medical {
-  @apply bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-blue-500/30 text-blue-100 px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .status-limited {
-  @apply bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-yellow-500/30 text-yellow-100 px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .status-illegal {
-  @apply bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm font-medium;
+  @apply bg-red-500/30 text-red-100 px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .dark .status-legal {
-  @apply bg-green-100/20 text-green-700;
+  @apply bg-green-400/30 text-green-900;
 }
 
 .dark .status-medical {
-  @apply bg-blue-100/20 text-blue-700;
+  @apply bg-blue-400/30 text-blue-900;
 }
 
 .dark .status-limited {
-  @apply bg-yellow-100/20 text-yellow-700;
+  @apply bg-yellow-400/30 text-yellow-900;
 }
 
 .dark .status-illegal {
-  @apply bg-red-100/20 text-red-700;
+  @apply bg-red-400/30 text-red-900;
 }
 
 /* Print styles */
