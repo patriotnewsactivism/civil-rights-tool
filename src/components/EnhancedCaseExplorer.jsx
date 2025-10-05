@@ -28,7 +28,8 @@ import {
   Briefcase,
   Users,
   TrendingUp,
-  Activity
+  Activity,
+  Home
 } from 'lucide-react';
 import CourtListenerAPI from '../services/CourtListenerAPI.js';
 
