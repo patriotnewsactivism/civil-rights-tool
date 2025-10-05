@@ -1,11 +1,6 @@
 [build]
-  command = "npm install --no-audit --no-fund && npm run build"
-  publish = "dist"
+command = "npm run build"
+publish = "dist"
 
-[build.environment]
-  NODE_VERSION = "22.19.0"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[dev]
+framework = "vite"
