@@ -424,36 +424,36 @@ const EnhancedResourcesAndLaws = ({ selectedState, darkMode }) => {
       {/* Sub-navigation */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 pb-4">
         <button
-          className={`px-4 py-3 rounded-lg flex items-center text-sm font-medium transition-colors ${
+          className={`px-4 py-3 rounded-lg flex items-center text-base font-bold transition-colors ${
             activeSubTab === 'marijuana' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white/20 text-white/90 hover:bg-white/30 hover:text-white'
           }`}
           onClick={() => setActiveSubTab('marijuana')}
         >
-          <Leaf className="h-4 w-4 mr-2" />
+          <Leaf className="h-5 w-5 mr-2" />
           Marijuana Laws
         </button>
         <button
-          className={`px-4 py-3 rounded-lg flex items-center text-sm font-medium transition-colors ${
+          className={`px-4 py-3 rounded-lg flex items-center text-base font-bold transition-colors ${
             activeSubTab === 'recording' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white/20 text-white/90 hover:bg-white/30 hover:text-white'
           }`}
           onClick={() => setActiveSubTab('recording')}
         >
-          <Phone className="h-4 w-4 mr-2" />
+          <Phone className="h-5 w-5 mr-2" />
           Recording Laws
         </button>
         <button
-          className={`px-4 py-3 rounded-lg flex items-center text-sm font-medium transition-colors ${
+          className={`px-4 py-3 rounded-lg flex items-center text-base font-bold transition-colors ${
             activeSubTab === 'resources' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white/20 text-white/90 hover:bg-white/30 hover:text-white'
           }`}
           onClick={() => setActiveSubTab('resources')}
         >
-          <BookOpen className="h-4 w-4 mr-2" />
+          <BookOpen className="h-5 w-5 mr-2" />
           Legal Resources
         </button>
       </div>
