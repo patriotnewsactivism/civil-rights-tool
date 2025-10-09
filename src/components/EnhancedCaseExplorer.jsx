@@ -28,6 +28,7 @@ import {
   Briefcase,
   Users,
   TrendingUp,
+  TrendingDown,
   Activity,
   Home
 } from 'lucide-react';
@@ -401,6 +402,114 @@ const EnhancedCaseExplorer = () => {
 
   return (
     <div className="space-y-6">
+      {/* High-Stakes Legal Battles Section */}
+      <div className="bg-gradient-to-r from-red-900/20 to-orange-900/20 backdrop-blur-sm border border-red-500/20 rounded-lg p-6">
+        <div className="flex items-center mb-4">
+          <AlertTriangle className="h-6 w-6 text-red-400 mr-3" />
+          <h2 className="text-2xl font-bold text-white">High-Stakes Legal Battles</h2>
+        </div>
+        <p className="text-white/80 mb-6">
+          Critical cases affecting large groups of people - wins, losses, and ongoing battles that shape civil rights
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-green-300 mb-2 flex items-center">
+              <TrendingUp className="h-5 w-5 mr-2" />
+              Recent Wins
+            </h3>
+            <div className="space-y-3">
+              <div className="bg-white/5 rounded p-3">
+                <h4 className="font-semibold text-white text-sm">Dobbs v. Jackson Aftermath - State Protections</h4>
+                <p className="text-white/70 text-xs mt-1">Multiple states have strengthened reproductive rights protections despite federal rollbacks</p>
+                <span className="text-green-400 text-xs">Affecting millions of women nationwide</span>
+              </div>
+              <div className="bg-white/5 rounded p-3">
+                <h4 className="font-semibold text-white text-sm">Voting Rights Restoration</h4>
+                <p className="text-white/70 text-xs mt-1">Several states have restored voting rights to formerly incarcerated individuals</p>
+                <span className="text-green-400 text-xs">Affecting 1.4+ million Americans</span>
+              </div>
+            </div>
+          </div>
+          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-red-300 mb-2 flex items-center">
+              <TrendingDown className="h-5 w-5 mr-2" />
+              Critical Challenges
+            </h3>
+            <div className="space-y-3">
+              <div className="bg-white/5 rounded p-3">
+                <h4 className="font-semibold text-white text-sm">Affirmative Action Rollbacks</h4>
+                <p className="text-white/70 text-xs mt-1">Supreme Court decisions limiting race-conscious admissions</p>
+                <span className="text-red-400 text-xs">Affecting college access nationwide</span>
+              </div>
+              <div className="bg-white/5 rounded p-3">
+                <h4 className="font-semibold text-white text-sm">Transgender Rights Under Attack</h4>
+                <p className="text-white/70 text-xs mt-1">Multiple states restricting healthcare and school participation</p>
+                <span className="text-red-400 text-xs">Affecting 1.6+ million trans Americans</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Premium Subscription & Advertising Space */}
+      <div className="grid md:grid-cols-3 gap-6">
+        {/* Monthly Plan Promotion */}
+        <div className="md:col-span-2 bg-gradient-to-r from-blue-900/20 to-purple-900/20 backdrop-blur-sm border border-blue-500/20 rounded-lg p-6">
+          <div className="flex items-center mb-4">
+            <Star className="h-6 w-6 text-yellow-400 mr-3" />
+            <h2 className="text-2xl font-bold text-white">Legal Toolkit Pro - Monthly Plan</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-lg font-bold text-white mb-2">Premium Features</h3>
+              <ul className="text-white/80 text-sm space-y-1">
+                <li>• Advanced case search & alerts</li>
+                <li>• Unlimited document downloads</li>
+                <li>• Expert legal analysis</li>
+                <li>• Priority support</li>
+                <li>• Exclusive webinars & resources</li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <div className="bg-white/10 rounded-lg p-4 mb-4">
+                <div className="text-3xl font-bold text-white">$29<span className="text-lg">/month</span></div>
+                <div className="text-white/60 text-sm">Cancel anytime</div>
+              </div>
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                Start Free Trial
+              </button>
+              <div className="mt-3 p-3 bg-green-500/10 border border-green-500/20 rounded">
+                <div className="text-green-300 font-semibold text-sm">Affiliate Program</div>
+                <div className="text-green-200 text-xs">Earn 25% monthly recurring commission on every active referral!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Advertising Space */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
+          <div className="text-center mb-4">
+            <h3 className="text-lg font-bold text-white mb-2">Partner With Us</h3>
+            <p className="text-white/70 text-sm">Reach engaged legal professionals and activists</p>
+          </div>
+          <div className="bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/20 rounded-lg p-4 mb-4 min-h-[200px] flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-white/50 text-4xl mb-2">📢</div>
+              <div className="text-white font-semibold">Your Ad Here</div>
+              <div className="text-white/60 text-xs">Premium placement available</div>
+            </div>
+          </div>
+          <div className="space-y-2 text-xs text-white/70">
+            <div>• 50k+ monthly visitors</div>
+            <div>• Engaged legal audience</div>
+            <div>• Multiple placement options</div>
+          </div>
+          <button className="w-full mt-4 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded transition-colors text-sm">
+            Advertise Here
+          </button>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
