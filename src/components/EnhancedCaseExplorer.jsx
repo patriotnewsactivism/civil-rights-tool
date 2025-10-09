@@ -141,11 +141,14 @@ const EnhancedCaseExplorer = () => {
 
       let results;
       if (selectedCategory === 'all' && !searchTerm) {
-        // Load landmark cases by default
-        results = await CourtListenerAPI.getLandmarkCivilRightsCases(searchParams);
-      } else {
-        // Search with filters
+        // Load general civil rights cases by default
+        results = await CourtListenerAPI.searchCivilRightsCases(searchParams);
+      } else if (selectedCategory !== 'all') {
+        // Search with filters by legal area
         results = await CourtListenerAPI.searchByLegalArea(selectedCategory, searchParams);
+      } else {
+        // General search with term
+        results = await CourtListenerAPI.searchCases(searchParams);
       }
 
       setCases(results.results || []);

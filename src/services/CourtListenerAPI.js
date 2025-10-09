@@ -208,22 +208,25 @@ class CourtListenerAPIService {
     return {
       results: data.results.map(caseItem => ({
         id: caseItem.id,
-        title: caseItem.case_name,
+        title: caseItem.case_name || caseItem.caseName || 'Untitled Case',
+        case_name: caseItem.case_name || caseItem.caseName || 'Untitled Case',
         court: caseItem.court?.full_name || caseItem.court?.short_name || 'Unknown Court',
-        date: caseItem.date_filed,
-        area: this.extractLegalArea(caseItem.case_name, caseItem.case_text),
-        summary: caseItem.case_text?.substring(0, 500) + '...' || 'Case summary not available',
+        date: caseItem.date_filed || caseItem.date_created,
+        area: this.extractLegalArea(caseItem.case_name || caseItem.caseName || '', caseItem.plain_text || caseItem.case_text || ''),
+        summary: (caseItem.plain_text || caseItem.case_text || 'Case summary not available').substring(0, 500) + '...',
         impact: this.generateImpactStatement(caseItem),
-        url: caseItem.absolute_url || `https://www.courtlistener.com/opinion/${caseItem.id}/`,
+        url: caseItem.absolute_url ? `https://www.courtlistener.com${caseItem.absolute_url}` : `https://www.courtlistener.com/opinion/${caseItem.id}/`,
         tags: this.extractTags(caseItem),
         citation: caseItem.citation?.[0] || this.generateCitation(caseItem),
-        precedential_status: caseItem.precedential_status,
+        precedential_status: caseItem.precedential_status || 'Unknown',
         docket_number: caseItem.docket_number,
-        judge: caseItem.judges?.[0] || 'Unknown Judge',
-        case_text: caseItem.case_text,
-        date_filed: caseItem.date_filed,
+        judge: caseItem.author_str || caseItem.judges?.[0] || 'Unknown Judge',
+        case_text: caseItem.plain_text || caseItem.case_text,
+        plain_text: caseItem.plain_text,
+        date_filed: caseItem.date_filed || caseItem.date_created,
         court_id: caseItem.court?.id,
-        court_short_name: caseItem.court?.short_name
+        court_short_name: caseItem.court?.short_name,
+        cluster_id: caseItem.cluster_id
       })),
       count: data.count,
       next: data.next,
@@ -267,7 +270,7 @@ class CourtListenerAPIService {
     const precedentialStatus = caseData.precedential_status;
     const court = caseData.court?.short_name || '';
 
-    if (precedential_status === 'Published') {
+    if (precedentialStatus === 'Published') {
       if (court.startsWith('scotus') || court.includes('supreme')) {
         return 'Landmark Supreme Court decision with nationwide impact';
       } else if (court.startsWith('ca')) {
@@ -275,7 +278,7 @@ class CourtListenerAPIService {
       } else {
         return 'Published federal court decision with precedential value';
       }
-    } else if (precedential_status === 'Unpublished') {
+    } else if (precedentialStatus === 'Unpublished') {
       return 'Unpublished decision with limited precedential value';
     } else {
       return 'Court decision with specific case impact';
@@ -285,7 +288,9 @@ class CourtListenerAPIService {
   // Extract relevant tags from case
   extractTags(caseData) {
     const tags = [];
-    const text = (caseData.case_name + ' ' + (caseData.case_text || '')).toLowerCase();
+    const caseName = caseData.case_name || caseData.caseName || '';
+    const caseText = caseData.plain_text || caseData.case_text || '';
+    const text = (caseName + ' ' + caseText).toLowerCase();
 
     if (text.includes('police')) tags.push('Police Conduct');
     if (text.includes('discrimination')) tags.push('Discrimination');
@@ -304,8 +309,9 @@ class CourtListenerAPIService {
   // Generate citation if not available
   generateCitation(caseData) {
     const court = caseData.court?.short_name || 'Unknown Court';
-    const year = caseData.date_filed?.split('-')[0] || 'Unknown Year';
-    return `${caseData.case_name}, ${year} WL ${caseData.id} (${court})`;
+    const year = (caseData.date_filed || caseData.date_created || '')?.split('-')[0] || 'Unknown Year';
+    const caseName = caseData.case_name || caseData.caseName || 'Untitled Case';
+    return `${caseName}, ${year} WL ${caseData.id} (${court})`;
   }
 
   // Get cases by specific courts
