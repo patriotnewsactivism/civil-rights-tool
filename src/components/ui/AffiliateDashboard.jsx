@@ -23,13 +23,7 @@ const AffiliateDashboard = ({ userId }) => {
   const [copied, setCopied] = useState(false);
   const [selectedTimeframe, setSelectedTimeframe] = useState('30d');
 
-  const earningsData = [
-    { month: 'Jun', earnings: 45.00, referrals: 3 },
-    { month: 'Jul', earnings: 92.50, referrals: 7 },
-    { month: 'Aug', earnings: 157.50, referrals: 11 },
-    { month: 'Sep', earnings: 245.50, referrals: 12 },
-    { month: 'Oct', earnings: 87.50, referrals: 8 }
-  ];
+  const earningsData = [];
 
   const commissionTiers = [
     { plan: 'Starter', price: '$10/month', commission: '$2.50/month', description: 'Perfect for individual activists' },
