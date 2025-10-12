@@ -5,8 +5,10 @@ import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws.jsx';
 import EnhancedCaseExplorer from './components/EnhancedCaseExplorer.jsx';
 import UltimateDashboard from './components/UltimateDashboard.jsx';
-import RealTimeDashboard from './components/RealTimeDashboard.jsx';
-import Interactive3DMap from './components/Interactive3DMap.jsx';
+import EnhancedRealTimeDashboard from './components/EnhancedRealTimeDashboard.jsx';
+import EnhancedInteractive3DMap from './components/EnhancedInteractive3DMap.jsx';
+import EnhancedLegislativeTracker from './components/EnhancedLegislativeTracker.jsx';
+import EnhancedAILegalAssistant from './components/EnhancedAILegalAssistant.jsx';
 import AILegalAssistant from './components/AILegalAssistant.jsx';
 
 // Import the enhanced components with lazy loading
@@ -184,6 +186,15 @@ const CivilRightsLegalTool = () => {
               >
                 <Map className="h-5 w-5 mr-2" />
               Interactive 3D Map
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'legislative' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('legislative')}
+              >
+                <FileText className="h-5 w-5 mr-2" />
+              Legislative Tracker
             </button>
             <button
               className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'ai' ? 
@@ -426,7 +437,7 @@ const CivilRightsLegalTool = () => {
           {activeTab === 'realtime' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <RealTimeDashboard darkMode={darkMode} />
+                <EnhancedRealTimeDashboard darkMode={darkMode} />
               </Suspense>
             </ErrorBoundary>
           )}
@@ -434,7 +445,15 @@ const CivilRightsLegalTool = () => {
           {activeTab === '3dmap' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <Interactive3DMap darkMode={darkMode} />
+                <EnhancedInteractive3DMap darkMode={darkMode} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          
+          {activeTab === 'legislative' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <EnhancedLegislativeTracker darkMode={darkMode} />
               </Suspense>
             </ErrorBoundary>
           )}
@@ -442,7 +461,7 @@ const CivilRightsLegalTool = () => {
           {activeTab === 'ai' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <AILegalAssistant darkMode={darkMode} />
+                <EnhancedAILegalAssistant darkMode={darkMode} />
               </Suspense>
             </ErrorBoundary>
           )}
