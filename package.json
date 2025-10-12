@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "npx wrangler deploy --assets=./dist --compatibility-date=2025-10-12"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
