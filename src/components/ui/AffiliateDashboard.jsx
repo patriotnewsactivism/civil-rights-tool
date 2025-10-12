@@ -10,18 +10,13 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const AffiliateDashboard = ({ userId }) => {
   const [affiliateData, setAffiliateData] = useState({
-    referralCode: 'LEGAL25',
-    totalReferrals: 12,
-    activeReferrals: 8,
-    totalEarnings: 245.50,
-    monthlyRecurring: 87.50,
-    conversionRate: 3.2,
-    referrals: [
-      { id: 1, name: 'John Smith', email: 'john@example.com', plan: 'Pro', monthly: 50, commission: 12.50, status: 'active', date: '2024-08-15' },
-      { id: 2, name: 'Sarah Johnson', email: 'sarah@example.com', plan: 'Ultimate', monthly: 100, commission: 25.00, status: 'active', date: '2024-09-01' },
-      { id: 3, name: 'Mike Davis', email: 'mike@example.com', plan: 'Starter', monthly: 10, commission: 2.50, status: 'active', date: '2024-09-10' },
-      { id: 4, name: 'Lisa Brown', email: 'lisa@example.com', plan: 'Pro', monthly: 50, commission: 12.50, status: 'churned', date: '2024-07-20', churnDate: '2024-09-20' }
-    ]
+    referralCode: '',
+    totalReferrals: 0,
+    activeReferrals: 0,
+    totalEarnings: 0,
+    monthlyRecurring: 0,
+    conversionRate: 0,
+    referrals: []
   });
 
   const [shareUrl, setShareUrl] = useState(`https://civilrightslegal.com?ref=${affiliateData.referralCode}`);
