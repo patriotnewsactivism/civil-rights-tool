@@ -63,11 +63,13 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 - **News Aggregator API**: Legal news updates (planned)
 
 ## Recent Changes (October 12, 2025)
-- Configured Vite to support Replit proxy with host 0.0.0.0
+- Configured Vite to support Replit proxy with host 0.0.0.0 and HMR over WSS
 - Updated backend to use port 3001 (avoiding frontend port conflict)
+- Fixed browser-side code to use `import.meta.env` instead of `process.env` for Vite compatibility
 - Added .gitignore for Node.js project
 - Configured deployment settings for autoscale
 - Set up frontend workflow on port 5000
+- Installed serve package for production deployment
 
 ## Development Notes
 - The project uses a mock Supabase client when the real client is unavailable
