@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi } from 'lucide-react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi, Zap, Brain, Sparkles, TrendingUp, Map, Grid } from 'lucide-react';
 import './App.css';
 import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws.jsx';
 import EnhancedCaseExplorer from './components/EnhancedCaseExplorer.jsx';
+import UltimateDashboard from './components/UltimateDashboard.jsx';
+import RealTimeDashboard from './components/RealTimeDashboard.jsx';
+import Interactive3DMap from './components/Interactive3DMap.jsx';
+import AILegalAssistant from './components/AILegalAssistant.jsx';
 
 // Import the enhanced components with lazy loading
 const ActivistToolkit = React.lazy(() => import('./components/activist/ActivistToolkit.jsx'));
@@ -46,7 +50,7 @@ const SafeToolkitsHub = withErrorBoundary(ToolkitsHub);
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
   const [results, setResults] = useState(null);
-  const [activeTab, setActiveTab] = useState('legal');
+  const [activeTab, setActiveTab] = useState('ultimate');
   const { darkMode, toggleTheme } = useTheme();
   const { user, supabaseAvailable, checkSupabaseAvailability } = useAuth();
   const [isRetrying, setIsRetrying] = useState(false);
@@ -154,6 +158,42 @@ const CivilRightsLegalTool = () => {
 
         <div className="mb-8">
           <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/30' : 'border-slate-400'}`}>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'ultimate' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('ultimate')}
+              >
+                <Sparkles className="h-5 w-5 mr-2" />
+              Ultimate Dashboard
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'realtime' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('realtime')}
+              >
+                <TrendingUp className="h-5 w-5 mr-2" />
+              Real-Time Monitor
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === '3dmap' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('3dmap')}
+              >
+                <Map className="h-5 w-5 mr-2" />
+              Interactive 3D Map
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'ai' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('ai')}
+              >
+                <Brain className="h-5 w-5 mr-2" />
+              AI Legal Assistant
+            </button>
             <button
               className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'legal' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
@@ -375,10 +415,34 @@ const CivilRightsLegalTool = () => {
             </ErrorBoundary>
           )}
           
-          {activeTab === 'toolkit' && (
+          {activeTab === 'ultimate' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
-                <SafeLegalToolkitPro />
+                <UltimateDashboard darkMode={darkMode} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          
+          {activeTab === 'realtime' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <RealTimeDashboard darkMode={darkMode} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          
+          {activeTab === '3dmap' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <Interactive3DMap darkMode={darkMode} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          
+          {activeTab === 'ai' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <AILegalAssistant darkMode={darkMode} />
               </Suspense>
             </ErrorBoundary>
           )}
