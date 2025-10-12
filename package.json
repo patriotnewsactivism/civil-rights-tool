@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "echo 'No tests specified'"
+    "deploy": "npx wrangler deploy --assets=./dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
