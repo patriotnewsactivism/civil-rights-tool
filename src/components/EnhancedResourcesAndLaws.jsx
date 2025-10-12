@@ -17,7 +17,7 @@ import {
   Download,
   FileText
 } from 'lucide-react';
-import { comprehensiveMarijuanaLaws } from '../data/comprehensiveMarijuanaLaws.js';
+import { updatedMarijuanaLaws } from '../data/updatedMarijuanaLaws.js';
 import { comprehensiveRecordingLaws } from '../data/comprehensiveRecordingLaws.js';
 import { getLegalResourcesForState } from '../data/comprehensiveLegalResources.js';
 
@@ -35,7 +35,7 @@ const EnhancedResourcesAndLaws = ({ selectedState, darkMode }) => {
   };
 
   // Get current state data
-  const currentMarijuanaLaw = selectedState ? comprehensiveMarijuanaLaws[selectedState] : null;
+  const currentMarijuanaLaw = selectedState ? updatedMarijuanaLaws[selectedState] : null;
   const currentRecordingLaw = selectedState ? comprehensiveRecordingLaws[selectedState] : null;
   const currentLegalResources = selectedState ? getLegalResourcesForState(selectedState) : null;
 
@@ -57,22 +57,20 @@ const EnhancedResourcesAndLaws = ({ selectedState, darkMode }) => {
 
     const getStatusColor = (status) => {
       switch (status) {
-        case 'Legal': return 'text-green-400';
-        case 'Medical Only': return 'text-yellow-400';
+        case 'Recreational & Medical': return 'text-green-400';
+        case 'Medical Only': return 'text-blue-400';
+        case 'Limited Medical': return 'text-yellow-400';
         case 'Illegal': return 'text-red-400';
-        case 'CBD Only': return 'text-blue-400';
-        case 'Decriminalized': return 'text-purple-400';
         default: return 'text-white/70';
       }
     };
 
     const getStatusIcon = (status) => {
       switch (status) {
-        case 'Legal': return <CheckCircle className="h-5 w-5 text-green-400" />;
-        case 'Medical Only': return <Info className="h-5 w-5 text-yellow-400" />;
+        case 'Recreational & Medical': return <CheckCircle className="h-5 w-5 text-green-400" />;
+        case 'Medical Only': return <Info className="h-5 w-5 text-blue-400" />;
+        case 'Limited Medical': return <Info className="h-5 w-5 text-yellow-400" />;
         case 'Illegal': return <XCircle className="h-5 w-5 text-red-400" />;
-        case 'CBD Only': return <Info className="h-5 w-5 text-blue-400" />;
-        case 'Decriminalized': return <Info className="h-5 w-5 text-purple-400" />;
         default: return <AlertCircle className="h-5 w-5 text-white/50" />;
       }
     };
@@ -128,52 +126,50 @@ const EnhancedResourcesAndLaws = ({ selectedState, darkMode }) => {
         </div>
 
         {/* Medical Card Information */}
-        {currentMarijuanaLaw.medicalProgram === 'Active' && (
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-6">
-            <h4 className="text-xl font-bold text-green-300 mb-4 flex items-center">
-              <DollarSign className="h-5 w-5 mr-2" />
-              Medical Marijuana Card Information
-            </h4>
-            
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white/10 rounded-lg p-4">
-                <h5 className="font-semibold text-green-300 mb-2">Application Process</h5>
-                <p className="text-white/80 text-sm">{currentMarijuanaLaw.freeCardInfo}</p>
-              </div>
-
-              <div className="bg-white/10 rounded-lg p-4">
-                <h5 className="font-semibold text-green-300 mb-2">Qualifying Conditions</h5>
-                <div className="space-y-1">
-                  {currentMarijuanaLaw.qualifyingConditions.slice(0, 5).map((condition, index) => (
-                    <div key={index} className="flex items-center text-sm text-white/80">
-                      <CheckCircle className="h-3 w-3 text-green-400 mr-2" />
-                      {condition}
-                    </div>
-                  ))}
-                  {currentMarijuanaLaw.qualifyingConditions.length > 5 && (
-                    <p className="text-xs text-white/60">+{currentMarijuanaLaw.qualifyingConditions.length - 5} more conditions</p>
-                  )}
-                </div>
-              </div>
+        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-6">
+          <h4 className="text-xl font-bold text-green-300 mb-4 flex items-center">
+            <DollarSign className="h-5 w-5 mr-2" />
+            Medical Marijuana Card Information
+          </h4>
+          
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-white/10 rounded-lg p-4">
+              <h5 className="font-semibold text-green-300 mb-2">Application Process</h5>
+              <p className="text-white/80 text-sm">{currentMarijuanaLaw.freeCardInfo}</p>
             </div>
 
-            {currentMarijuanaLaw.qualifyingConditions.includes('Any condition physician deems appropriate') && (
-              <div className="mt-4 p-3 bg-green-500/20 rounded-lg">
-                <p className="text-green-200 text-sm">
-                  <strong>Physician Discretion:</strong> This state allows physicians to recommend medical marijuana for any condition they believe would benefit from treatment.
-                </p>
+            <div className="bg-white/10 rounded-lg p-4">
+              <h5 className="font-semibold text-green-300 mb-2">Qualifying Conditions</h5>
+              <div className="space-y-1">
+                {currentMarijuanaLaw.qualifyingConditions.slice(0, 10).map((condition, index) => (
+                  <div key={index} className="flex items-center text-sm text-white/80">
+                    <CheckCircle className="h-3 w-3 text-green-400 mr-2" />
+                    {condition}
+                  </div>
+                ))}
+                {currentMarijuanaLaw.qualifyingConditions.length > 10 && (
+                  <p className="text-xs text-white/60">+{currentMarijuanaLaw.qualifyingConditions.length - 10} more conditions</p>
+                )}
               </div>
-            )}
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Key Regulations */}
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
+          <h4 className="text-xl font-bold text-white mb-4">Key Regulations</h4>
+          <ul className="list-disc pl-5 space-y-2 text-white/80">
+            {currentMarijuanaLaw.keyRegulations.map((regulation, index) => (
+              <li key={index} className="text-white/80">{regulation}</li>
+            ))}
+          </ul>
+        </div>
 
         {/* Recent Changes */}
-        {currentMarijuanaLaw.recentChanges && (
-          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-300 mb-2">Recent Changes</h4>
-            <p className="text-white/80 text-sm">{currentMarijuanaLaw.recentChanges}</p>
-          </div>
-        )}
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+          <h4 className="font-semibold text-blue-300 mb-2">Recent Changes (2024-2025)</h4>
+          <p className="text-white/80 text-sm">{currentMarijuanaLaw.recentChanges}</p>
+        </div>
 
         {/* Details Section */}
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
