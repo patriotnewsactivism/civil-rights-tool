@@ -1,7 +1,7 @@
 // Real-time news aggregation service for civil rights issues
 class NewsAggregatorAPI {
   constructor() {
-    this.newsAPIKey = process.env.NEWS_API_KEY || 'demo_key';
+    this.newsAPIKey = import.meta.env.VITE_NEWS_API_KEY || 'demo_key';
     this.baseURL = 'https://newsapi.org/v2';
     this.sources = [
       'cnn', 'bbc-news', 'the-new-york-times', 'washington-post', 'npr',

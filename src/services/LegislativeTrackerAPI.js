@@ -2,8 +2,8 @@
 class LegislativeTrackerAPI {
   constructor() {
     this.baseURL = 'https://api.legiscan.com';
-    this.apiKey = process.env.LEGISCAN_API_KEY || 'demo_key';
-    this.webhookURL = process.env.WEBHOOK_URL || '';
+    this.apiKey = import.meta.env.VITE_LEGISCAN_API_KEY || 'demo_key';
+    this.webhookURL = import.meta.env.VITE_WEBHOOK_URL || '';
   }
 
   // Get current bills by state
