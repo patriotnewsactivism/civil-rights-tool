@@ -4,7 +4,7 @@ import './App.css';
 
 // Import existing components (we'll update these next)
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws';
-import EnhancedStateProfile from './components/EnhancedStateProfile';
+import EnhancedStateProfile from './components/state-profiles/EnhancedStateProfile';
 import RealTimeDashboard from './components/RealTimeDashboard';
 import Interactive3DMap from './components/Interactive3DMap';
 import AILegalAssistant from './components/AILegalAssistant';

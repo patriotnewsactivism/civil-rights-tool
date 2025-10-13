@@ -1,256 +1,321 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, TrendingUp, Users, AlertTriangle, Scale } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, TrendingUp, Users, AlertTriangle, Scale, Info, ExternalLink } from 'lucide-react';
+import { stateProfiles } from '../data/stateProfiles';
+import { updatedMarijuanaLaws } from '../data/updatedMarijuanaLaws';
+import { comprehensiveRecordingLaws } from '../data/comprehensiveRecordingLaws';
 
-const Interactive3DMap = ({ darkMode }) => {
+const Interactive3DMap = () => {
   const [selectedState, setSelectedState] = useState(null);
-  const [viewMode, setViewMode] = useState('rights'); // 'rights', 'legislation', 'news'
-  const [animationSpeed, setAnimationSpeed] = useState(1);
-  const mapRef = useRef(null);
+  const [viewMode, setViewMode] = useState('overview');
+  const [hoveredState, setHoveredState] = useState(null);
 
-  // Enhanced state data with real-time metrics
-  const stateMetrics = {
-    CA: { rightsScore: 85, legislationCount: 12, newsActivity: 23, population: 39538223 },
-    TX: { rightsScore: 65, legislationCount: 8, newsActivity: 15, population: 29145505 },
-    NY: { rightsScore: 90, legislationCount: 15, newsActivity: 28, population: 20201249 },
-    FL: { rightsScore: 70, legislationCount: 9, newsActivity: 18, population: 21538187 },
-    // Add all 50 states with real metrics...
+  // US States with their approximate positions for visualization
+  const statePositions = {
+    'Alabama': { x: 70, y: 65, code: 'AL' },
+    'Alaska': { x: 10, y: 85, code: 'AK' },
+    'Arizona': { x: 20, y: 60, code: 'AZ' },
+    'Arkansas': { x: 60, y: 60, code: 'AR' },
+    'California': { x: 10, y: 45, code: 'CA' },
+    'Colorado': { x: 35, y: 50, code: 'CO' },
+    'Connecticut': { x: 85, y: 35, code: 'CT' },
+    'Delaware': { x: 82, y: 45, code: 'DE' },
+    'Florida': { x: 75, y: 80, code: 'FL' },
+    'Georgia': { x: 72, y: 68, code: 'GA' },
+    'Hawaii': { x: 15, y: 85, code: 'HI' },
+    'Idaho': { x: 25, y: 30, code: 'ID' },
+    'Illinois': { x: 62, y: 45, code: 'IL' },
+    'Indiana': { x: 68, y: 45, code: 'IN' },
+    'Iowa': { x: 58, y: 40, code: 'IA' },
+    'Kansas': { x: 50, y: 52, code: 'KS' },
+    'Kentucky': { x: 70, y: 52, code: 'KY' },
+    'Louisiana': { x: 62, y: 72, code: 'LA' },
+    'Maine': { x: 88, y: 25, code: 'ME' },
+    'Maryland': { x: 80, y: 47, code: 'MD' },
+    'Massachusetts': { x: 87, y: 35, code: 'MA' },
+    'Michigan': { x: 70, y: 35, code: 'MI' },
+    'Minnesota': { x: 55, y: 30, code: 'MN' },
+    'Mississippi': { x: 65, y: 68, code: 'MS' },
+    'Missouri': { x: 58, y: 52, code: 'MO' },
+    'Montana': { x: 30, y: 25, code: 'MT' },
+    'Nebraska': { x: 48, y: 45, code: 'NE' },
+    'Nevada': { x: 18, y: 48, code: 'NV' },
+    'New Hampshire': { x: 87, y: 32, code: 'NH' },
+    'New Jersey': { x: 83, y: 42, code: 'NJ' },
+    'New Mexico': { x: 32, y: 62, code: 'NM' },
+    'New York': { x: 82, y: 35, code: 'NY' },
+    'North Carolina': { x: 78, y: 58, code: 'NC' },
+    'North Dakota': { x: 48, y: 28, code: 'ND' },
+    'Ohio': { x: 72, y: 45, code: 'OH' },
+    'Oklahoma': { x: 52, y: 60, code: 'OK' },
+    'Oregon': { x: 15, y: 32, code: 'OR' },
+    'Pennsylvania': { x: 78, y: 42, code: 'PA' },
+    'Rhode Island': { x: 88, y: 37, code: 'RI' },
+    'South Carolina': { x: 76, y: 65, code: 'SC' },
+    'South Dakota': { x: 48, y: 35, code: 'SD' },
+    'Tennessee': { x: 68, y: 58, code: 'TN' },
+    'Texas': { x: 48, y: 70, code: 'TX' },
+    'Utah': { x: 28, y: 48, code: 'UT' },
+    'Vermont': { x: 85, y: 30, code: 'VT' },
+    'Virginia': { x: 78, y: 52, code: 'VA' },
+    'Washington': { x: 18, y: 25, code: 'WA' },
+    'West Virginia': { x: 75, y: 50, code: 'WV' },
+    'Wisconsin': { x: 62, y: 35, code: 'WI' },
+    'Wyoming': { x: 35, y: 40, code: 'WY' }
   };
 
-  const getStateColor = (stateCode) => {
-    const metrics = stateMetrics[stateCode] || { rightsScore: 50 };
-    const score = metrics.rightsScore;
-    
-    if (score >= 80) return 'text-green-400';
-    if (score >= 60) return 'text-yellow-400';
-    if (score >= 40) return 'text-orange-400';
-    return 'text-red-400';
+  // Get marijuana law status for a state
+  const getMarijuanaStatus = (stateName) => {
+    const law = updatedMarijuanaLaws?.find(l => l.state === stateName);
+    return law?.recreationalStatus || 'Unknown';
   };
 
-  const getStateIntensity = (stateCode) => {
-    const metrics = stateMetrics[stateCode] || { newsActivity: 10 };
-    return Math.min(metrics.newsActivity / 30, 1); // Normalize to 0-1
+  // Get recording law status for a state
+  const getRecordingStatus = (stateName) => {
+    const law = comprehensiveRecordingLaws?.find(l => l.state === stateName);
+    return law?.consentType || 'Unknown';
   };
 
-  const handleStateClick = (stateCode) => {
-    setSelectedState(stateCode);
-    // Add 3D animation effect
-    if (mapRef.current) {
-      mapRef.current.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        if (mapRef.current) {
-          mapRef.current.style.transform = 'scale(1)';
-        }
-      }, 200);
+  // Get state color based on marijuana legalization status
+  const getStateColor = (stateName) => {
+    const status = getMarijuanaStatus(stateName);
+    switch (status.toLowerCase()) {
+      case 'legal':
+        return 'text-green-400';
+      case 'decriminalized':
+        return 'text-yellow-400';
+      case 'medical only':
+        return 'text-blue-400';
+      default:
+        return 'text-red-400';
     }
   };
 
-  const renderStateCard = (stateCode) => {
-    const metrics = stateMetrics[stateCode] || {};
-    return (
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
-        <h3 className="text-lg font-bold text-white mb-3">{stateCode}</h3>
-        
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-white/70 text-sm">Civil Rights Score</span>
-            <span className={`font-bold ${getStateColor(stateCode)}`}>{metrics.rightsScore || 'N/A'}</span>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-white/70 text-sm">Active Legislation</span>
-            <span className="text-white font-semibold">{metrics.legislationCount || 0}</span>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-white/70 text-sm">News Activity</span>
-            <div className="flex items-center">
-              <span className="text-white font-semibold mr-2">{metrics.newsActivity || 0}</span>
-              <div className={`w-2 h-2 rounded-full ${metrics.newsActivity > 20 ? 'bg-red-400 animate-pulse' : metrics.newsActivity > 10 ? 'bg-yellow-400' : 'bg-green-400'}`}></div>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-white/70 text-sm">Population</span>
-            <span className="text-white font-semibold">{(metrics.population || 0).toLocaleString()}</span>
-          </div>
-        </div>
-      </div>
-    );
+  const handleStateClick = (stateName) => {
+    setSelectedState(stateName);
   };
 
-  const renderLegend = () => {
+  const renderStateInfo = () => {
+    if (!selectedState) return null;
+
+    const marijuanaLaw = updatedMarijuanaLaws?.find(l => l.state === selectedState);
+    const recordingLaw = comprehensiveRecordingLaws?.find(l => l.state === selectedState);
+    const stateCode = statePositions[selectedState]?.code;
+    const profile = stateProfiles?.[stateCode];
+
     return (
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
-        <h3 className="text-lg font-bold text-white mb-3">Map Legend</h3>
-        
-        <div className="space-y-3">
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-green-400 rounded mr-3"></div>
-            <span className="text-white text-sm">High Civil Rights Protection (80+)</span>
-          </div>
-          
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-yellow-400 rounded mr-3"></div>
-            <span className="text-white text-sm">Moderate Protection (60-79)</span>
-          </div>
-          
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-orange-400 rounded mr-3"></div>
-            <span className="text-white text-sm">Limited Protection (40-59)</span>
-          </div>
-          
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-red-400 rounded mr-3"></div>
-            <span className="text-white text-sm">Low Protection (Below 40)</span>
-          </div>
+      <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-2xl font-bold text-gray-900">{selectedState}</h3>
+          <button 
+            onClick={() => setSelectedState(null)}
+            className="text-gray-400 hover:text-gray-600 text-2xl"
+          >
+            ×
+          </button>
         </div>
+
+        {/* Marijuana Laws */}
+        {marijuanaLaw && (
+          <div className="border-t pt-4">
+            <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+              <Scale className="h-5 w-5 mr-2 text-green-600" />
+              Marijuana Laws
+            </h4>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Recreational:</span>
+                <span className={`font-medium ${
+                  marijuanaLaw.recreationalStatus === 'Legal' ? 'text-green-600' :
+                  marijuanaLaw.recreationalStatus === 'Decriminalized' ? 'text-yellow-600' :
+                  'text-red-600'
+                }`}>
+                  {marijuanaLaw.recreationalStatus}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Medical:</span>
+                <span className={`font-medium ${
+                  marijuanaLaw.medicalStatus === 'Legal' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {marijuanaLaw.medicalStatus}
+                </span>
+              </div>
+              {marijuanaLaw.keyPoints && marijuanaLaw.keyPoints.length > 0 && (
+                <div className="mt-2">
+                  <p className="text-sm text-gray-600 font-medium mb-1">Key Points:</p>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    {marijuanaLaw.keyPoints.slice(0, 3).map((point, idx) => (
+                      <li key={idx} className="flex items-start">
+                        <span className="mr-2">•</span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Recording Laws */}
+        {recordingLaw && (
+          <div className="border-t pt-4">
+            <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+              <AlertTriangle className="h-5 w-5 mr-2 text-blue-600" />
+              Recording Laws
+            </h4>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Consent Type:</span>
+                <span className={`font-medium ${
+                  recordingLaw.consentType === 'One-party' ? 'text-green-600' : 'text-yellow-600'
+                }`}>
+                  {recordingLaw.consentType}
+                </span>
+              </div>
+              {recordingLaw.summary && (
+                <p className="text-sm text-gray-600 mt-2">{recordingLaw.summary}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* State Profile Info */}
+        {profile && (
+          <div className="border-t pt-4">
+            <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+              <Info className="h-5 w-5 mr-2 text-purple-600" />
+              Additional Information
+            </h4>
+            <div className="space-y-2 text-sm text-gray-600">
+              <p><strong>Capital:</strong> {profile.capital}</p>
+              {profile.legalInfo?.shieldLaw?.exists && (
+                <p className="text-green-600">✓ Shield Law Protection Available</p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Header */}
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-white mb-2">Interactive Civil Rights Map</h2>
-        <p className="text-white/70">3D visualization of civil rights data across the United States</p>
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold text-white mb-4">Interactive State Map</h2>
+        <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+          Click on any state to view detailed civil rights information, marijuana laws, and recording regulations.
+        </p>
       </div>
 
-      {/* Controls */}
-      <div className="flex flex-wrap gap-4 justify-center mb-6">
-        <div className="flex bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-2">
-          {[
-            { key: 'rights', label: 'Civil Rights', icon: Scale },
-            { key: 'legislation', label: 'Legislation', icon: TrendingUp },
-            { key: 'news', label: 'News Activity', icon: AlertTriangle }
-          ].map(({ key, label, icon: Icon }) => (
-            <button
-              key={key}
-              onClick={() => setViewMode(key)}
-              className={`flex items-center px-4 py-2 rounded-md transition-all ${
-                viewMode === key 
-                  ? 'bg-white/20 text-white' 
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Icon className="h-4 w-4 mr-2" />
-              {label}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-2">
-          <span className="text-white text-sm mr-3">Animation Speed:</span>
-          <input
-            type="range"
-            min="0.5"
-            max="3"
-            step="0.5"
-            value={animationSpeed}
-            onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
-            className="w-20"
-          />
-          <span className="text-white text-sm ml-2">{animationSpeed}x</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Map Container */}
-        <div className="lg:col-span-3">
-          <div 
-            ref={mapRef}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 h-96 relative overflow-hidden"
-            style={{
-              transform: 'perspective(1000px) rotateX(15deg)',
-              transition: 'transform 0.3s ease'
-            }}
+      {/* View Mode Selector */}
+      <div className="flex justify-center mb-8">
+        <div className="bg-white rounded-lg shadow-lg p-2 flex space-x-2">
+          <button
+            onClick={() => setViewMode('overview')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors ${
+              viewMode === 'overview'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
           >
-            {/* Simplified US Map Visualization */}
+            Overview
+          </button>
+          <button
+            onClick={() => setViewMode('marijuana')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors ${
+              viewMode === 'marijuana'
+                ? 'bg-green-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            Marijuana Laws
+          </button>
+          <button
+            onClick={() => setViewMode('recording')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors ${
+              viewMode === 'recording'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            Recording Laws
+          </button>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Map Container */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-xl shadow-xl p-8 relative" style={{ minHeight: '600px' }}>
             <div className="relative w-full h-full">
-              {/* State representations - simplified for demo */}
-              {Object.keys(stateMetrics).slice(0, 10).map((stateCode, index) => (
+              {/* State Markers */}
+              {Object.entries(statePositions).map(([stateName, position]) => (
                 <div
-                  key={stateCode}
-                  className={`absolute cursor-pointer transform transition-all duration-300 hover:scale-110 ${
-                    selectedState === stateCode ? 'scale-125 z-10' : ''
+                  key={stateName}
+                  className={`absolute cursor-pointer transform transition-all duration-200 hover:scale-125 ${
+                    selectedState === stateName ? 'scale-150 z-10' : ''
                   }`}
                   style={{
-                    left: `${(index % 5) * 20 + 10}%`,
-                    top: `${Math.floor(index / 5) * 40 + 20}%`,
-                    animation: `pulse ${2 / animationSpeed}s infinite`
+                    left: `${position.x}%`,
+                    top: `${position.y}%`,
+                    transform: 'translate(-50%, -50%)'
                   }}
-                  onClick={() => handleStateClick(stateCode)}
+                  onClick={() => handleStateClick(stateName)}
+                  onMouseEnter={() => setHoveredState(stateName)}
+                  onMouseLeave={() => setHoveredState(null)}
                 >
                   <MapPin 
-                    className={`h-8 w-8 ${getStateColor(stateCode)} drop-shadow-lg`}
-                    style={{
-                      opacity: 0.6 + (getStateIntensity(stateCode) * 0.4)
-                    }}
+                    className={`h-6 w-6 ${getStateColor(stateName)} drop-shadow-lg`}
                   />
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity">
-                    {stateCode}
-                  </div>
+                  {(hoveredState === stateName || selectedState === stateName) && (
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20">
+                      {stateName}
+                    </div>
+                  )}
                 </div>
               ))}
-              
-              {/* Animated background elements */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 animate-pulse"></div>
             </div>
+          </div>
 
-            {/* Selected State Info */}
-            {selectedState && (
-              <div className="absolute bottom-4 left-4 right-4 bg-black/90 backdrop-blur-sm border border-white/20 rounded-lg p-4">
-                <button 
-                  onClick={() => setSelectedState(null)}
-                  className="absolute top-2 right-2 text-white/50 hover:text-white"
-                >
-                  ×
-                </button>
-                {renderStateCard(selectedState)}
+          {/* Legend */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mt-4">
+            <h3 className="font-semibold text-gray-900 mb-4">Map Legend - Marijuana Status</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-green-400 rounded mr-2"></div>
+                <span className="text-sm text-gray-700">Legal</span>
               </div>
-            )}
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-yellow-400 rounded mr-2"></div>
+                <span className="text-sm text-gray-700">Decriminalized</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-blue-400 rounded mr-2"></div>
+                <span className="text-sm text-gray-700">Medical Only</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-red-400 rounded mr-2"></div>
+                <span className="text-sm text-gray-700">Illegal</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-4">
-          {renderLegend()}
-          
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
-            <h3 className="text-lg font-bold text-white mb-3">Quick Stats</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-white/70 text-sm">States Tracked</span>
-                <span className="text-white font-semibold">50</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/70 text-sm">Active Bills</span>
-                <span className="text-white font-semibold">127</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/70 text-sm">News Sources</span>
-                <span className="text-white font-semibold">25+</span>
-              </div>
+        {/* State Information Panel */}
+        <div className="lg:col-span-1">
+          {selectedState ? (
+            renderStateInfo()
+          ) : (
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+              <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Select a State</h3>
+              <p className="text-gray-600">
+                Click on any state marker to view detailed information about civil rights laws, marijuana regulations, and recording consent requirements.
+              </p>
             </div>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
-            <h3 className="text-lg font-bold text-white mb-3">Top Active States</h3>
-            <div className="space-y-2">
-              {Object.entries(stateMetrics)
-                .sort(([,a], [,b]) => b.newsActivity - a.newsActivity)
-                .slice(0, 5)
-                .map(([state, metrics]) => (
-                  <div key={state} className="flex justify-between items-center">
-                    <span className="text-white/70 text-sm">{state}</span>
-                    <div className="flex items-center">
-                      <span className="text-white text-sm mr-2">{metrics.newsActivity}</span>
-                      <div className={`w-2 h-2 rounded-full ${metrics.newsActivity > 20 ? 'bg-red-400' : metrics.newsActivity > 10 ? 'bg-yellow-400' : 'bg-green-400'}`}></div>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
