@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import './index.css';
+import FOIARequestTool from './components/FOIARequestTool';
 
 // Simple working components first
 const UltimateDashboard = () => {
@@ -168,6 +169,7 @@ const App = () => {
 
   const tabs = [
     { id: 'ultimate', name: '🚀 Ultimate Dashboard', component: UltimateDashboard },
+    { id: 'foia', name: '📄 FOIA Requests', component: FOIARequestTool },
     { id: 'map', name: '🗺️ Interactive Map', component: Interactive3DMap },
     { id: 'ai', name: '🤖 AI Legal Assistant', component: AILegalAssistant },
     { id: 'resources', name: '📚 Resources & Laws', component: EnhancedResourcesAndLaws },
