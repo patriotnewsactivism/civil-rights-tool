@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Sparkles, Brain, Zap } from 'lucide-react';
+import { MessageCircle, Send, Bot, User, Sparkles, Brain, Zap, Shield, Scale, FileText } from 'lucide-react';
 
-const AILegalAssistant = ({ darkMode }) => {
+const AILegalAssistant = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [suggestions, setSuggestions] = useState([
     "What are my rights during a police stop?",
-    "How do I file a civil rights complaint?",
+    "How do I file a civil rights complaint?", 
     "What are the current marijuana laws in my state?",
     "Can you help me understand voting rights?",
     "What should I do if I experience discrimination?"
@@ -19,7 +19,7 @@ const AILegalAssistant = ({ darkMode }) => {
       {
         id: 1,
         type: 'bot',
-        content: "Hello! I'm your AI Legal Assistant. I can help you understand civil rights laws, provide general legal information, and guide you through various legal processes. How can I assist you today?",
+        content: "Hello! I'm your AI Legal Assistant. I can help you understand your civil rights, state laws, and legal procedures. What would you like to know?",
         timestamp: new Date()
       }
     ]);
@@ -29,7 +29,7 @@ const AILegalAssistant = ({ darkMode }) => {
     if (!inputMessage.trim()) return;
 
     const userMessage = {
-      id: messages.length + 1,
+      id: Date.now(),
       type: 'user',
       content: inputMessage,
       timestamp: new Date()
@@ -41,112 +41,41 @@ const AILegalAssistant = ({ darkMode }) => {
 
     // Simulate AI response
     setTimeout(() => {
-      const aiResponse = generateAIResponse(inputMessage);
-      const botMessage = {
-        id: messages.length + 2,
+      const botResponse = {
+        id: Date.now() + 1,
         type: 'bot',
-        content: aiResponse,
-        timestamp: new Date(),
-        confidence: Math.random() * 0.3 + 0.7 // 70-100% confidence
+        content: generateAIResponse(inputMessage),
+        timestamp: new Date()
       };
-      
-      setMessages(prev => [...prev, botMessage]);
+      setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
     }, 1500);
   };
 
-  const generateAIResponse = (userMessage) => {
-    const lowerMessage = userMessage.toLowerCase();
+  const generateAIResponse = (question) => {
+    const responses = {
+      'police': "During a police stop, you have several important rights: 1) You have the right to remain silent - you don't have to answer questions beyond providing identification. 2) You have the right to refuse searches of your person, car, or belongings unless they have a warrant or probable cause. 3) You have the right to ask if you're free to leave. 4) You have the right to record the interaction in most states. Remember to stay calm, keep your hands visible, and clearly state if you're exercising your rights.",
+      'complaint': "To file a civil rights complaint: 1) Document everything - dates, times, witnesses, evidence. 2) Contact the appropriate agency (EEOC for employment, HUD for housing, DOJ Civil Rights Division for other issues). 3) File within the required time limits (usually 180-300 days). 4) Consider contacting a civil rights attorney. 5) You can also file with state civil rights agencies. Keep copies of all documents and correspondence.",
+      'marijuana': "Marijuana laws vary significantly by state. Some states have legalized recreational use, others only allow medical use, and some still prohibit it entirely. Even in legal states, there are restrictions on possession amounts, where you can use it, and driving under the influence. I recommend checking your specific state's current laws as they change frequently.",
+      'voting': "Your voting rights include: 1) The right to register and vote if you're a U.S. citizen 18 or older. 2) The right to vote privately and have your vote counted. 3) The right to get help if you have a disability or can't read. 4) The right to vote even if you can't afford a poll tax. 5) Protection from intimidation or discrimination. If you face voting issues, contact your local election office or the DOJ Voting Rights Division.",
+      'discrimination': "If you experience discrimination: 1) Document incidents with dates, witnesses, and evidence. 2) Report to the appropriate agency (EEOC, HUD, etc.) within time limits. 3) File a complaint with your employer's HR department if workplace discrimination. 4) Consider consulting with a civil rights attorney. 5) Know that retaliation for filing complaints is also illegal. You have legal protections and remedies available."
+    };
+
+    const lowerQuestion = question.toLowerCase();
     
-    // Police interaction
-    if (lowerMessage.includes('police') || lowerMessage.includes('stop') || lowerMessage.includes('arrest')) {
-      return `Based on your question about police interactions, here are your key rights:
-
-1. **Right to Remain Silent**: You have the right to remain silent. Simply say "I invoke my right to remain silent."
-
-2. **Right to Refuse Search**: You can refuse consent to search your person, vehicle, or home unless police have a warrant.
-
-3. **Right to Legal Representation**: You have the right to an attorney. Request one immediately.
-
-4. **Document the Interaction**: If safe, record the encounter and get badge numbers.
-
-**Important**: This is general information, not legal advice. For specific situations, consult with a qualified attorney.`;
+    if (lowerQuestion.includes('police') || lowerQuestion.includes('stop') || lowerQuestion.includes('arrest')) {
+      return responses.police;
+    } else if (lowerQuestion.includes('complaint') || lowerQuestion.includes('file')) {
+      return responses.complaint;
+    } else if (lowerQuestion.includes('marijuana') || lowerQuestion.includes('cannabis') || lowerQuestion.includes('drug')) {
+      return responses.marijuana;
+    } else if (lowerQuestion.includes('voting') || lowerQuestion.includes('vote') || lowerQuestion.includes('election')) {
+      return responses.voting;
+    } else if (lowerQuestion.includes('discrimination') || lowerQuestion.includes('discriminate')) {
+      return responses.discrimination;
+    } else {
+      return "I understand you're asking about civil rights or legal matters. Could you be more specific about your question? I can help with topics like police interactions, filing complaints, voting rights, discrimination, and state-specific laws. Feel free to ask about any civil rights concern you have.";
     }
-
-    // Marijuana laws
-    if (lowerMessage.includes('marijuana') || lowerMessage.includes('cannabis') || lowerMessage.includes('weed')) {
-      return `I'd be happy to help you understand marijuana laws. To provide the most accurate information, could you tell me:
-
-1. Which state are you asking about?
-2. Are you asking about medical or recreational use?
-3. Are you a patient, caregiver, or just seeking general information?
-
-In general, marijuana laws vary significantly by state. Some states have fully legalized both medical and recreational use, while others only allow medical use with strict conditions. Federal law still classifies marijuana as a Schedule I substance.
-
-Would you like me to look up specific laws for your state?`;
-    }
-
-    // Discrimination
-    if (lowerMessage.includes('discrimination') || lowerMessage.includes('discriminated')) {
-      return `I'm sorry you're experiencing discrimination. Here's what you should know:
-
-**Types of Illegal Discrimination**:
-- Race, color, national origin
-- Religion
-- Sex, gender identity, sexual orientation
-- Disability
-- Age (40+)
-- Pregnancy
-- Genetic information
-
-**What You Can Do**:
-1. Document everything: dates, times, witnesses, what was said/done
-2. File a complaint with the EEOC (for employment) or HUD (for housing)
-3. Contact your state's civil rights agency
-4. Consider consulting with a civil rights attorney
-
-**Time Limits**: Most discrimination claims have strict deadlines (often 180-300 days), so act quickly.
-
-Would you like help finding the appropriate agency to file a complaint?`;
-    }
-
-    // Voting rights
-    if (lowerMessage.includes('voting') || lowerMessage.includes('vote')) {
-      return `Voting rights are fundamental to democracy. Here's what you should know:
-
-**Your Voting Rights**:
-- Right to vote without discrimination
-- Right to assistance if you have a disability or difficulty reading
-- Right to vote if you're in line when polls close
-- Right to a provisional ballot if your registration is questioned
-
-**Common Issues**:
-- Voter ID requirements vary by state
-- Felony disenfranchisement laws differ by state
-- Registration deadlines and requirements
-
-**If You Experience Problems**:
-1. Call 1-866-OUR-VOTE for immediate assistance
-2. Document the issue (time, location, what happened)
-3. File a complaint with election officials
-4. Contact civil rights organizations
-
-Would you like help finding your polling place or checking your registration status?`;
-    }
-
-    // Default response
-    return `Thank you for your question about "${userMessage}". 
-
-I understand you're seeking legal information. While I can provide general guidance about civil rights laws and procedures, I cannot provide specific legal advice. 
-
-For the most accurate and personalized assistance, I recommend:
-
-1. **Consulting with a qualified attorney** who specializes in civil rights law
-2. **Contacting legal aid organizations** in your area
-3. **Reaching out to civil rights advocacy groups** relevant to your situation
-4. **Checking official government websites** for current laws and procedures
-
-Could you tell me more specifically what type of civil rights issue you're dealing with? This will help me provide more relevant general information.`;
   };
 
   const handleSuggestionClick = (suggestion) => {
@@ -161,119 +90,168 @@ Could you tell me more specifically what type of civil rights issue you're deali
   };
 
   return (
-    <div className="flex flex-col h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Header */}
-      <div className="border-b border-white/10 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Bot className="h-6 w-6 text-blue-400 mr-3" />
-            <div>
-              <h3 className="text-lg font-bold text-white">AI Legal Assistant</h3>
-              <p className="text-white/60 text-sm">Powered by advanced legal AI</p>
-            </div>
+      <div className="text-center mb-12">
+        <div className="flex items-center justify-center mb-4">
+          <div className="bg-white rounded-full p-3 shadow-lg mr-4">
+            <Brain className="h-8 w-8 text-blue-600" />
           </div>
-          <div className="flex items-center space-x-2">
-            <Sparkles className="h-4 w-4 text-yellow-400" />
-            <span className="text-xs text-white/60">AI</span>
-          </div>
+          <h2 className="text-4xl font-bold text-white">AI Legal Assistant</h2>
         </div>
+        <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+          Get instant, accurate answers to your civil rights questions powered by advanced AI technology.
+        </p>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`flex items-start space-x-2 max-w-3xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                message.type === 'user' ? 'bg-blue-500' : 'bg-gray-600'
-              }`}>
-                {message.type === 'user' ? (
-                  <User className="h-4 w-4 text-white" />
-                ) : (
-                  <Bot className="h-4 w-4 text-white" />
-                )}
-              </div>
-              
-              <div className={`rounded-lg p-3 ${
-                message.type === 'user' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-white/10 text-white border border-white/10'
-              }`}>
-                <p className="text-sm leading-relaxed">{message.content}</p>
-                
-                {message.type === 'bot' && message.confidence && (
-                  <div className="mt-2 flex items-center text-xs text-white/60">
-                    <Brain className="h-3 w-3 mr-1" />
-                    Confidence: {Math.round(message.confidence * 100)}%
-                  </div>
-                )}
-                
-                <p className="text-xs text-white/50 mt-2">
-                  {new Date(message.timestamp).toLocaleTimeString()}
-                </p>
-              </div>
+      {/* Features Grid */}
+      <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <FeatureCard
+          icon={<Shield className="h-6 w-6 text-blue-600" />}
+          title="Know Your Rights"
+          description="Understand your constitutional protections and civil liberties"
+        />
+        <FeatureCard
+          icon={<Scale className="h-6 w-6 text-green-600" />}
+          title="Legal Guidance"
+          description="Get step-by-step guidance on legal procedures and processes"
+        />
+        <FeatureCard
+          icon={<FileText className="h-6 w-6 text-purple-600" />}
+          title="State Laws"
+          description="Access current information about state-specific regulations"
+        />
+      </div>
+
+      {/* Chat Interface */}
+      <div className="bg-white rounded-xl shadow-xl overflow-hidden">
+        {/* Chat Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
+          <div className="flex items-center">
+            <div className="bg-white rounded-full p-2 mr-3">
+              <Bot className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-white font-semibold">Legal AI Assistant</h3>
+              <p className="text-blue-100 text-sm">Online • Ready to help</p>
             </div>
           </div>
-        ))}
-        
-        {isTyping && (
-          <div className="flex justify-start">
+        </div>
+
+        {/* Messages Area */}
+        <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          {messages.map((message) => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
+          
+          {isTyping && (
             <div className="flex items-center space-x-2">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-gray-600">
-                <Bot className="h-4 w-4 text-white" />
+              <div className="bg-white rounded-full p-2 shadow-sm">
+                <Bot className="h-4 w-4 text-blue-600" />
               </div>
-              <div className="bg-white/10 text-white border border-white/10 rounded-lg p-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                  <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              <div className="bg-white rounded-lg px-4 py-2 shadow-sm">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
+          )}
+        </div>
+
+        {/* Suggestions */}
+        {messages.length === 1 && (
+          <div className="p-4 border-t border-gray-200 bg-white">
+            <p className="text-sm text-gray-600 mb-3">Try asking about:</p>
+            <div className="flex flex-wrap gap-2">
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
           </div>
         )}
-      </div>
 
-      {/* Suggestions */}
-      <div className="border-t border-white/10 p-4">
-        <p className="text-white/60 text-sm mb-2">Quick questions:</p>
-        <div className="flex flex-wrap gap-2">
-          {suggestions.map((suggestion, index) => (
+        {/* Input Area */}
+        <div className="p-4 border-t border-gray-200 bg-white">
+          <div className="flex space-x-3">
+            <textarea
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask a question about your rights (e.g., 'Can I record a traffic stop?', 'What are my Miranda rights?')..."
+              className="flex-1 resize-none border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              rows="2"
+            />
             <button
-              key={index}
-              onClick={() => handleSuggestionClick(suggestion)}
-              className="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-full transition-colors"
+              onClick={handleSendMessage}
+              disabled={!inputMessage.trim() || isTyping}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center"
             >
-              {suggestion}
+              <Send className="h-5 w-5" />
             </button>
-          ))}
+          </div>
         </div>
       </div>
 
-      {/* Input */}
-      <div className="border-t border-white/10 p-4">
-        <div className="flex items-end space-x-2">
-          <textarea
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me anything about civil rights law..."
-            className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 resize-none focus:outline-none focus:border-blue-400"
-            rows="2"
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputMessage.trim() || isTyping}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-500 text-white p-2 rounded-lg transition-colors"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+      {/* Disclaimer */}
+      <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div className="flex items-start">
+          <Sparkles className="h-5 w-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
+          <div>
+            <h4 className="font-medium text-yellow-800">Important Disclaimer</h4>
+            <p className="text-yellow-700 text-sm mt-1">
+              This AI assistant provides general legal information and should not be considered as legal advice. 
+              For specific legal matters, please consult with a qualified attorney. Laws vary by jurisdiction and change frequently.
+            </p>
+          </div>
         </div>
-        
-        <p className="text-xs text-white/50 mt-2">
-          <Zap className="h-3 w-3 inline mr-1" />
-          This AI provides general legal information, not specific legal advice. For personalized legal advice, consult with a qualified attorney.
-        </p>
+      </div>
+    </div>
+  );
+};
+
+// Feature Card Component
+const FeatureCard = ({ icon, title, description }) => (
+  <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+    <div className="mb-4">
+      {icon}
+    </div>
+    <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+    <p className="text-gray-600">{description}</p>
+  </div>
+);
+
+// Message Bubble Component
+const MessageBubble = ({ message }) => {
+  const isBot = message.type === 'bot';
+  
+  return (
+    <div className={`flex ${isBot ? 'justify-start' : 'justify-end'}`}>
+      <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${isBot ? '' : 'flex-row-reverse space-x-reverse'}`}>
+        <div className={`rounded-full p-2 shadow-sm ${isBot ? 'bg-white' : 'bg-blue-600'}`}>
+          {isBot ? (
+            <Bot className="h-4 w-4 text-blue-600" />
+          ) : (
+            <User className="h-4 w-4 text-white" />
+          )}
+        </div>
+        <div className={`rounded-lg px-4 py-2 shadow-sm ${
+          isBot 
+            ? 'bg-white text-gray-800' 
+            : 'bg-blue-600 text-white'
+        }`}>
+          <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+          <p className={`text-xs mt-1 ${isBot ? 'text-gray-500' : 'text-blue-100'}`}>
+            {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </p>
+        </div>
       </div>
     </div>
   );
