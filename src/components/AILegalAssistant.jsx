@@ -1,679 +1,402 @@
-import React, { useState, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Sparkles, Brain, Zap, Shield, Scale, FileText, AlertTriangle, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Brain, AlertTriangle, ExternalLink, BookOpen, Scale, Shield } from 'lucide-react';
 
 const AILegalAssistant = () => {
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [suggestions] = useState([
-    "What are my rights during a police stop?",
-    "Can I record police officers in public?",
-    "What should I do if I'm arrested?",
-    "How do I file a civil rights complaint?",
-    "What are my First Amendment rights?"
-  ]);
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState('');
 
-  useEffect(() => {
-    // Welcome message
-    setMessages([
-      {
-        id: 1,
-        type: 'bot',
-        content: "Hello! I'm your AI Legal Assistant. I can help you understand your civil rights, constitutional protections, and legal procedures. Please note that I provide general legal information only - not legal advice. For specific legal matters, consult with a qualified attorney.\n\nWhat would you like to know?",
-        timestamp: new Date(),
-        sources: []
-      }
-    ]);
-  }, []);
+  // Comprehensive legal knowledge base with cited sources
+  const legalKnowledge = {
+    'police-stops': {
+      title: 'Police Stops and Your Rights',
+      content: `During a police stop, you have specific constitutional rights:
 
-  const legalKnowledgeBase = {
-    policeStop: {
-      keywords: ['police', 'stop', 'pulled over', 'traffic stop', 'detained'],
-      response: `**Your Rights During a Police Stop:**
+**Your Rights During a Police Stop:**
+• **Right to remain silent** - You are not required to answer questions beyond providing identification when lawfully requested
+• **Right to refuse searches** - Police need probable cause or a warrant to search you or your vehicle (except for safety pat-downs)
+• **Right to leave** - If you're not under arrest, you can ask "Am I free to go?" and leave if the answer is yes
+• **Right to record** - You have the First Amendment right to record police in public spaces
 
-**1. Right to Remain Silent**
-- You have the right to remain silent under the Fifth Amendment
-- You must provide identification when asked, but you don't have to answer other questions
-- Clearly state: "I am exercising my right to remain silent"
+**What You Should Do:**
+• Stay calm and keep your hands visible
+• Clearly state "I am exercising my right to remain silent"
+• Do not physically resist, even if you believe the stop is unlawful
+• Ask for a lawyer if you're arrested
 
-**2. Right to Refuse Searches**
-- You can refuse consent to search your vehicle, person, or belongings
-- Police need probable cause or a warrant to search without consent
-- Clearly state: "I do not consent to any searches"
-
-**3. Right to Leave**
-- You can ask: "Am I free to leave?"
-- If not detained, you have the right to leave
-- If detained, ask: "Why am I being detained?"
-
-**4. Right to Record**
-- In most states, you have the right to record police in public
-- Keep a safe distance and don't interfere with police duties
-- Recording is protected under the First Amendment
-
-**Important Tips:**
-- Stay calm and keep your hands visible
-- Don't argue, resist, or run
-- Remember badge numbers and details
-- Document everything as soon as possible
-
-**Legal Basis:** Fourth Amendment (unreasonable searches), Fifth Amendment (self-incrimination), First Amendment (recording)`,
+**Important Note:** These rights are established by the U.S. Constitution and Supreme Court cases like Terry v. Ohio (1968) and Miranda v. Arizona (1966).`,
       sources: [
-        { title: 'ACLU - Know Your Rights', url: 'https://www.aclu.org/know-your-rights' },
-        { title: 'Fourth Amendment - U.S. Constitution', url: 'https://constitution.congress.gov/constitution/amendment-4/' }
+        'U.S. Constitution - Fourth and Fifth Amendments',
+        'Terry v. Ohio, 392 U.S. 1 (1968)',
+        'Miranda v. Arizona, 384 U.S. 436 (1966)',
+        'ACLU Know Your Rights Guide'
       ]
     },
-    recording: {
-      keywords: ['record', 'recording', 'film', 'video', 'photograph', 'camera'],
-      response: `**Recording Police and Public Officials:**
+    'recording-rights': {
+      title: 'Right to Record Police',
+      content: `You have a constitutional right to record police officers performing their duties in public spaces.
 
 **Federal Law:**
-- First Amendment protects your right to record police in public
-- Multiple federal circuit courts have affirmed this right
-- Recording is considered a form of free speech and press
+• **First Amendment protection** - Recording police is protected speech under the First Amendment
+• **Established precedent** - Multiple federal circuit courts have affirmed this right
+• **Public spaces** - This right applies in any public area where you have a legal right to be
 
-**State Variations:**
-- **One-Party Consent States:** You can record conversations you're part of
-- **Two-Party Consent States:** All parties must consent to recording
-- Public police activities are generally recordable regardless of consent laws
+**State-by-State Recording Laws:**
+• **One-party consent states** - You can record without notifying others (38 states + DC)
+• **Two-party consent states** - Require all parties to consent to recording (12 states)
+• **Police exception** - Even in two-party states, recording police in public is generally protected
 
 **Best Practices:**
-- Record from a safe distance (generally 10+ feet)
-- Don't interfere with police duties
-- Announce you're recording if asked
-- Keep recording even if told to stop (but comply with lawful orders to move)
-- Store footage securely and back it up
+• Keep a reasonable distance
+• Don't interfere with police duties
+• Clearly state you are recording
+• Know your state's specific laws
 
-**What You Can Record:**
-✓ Police conducting duties in public
-✓ Public officials at public events
-✓ Protests and demonstrations
-✓ Traffic stops (your own or others in public view)
-
-**What to Avoid:**
-✗ Interfering with police operations
-✗ Trespassing on private property
-✗ Recording in restricted government facilities
-✗ Recording where you have no legal right to be
-
-**If Your Phone is Seized:**
-- Don't unlock it or provide passwords
-- State: "I do not consent to any searches"
-- Police generally need a warrant to search your phone
-
-**Legal Basis:** First Amendment, Glik v. Cunniffe (1st Circuit), ACLU v. Alvarez (7th Circuit)`,
+**Two-Party Consent States:** California, Connecticut, Florida, Illinois, Maryland, Massachusetts, Montana, New Hampshire, Pennsylvania, Washington, Nevada (in some circumstances), Delaware (phone calls only).`,
       sources: [
-        { title: 'ACLU - Know Your Rights: Photographers', url: 'https://www.aclu.org/know-your-rights/photographers-what-are-your-rights' },
-        { title: 'Glik v. Cunniffe Case', url: 'https://www.ca1.uscourts.gov/opinions' }
+        'First Amendment to the U.S. Constitution',
+        'Glik v. Cunniffe, 655 F.3d 78 (1st Cir. 2011)',
+        'ACLU Recording Police Guidelines',
+        'Electronic Frontier Foundation Legal Guide'
       ]
     },
-    arrest: {
-      keywords: ['arrest', 'arrested', 'custody', 'jail', 'detained'],
-      response: `**What to Do If You're Arrested:**
+    'miranda-rights': {
+      title: 'Miranda Rights and Custodial Interrogation',
+      content: `Miranda rights must be read when you are in custody and being interrogated.
 
-**Immediate Actions:**
-1. **Stay Calm** - Don't resist, argue, or run
-2. **Invoke Your Rights** - Say clearly: "I am exercising my right to remain silent and I want a lawyer"
-3. **Don't Answer Questions** - Except to provide basic identification
-4. **Don't Consent to Searches** - Say: "I do not consent to any searches"
-5. **Remember Details** - Badge numbers, officer names, witnesses
+**When Miranda Rights Apply:**
+• **Custodial interrogation** - You must be both in custody AND being questioned
+• **Not required for** - Traffic stops, general questioning, or voluntary interviews
+• **Required before** - Any formal interrogation while in police custody
 
-**Your Constitutional Rights:**
-- **Fifth Amendment:** Right to remain silent
-- **Sixth Amendment:** Right to an attorney
-- **Fourth Amendment:** Protection from unreasonable searches
-- **Eighth Amendment:** Protection from excessive bail
+**Your Miranda Rights:**
+• Right to remain silent
+• Anything you say can be used against you in court
+• Right to an attorney
+• If you cannot afford an attorney, one will be appointed for you
 
-**Miranda Rights:**
-You must be read your Miranda rights before custodial interrogation:
-- Right to remain silent
-- Anything you say can be used against you
-- Right to an attorney
-- If you can't afford one, one will be appointed
+**Important Points:**
+• **Invoke clearly** - Say "I want a lawyer" or "I am invoking my right to remain silent"
+• **All questioning must stop** - Once you invoke your rights, police must stop interrogation
+• **Waiver must be voluntary** - You can choose to waive your rights, but it must be knowing and voluntary
 
-**After Arrest:**
-1. **Request a Lawyer Immediately** - Don't wait
-2. **Don't Sign Anything** - Without legal counsel
-3. **Don't Discuss Your Case** - With anyone except your lawyer
-4. **Document Everything** - Write down what happened ASAP
-5. **Contact Family/Friends** - You have the right to a phone call
-
-**Booking Process:**
-- You'll be photographed and fingerprinted
-- Personal property will be inventoried
-- You may be searched
-- You'll be held until bail hearing or release
-
-**Bail and Release:**
-- You have the right to a bail hearing
-- Bail cannot be "excessive" (8th Amendment)
-- You may be released on your own recognizance
-- Consider bail bondsman if you can't afford full bail
-
-**Important Notes:**
-- Police can lie to you during interrogation
-- "Just talking" without a lawyer is dangerous
-- Silence cannot be used against you in court
-- Anything you say CAN and WILL be used against you
-
-**Legal Basis:** Miranda v. Arizona, Fifth Amendment, Sixth Amendment`,
+**Consequences of Violations:**
+• Statements made without proper Miranda warnings may be excluded from court
+• Evidence discovered as a result of illegal statements may also be excluded`,
       sources: [
-        { title: 'Miranda Rights - Supreme Court', url: 'https://www.supremecourt.gov' },
-        { title: 'ACLU - What To Do If Arrested', url: 'https://www.aclu.org/know-your-rights/stopped-by-police' }
+        'Miranda v. Arizona, 384 U.S. 436 (1966)',
+        'Edwards v. Arizona, 451 U.S. 477 (1981)',
+        'U.S. Department of Justice Guidelines',
+        'Federal Rules of Criminal Procedure'
       ]
     },
-    complaint: {
-      keywords: ['complaint', 'file', 'report', 'sue', 'lawsuit', 'violation'],
-      response: `**How to File a Civil Rights Complaint:**
+    'search-seizure': {
+      title: 'Search and Seizure Rights',
+      content: `The Fourth Amendment protects against unreasonable searches and seizures.
 
-**Step 1: Document Everything**
-- Date, time, and location of incident
-- Names and badge numbers of officers/officials
-- Witness names and contact information
-- Photos, videos, or audio recordings
-- Medical records (if injured)
-- Any written communications
+**When Police Can Search Without a Warrant:**
+• **Consent** - If you voluntarily agree (you can refuse)
+• **Search incident to arrest** - Limited search of person and immediate area
+• **Plain view** - Items clearly visible to police
+• **Exigent circumstances** - Emergency situations
+• **Vehicle searches** - With probable cause (Carroll Doctrine)
 
-**Step 2: Choose the Right Agency**
+**When Police Need a Warrant:**
+• **Home searches** - Generally require a warrant (with few exceptions)
+• **Electronic devices** - Usually require a warrant (Riley v. California)
+• **Private property** - Most searches of private property require warrants
 
-**For Police Misconduct:**
-- Local: Police department's Internal Affairs
-- State: State Attorney General's office
-- Federal: FBI Civil Rights Division, DOJ
+**Your Rights:**
+• **Right to refuse consent** - Clearly state "I do not consent to any searches"
+• **Right to see the warrant** - If police have a warrant, you can ask to see it
+• **Right to remain silent** - Don't answer questions about what they might find
 
-**For Employment Discrimination:**
-- EEOC (Equal Employment Opportunity Commission)
-- File within 180 days (300 days in some states)
-
-**For Housing Discrimination:**
-- HUD (Department of Housing and Urban Development)
-- File within 1 year of incident
-
-**For Voting Rights:**
-- DOJ Voting Section
-- State election officials
-
-**Step 3: File Your Complaint**
-
-**Online:**
-- DOJ Civil Rights Division: civilrights.justice.gov
-- EEOC: eeoc.gov
-- HUD: hud.gov/fairhousing
-
-**By Mail:**
-U.S. Department of Justice
-Civil Rights Division
-950 Pennsylvania Avenue, NW
-Washington, DC 20530
-
-**By Phone:**
-- DOJ: 1-855-856-1247
-- EEOC: 1-800-669-4000
-
-**Step 4: What to Include**
-- Your contact information
-- Detailed description of incident
-- Names of those involved
-- Dates and locations
-- How you were harmed
-- What remedy you seek
-- Supporting documentation
-
-**Step 5: Follow Up**
-- Keep copies of everything
-- Note reference/case numbers
-- Follow up regularly
-- Consider legal representation
-
-**Time Limits (Statutes of Limitations):**
-- Federal civil rights claims: Generally 2-4 years
-- State claims: Varies by state (often 1-3 years)
-- Administrative complaints: Often 180-300 days
-- **File as soon as possible - don't wait!**
-
-**Additional Options:**
-- File lawsuit under 42 U.S.C. § 1983 (federal civil rights)
-- Contact civil rights organizations (ACLU, NAACP, etc.)
-- Seek private attorney (many work on contingency)
-- File complaint with professional licensing boards
-
-**Protection from Retaliation:**
-- It's illegal to retaliate against you for filing a complaint
-- Document any retaliation immediately
-- Report retaliation to the same agency
-
-**Legal Basis:** 42 U.S.C. § 1983, Title VII, Fair Housing Act, Voting Rights Act`,
+**Important Cases:**
+• **Mapp v. Ohio (1961)** - Established exclusionary rule
+• **Riley v. California (2014)** - Cell phone search protections
+• **Carpenter v. United States (2018)** - Digital privacy protections`,
       sources: [
-        { title: 'DOJ Civil Rights Division', url: 'https://civilrights.justice.gov/' },
-        { title: 'EEOC - How to File', url: 'https://www.eeoc.gov/how-file-charge-employment-discrimination' },
-        { title: 'HUD Fair Housing', url: 'https://www.hud.gov/program_offices/fair_housing_equal_opp' }
+        'Fourth Amendment to the U.S. Constitution',
+        'Mapp v. Ohio, 367 U.S. 643 (1961)',
+        'Riley v. California, 573 U.S. 373 (2014)',
+        'Carpenter v. United States, 585 U.S. ___ (2018)'
       ]
     },
-    firstAmendment: {
-      keywords: ['first amendment', 'free speech', 'freedom of speech', 'protest', 'assembly', 'religion', 'press'],
-      response: `**First Amendment Rights:**
+    'filing-complaints': {
+      title: 'Filing Civil Rights Complaints',
+      content: `You have multiple avenues to file complaints about civil rights violations.
 
-**The Five Freedoms:**
+**Federal Options:**
+• **FBI Civil Rights Division** - Investigates federal civil rights violations
+• **U.S. Department of Justice** - Civil Rights Division handles pattern and practice investigations
+• **Federal Court** - Section 1983 lawsuits for constitutional violations
 
-**1. Freedom of Speech**
-- Right to express opinions without government censorship
-- Includes symbolic speech (flags, armbands, etc.)
-- Protected even if offensive or unpopular
-- Limitations: True threats, incitement to imminent lawless action, obscenity
+**State and Local Options:**
+• **Internal Affairs** - Police department's internal investigation unit
+• **Civilian Review Boards** - Independent oversight bodies
+• **State Attorney General** - Many states have civil rights enforcement
+• **Local District Attorney** - Can prosecute criminal violations
 
-**2. Freedom of Religion**
-- Free exercise of religion
-- Government cannot establish official religion
-- Cannot be forced to participate in religious activities
-- Religious beliefs are protected, but some actions may be regulated
+**Filing Process:**
+1. **Document everything** - Photos, videos, witness information, medical records
+2. **File promptly** - Many complaints have time limits (statute of limitations)
+3. **Multiple venues** - You can file with multiple agencies simultaneously
+4. **Legal representation** - Consider consulting with a civil rights attorney
 
-**3. Freedom of the Press**
-- Right to publish information without government censorship
-- Protects journalists and citizen journalists
-- Shield laws in many states protect sources
-- Prior restraint is generally unconstitutional
+**What to Include:**
+• Date, time, and location of incident
+• Names and badge numbers of officers involved
+• Witness contact information
+• Any evidence (photos, videos, medical records)
+• Detailed description of what happened
 
-**4. Freedom of Assembly**
-- Right to gather peacefully
-- Right to associate with others
-- Includes right to join organizations
-- Cannot be denied based on viewpoint
-
-**5. Freedom to Petition**
-- Right to petition government for redress of grievances
-- Includes contacting elected officials
-- Filing lawsuits against government
-- Participating in political process
-
-**Protest Rights:**
-- Can protest on public property (streets, sidewalks, parks)
-- May need permit for large gatherings
-- Cannot block traffic or building access
-- Police can impose reasonable time/place/manner restrictions
-- Cannot be arrested for peaceful protest
-
-**Limitations:**
-- **Time, Place, Manner:** Reasonable restrictions allowed
-- **Private Property:** Owner's rights apply
-- **Incitement:** Cannot incite imminent lawless action
-- **True Threats:** Threats of violence not protected
-- **Fighting Words:** Words likely to provoke immediate violence
-
-**Student Rights:**
-- Students have First Amendment rights in school
-- Schools can restrict speech that disrupts education
-- Cannot be punished for off-campus speech (generally)
-- Tinker v. Des Moines: Students don't "shed their constitutional rights at the schoolhouse gate"
-
-**Employee Rights:**
-- Public employees have First Amendment protections
-- Private employees have limited protections
-- Whistleblower protections may apply
-- Cannot be fired for political affiliation (public sector)
-
-**Social Media:**
-- First Amendment applies to government censorship, not private platforms
-- Public officials cannot block constituents on official accounts
-- Government cannot compel speech on social media
-
-**If Your Rights Are Violated:**
-- Document the incident
-- File complaint with appropriate agency
-- Contact ACLU or civil rights organization
-- Consider legal action under 42 U.S.C. § 1983
-
-**Legal Basis:** First Amendment, Tinker v. Des Moines, Brandenburg v. Ohio, New York Times v. Sullivan`,
+**Important Statutes:**
+• **42 U.S.C. § 1983** - Civil rights lawsuits against government officials
+• **18 U.S.C. § 242** - Criminal civil rights violations
+• **Title VI** - Discrimination in federally funded programs`,
       sources: [
-        { title: 'First Amendment - U.S. Constitution', url: 'https://constitution.congress.gov/constitution/amendment-1/' },
-        { title: 'ACLU - Free Speech', url: 'https://www.aclu.org/issues/free-speech' },
-        { title: 'Supreme Court - First Amendment Cases', url: 'https://www.supremecourt.gov' }
+        'FBI Civil Rights Program',
+        'U.S. Department of Justice Civil Rights Division',
+        '42 U.S.C. § 1983 - Civil Rights Act',
+        'ACLU Complaint Filing Guide'
       ]
     },
-    marijuana: {
-      keywords: ['marijuana', 'cannabis', 'weed', 'pot', 'drug'],
-      response: `**Marijuana Laws Overview:**
-
-**Federal Law:**
-- Marijuana remains illegal under federal law (Schedule I controlled substance)
-- Federal law supersedes state law technically
-- Federal enforcement priorities have shifted over time
-- Possession, cultivation, and distribution are federal crimes
-
-**State Law Variations:**
+    'marijuana-laws': {
+      title: 'Marijuana Laws by State (2025)',
+      content: `Marijuana laws vary significantly by state. Here's the current status:
 
 **Fully Legal (Recreational + Medical):**
-- Adults 21+ can possess, use, and purchase
-- Licensed dispensaries operate legally
-- Home cultivation often allowed (with limits)
-- Still illegal to drive under influence
-- Cannot cross state lines with marijuana
+Alaska, Arizona, California, Colorado, Connecticut, Delaware, Illinois, Maine, Maryland, Massachusetts, Michigan, Minnesota, Missouri, Montana, Nevada, New Jersey, New Mexico, New York, Oregon, Rhode Island, Vermont, Virginia, Washington, Washington D.C.
 
 **Medical Only:**
-- Requires medical marijuana card
-- Must have qualifying condition
-- Registered with state program
-- Can purchase from licensed dispensaries
-- Possession limits apply
+Alabama, Arkansas, Florida, Georgia, Hawaii, Louisiana, Mississippi, New Hampshire, North Dakota, Ohio, Oklahoma, Pennsylvania, South Dakota, Texas, Utah, West Virginia
 
-**Decriminalized:**
-- Small amounts treated as civil violation (fine)
-- Not a criminal offense
-- No jail time for possession
-- Still illegal, just reduced penalties
+**CBD Only:**
+Iowa, Kansas, Kentucky, Nebraska, North Carolina, South Carolina, Tennessee, Wisconsin, Wyoming
 
-**Illegal:**
-- Possession is criminal offense
-- Can result in arrest, jail time, fines
-- Criminal record consequences
-- May have medical exceptions
+**Fully Illegal:**
+Idaho, Indiana
 
-**Important Considerations:**
+**Important Federal Considerations:**
+• **Federal law** - Marijuana remains federally illegal under the Controlled Substances Act
+• **Federal property** - Illegal on all federal property regardless of state law
+• **Interstate transport** - Moving marijuana across state lines remains federally illegal
+• **Employment** - Employers can still test and terminate for marijuana use
 
-**Employment:**
-- Employers can still drug test
-- Can be fired for positive test (even in legal states)
-- Federal contractors must comply with federal law
-- Safety-sensitive positions have stricter rules
-
-**Housing:**
-- Landlords can prohibit use
-- Federal housing may prohibit use
-- Smoking vs. other consumption methods
-
-**Driving:**
-- DUI laws apply to marijuana
-- Zero tolerance in some states
-- Field sobriety tests used
-- Blood/urine testing possible
-
-**Federal Property:**
-- Illegal on all federal property
-- National parks, federal buildings
-- Military bases
-- Can result in federal charges
-
-**Travel:**
-- Cannot fly with marijuana (TSA is federal)
-- Cannot cross state lines
-- International travel is federal crime
-- Even between legal states
-
-**Parental Rights:**
-- CPS involvement possible
-- Custody considerations
-- Medical use may be protected
-- Varies significantly by state
-
-**Check Your State:**
-Use our state-by-state database for specific laws in your jurisdiction. Laws change frequently, so verify current status.
-
-**Legal Basis:** Controlled Substances Act, State marijuana laws (varies)`,
+**Your Rights During Marijuana-Related Stops:**
+• Same constitutional rights apply regardless of marijuana laws
+• Don't consent to searches
+• Exercise your right to remain silent
+• Know your state's specific possession limits`,
       sources: [
-        { title: 'NORML - State Laws', url: 'https://norml.org/laws' },
-        { title: 'DEA - Drug Scheduling', url: 'https://www.dea.gov/drug-information/drug-scheduling' }
+        'National Conference of State Legislatures',
+        'NORML State Laws Database',
+        'Controlled Substances Act (21 U.S.C. § 801)',
+        'State Government Official Sources'
       ]
     }
   };
 
-  const generateAIResponse = (question) => {
-    const lowerQuestion = question.toLowerCase();
+  const quickTopics = [
+    { id: 'police-stops', title: 'Police Stops', icon: Shield },
+    { id: 'recording-rights', title: 'Recording Police', icon: BookOpen },
+    { id: 'miranda-rights', title: 'Miranda Rights', icon: Scale },
+    { id: 'search-seizure', title: 'Search & Seizure', icon: AlertTriangle },
+    { id: 'filing-complaints', title: 'File Complaints', icon: ExternalLink },
+    { id: 'marijuana-laws', title: 'Marijuana Laws', icon: Brain }
+  ];
+
+  const handleQuickTopic = (topicId) => {
+    setSelectedTopic(topicId);
+    const topic = legalKnowledge[topicId];
+    if (topic) {
+      setResponse({
+        content: topic.content,
+        sources: topic.sources,
+        title: topic.title
+      });
+      setQuestion(`Tell me about ${topic.title.toLowerCase()}`);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!question.trim()) return;
+
+    setIsLoading(true);
     
-    // Find matching knowledge base entry
-    for (const [key, knowledge] of Object.entries(legalKnowledgeBase)) {
-      if (knowledge.keywords.some(keyword => lowerQuestion.includes(keyword))) {
-        return {
-          content: knowledge.response,
-          sources: knowledge.sources
+    // Simulate processing time
+    setTimeout(() => {
+      // Simple keyword matching for demonstration
+      const lowerQuestion = question.toLowerCase();
+      let matchedTopic = null;
+
+      if (lowerQuestion.includes('police stop') || lowerQuestion.includes('traffic stop')) {
+        matchedTopic = legalKnowledge['police-stops'];
+      } else if (lowerQuestion.includes('record') || lowerQuestion.includes('filming')) {
+        matchedTopic = legalKnowledge['recording-rights'];
+      } else if (lowerQuestion.includes('miranda') || lowerQuestion.includes('right to remain silent')) {
+        matchedTopic = legalKnowledge['miranda-rights'];
+      } else if (lowerQuestion.includes('search') || lowerQuestion.includes('warrant')) {
+        matchedTopic = legalKnowledge['search-seizure'];
+      } else if (lowerQuestion.includes('complaint') || lowerQuestion.includes('report')) {
+        matchedTopic = legalKnowledge['filing-complaints'];
+      } else if (lowerQuestion.includes('marijuana') || lowerQuestion.includes('cannabis')) {
+        matchedTopic = legalKnowledge['marijuana-laws'];
+      } else {
+        // Default response for unmatched questions
+        matchedTopic = {
+          title: 'General Civil Rights Information',
+          content: `I can help you understand your civil rights in the following areas:
+
+• **Police Stops** - Your rights during traffic stops and police encounters
+• **Recording Police** - Your First Amendment right to record police officers
+• **Miranda Rights** - When and how these rights apply
+• **Search and Seizure** - Fourth Amendment protections
+• **Filing Complaints** - How to report civil rights violations
+• **Marijuana Laws** - Current state-by-state legal status
+
+Please ask a more specific question about any of these topics, or click on one of the quick topic buttons above for detailed information.
+
+**Important Legal Disclaimer:** This information is for educational purposes only and does not constitute legal advice. For specific legal situations, please consult with a qualified attorney.`,
+          sources: [
+            'U.S. Constitution',
+            'ACLU Civil Rights Resources',
+            'U.S. Department of Justice',
+            'Legal Aid Organizations'
+          ]
         };
       }
-    }
 
-    // Default response if no match
-    return {
-      content: `I understand you're asking about civil rights or legal matters. I can provide detailed information about:
-
-• **Police Interactions** - Your rights during stops, searches, and arrests
-• **Recording Rights** - When and how you can record police and public officials
-• **Filing Complaints** - How to report civil rights violations
-• **First Amendment** - Free speech, assembly, religion, and press rights
-• **Marijuana Laws** - State-by-state legal status and regulations
-• **Constitutional Rights** - Fourth, Fifth, and Sixth Amendment protections
-
-Please ask a more specific question, or try one of the suggested topics. Remember, I provide general legal information only - not legal advice. For specific legal matters, consult with a qualified attorney.`,
-      sources: [
-        { title: 'ACLU - Know Your Rights', url: 'https://www.aclu.org/know-your-rights' },
-        { title: 'DOJ Civil Rights Division', url: 'https://civilrights.justice.gov/' }
-      ]
-    };
-  };
-
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
-
-    const userMessage = {
-      id: Date.now(),
-      type: 'user',
-      content: inputMessage,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    setIsTyping(true);
-
-    // Simulate AI processing time
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(inputMessage);
-      const botResponse = {
-        id: Date.now() + 1,
-        type: 'bot',
-        content: aiResponse.content,
-        sources: aiResponse.sources,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setInputMessage(suggestion);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
+      setResponse({
+        content: matchedTopic.content,
+        sources: matchedTopic.sources,
+        title: matchedTopic.title
+      });
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-center mb-4">
-          <div className="bg-white rounded-full p-3 shadow-lg mr-4">
-            <Brain className="h-8 w-8 text-blue-600" />
-          </div>
-          <h2 className="text-4xl font-bold text-white">AI Legal Assistant</h2>
-        </div>
-        <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-          Get comprehensive, accurate answers to your civil rights questions with cited sources.
-        </p>
-      </div>
-
-      {/* Features Grid */}
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <FeatureCard
-          icon={<Shield className="h-6 w-6 text-blue-600" />}
-          title="Constitutional Rights"
-          description="Detailed information about your First, Fourth, Fifth, and Sixth Amendment protections"
-        />
-        <FeatureCard
-          icon={<Scale className="h-6 w-6 text-green-600" />}
-          title="Legal Procedures"
-          description="Step-by-step guidance on filing complaints, dealing with arrests, and protecting your rights"
-        />
-        <FeatureCard
-          icon={<FileText className="h-6 w-6 text-purple-600" />}
-          title="Cited Sources"
-          description="All responses include links to official government sources and legal references"
-        />
-      </div>
-
-      {/* Chat Interface */}
-      <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-        {/* Chat Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
-          <div className="flex items-center">
-            <div className="bg-white rounded-full p-2 mr-3">
-              <Bot className="h-6 w-6 text-blue-600" />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold">Legal AI Assistant</h3>
-              <p className="text-blue-100 text-sm">Providing accurate legal information with sources</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Messages Area */}
-        <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50">
-          {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
-          ))}
-          
-          {isTyping && (
-            <div className="flex items-center space-x-2">
-              <div className="bg-white rounded-full p-2 shadow-sm">
-                <Bot className="h-4 w-4 text-blue-600" />
-              </div>
-              <div className="bg-white rounded-lg px-4 py-2 shadow-sm">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Suggestions */}
-        {messages.length === 1 && (
-          <div className="p-4 border-t border-gray-200 bg-white">
-            <p className="text-sm text-gray-600 mb-3">Try asking about:</p>
-            <div className="flex flex-wrap gap-2">
-              {suggestions.map((suggestion, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors"
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Input Area */}
-        <div className="p-4 border-t border-gray-200 bg-white">
-          <div className="flex space-x-3">
-            <textarea
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask a question about your civil rights..."
-              className="flex-1 resize-none border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              rows="2"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputMessage.trim() || isTyping}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center"
-            >
-              <Send className="h-5 w-5" />
-            </button>
-          </div>
+    <div className="p-6 space-y-6">
+      <div className="flex items-center gap-3 mb-6">
+        <Brain className="w-8 h-8 text-blue-400" />
+        <div>
+          <h2 className="text-2xl font-bold text-white">AI Legal Assistant</h2>
+          <p className="text-blue-200 text-sm">Get accurate civil rights information with cited sources</p>
         </div>
       </div>
 
-      {/* Disclaimer */}
-      <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-        <div className="flex items-start">
-          <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
+      {/* Legal Disclaimer */}
+      <div className="bg-yellow-900/20 border border-yellow-600/30 rounded-lg p-4 mb-6">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" />
           <div>
-            <h4 className="font-medium text-yellow-800">Important Legal Disclaimer</h4>
-            <p className="text-yellow-700 text-sm mt-1">
-              This AI assistant provides general legal information based on federal law and common state practices. 
-              It is NOT legal advice and should not be relied upon as such. Laws vary by jurisdiction and change frequently. 
-              For specific legal matters, always consult with a qualified attorney licensed in your state. 
-              The information provided does not create an attorney-client relationship.
+            <h4 className="font-semibold text-yellow-200 mb-1">Important Legal Disclaimer</h4>
+            <p className="text-yellow-100 text-sm">
+              This AI assistant provides educational information only and does not constitute legal advice. 
+              All information is sourced from official legal documents and established case law. 
+              For specific legal situations, please consult with a qualified attorney.
             </p>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
 
-// Feature Card Component
-const FeatureCard = ({ icon, title, description }) => (
-  <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-    <div className="mb-4">
-      {icon}
-    </div>
-    <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
-  </div>
-);
-
-// Message Bubble Component
-const MessageBubble = ({ message }) => {
-  const isBot = message.type === 'bot';
-  
-  return (
-    <div className={`flex ${isBot ? 'justify-start' : 'justify-end'}`}>
-      <div className={`flex items-start space-x-2 max-w-3xl ${isBot ? '' : 'flex-row-reverse space-x-reverse'}`}>
-        <div className={`rounded-full p-2 shadow-sm flex-shrink-0 ${isBot ? 'bg-white' : 'bg-blue-600'}`}>
-          {isBot ? (
-            <Bot className="h-4 w-4 text-blue-600" />
-          ) : (
-            <User className="h-4 w-4 text-white" />
-          )}
+      {/* Quick Topics */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-white mb-3">Quick Topics</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {quickTopics.map((topic) => {
+            const IconComponent = topic.icon;
+            return (
+              <button
+                key={topic.id}
+                onClick={() => handleQuickTopic(topic.id)}
+                className={`p-3 rounded-lg border transition-colors text-left ${
+                  selectedTopic === topic.id
+                    ? 'bg-blue-600/30 border-blue-500/50 text-white'
+                    : 'bg-gray-800/50 border-gray-600/30 text-gray-300 hover:bg-gray-700/50 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <IconComponent className="w-4 h-4" />
+                  <span className="text-sm font-medium">{topic.title}</span>
+                </div>
+              </button>
+            );
+          })}
         </div>
-        <div className={`rounded-lg px-4 py-3 shadow-sm ${
-          isBot 
-            ? 'bg-white text-gray-800' 
-            : 'bg-blue-600 text-white'
-        }`}>
-          <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-          
-          {/* Sources */}
-          {isBot && message.sources && message.sources.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <p className="text-xs font-semibold text-gray-600 mb-2">Sources:</p>
-              <div className="space-y-1">
-                {message.sources.map((source, idx) => (
-                  <a
-                    key={idx}
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-xs text-blue-600 hover:text-blue-700"
-                  >
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    {source.title}
-                  </a>
-                ))}
-              </div>
+      </div>
+
+      {/* Question Form */}
+      <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-600/30">
+        <form onSubmit={handleSubmit} className="mb-4">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Ask about your civil rights:
+            </label>
+            <textarea
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Example: What are my rights during a police stop? Can I record police officers? What should I do if my rights are violated?"
+              className="w-full p-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
+              rows="3"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading || !question.trim()}
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+          >
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                Processing...
+              </>
+            ) : (
+              <>
+                <Brain className="w-4 h-4" />
+                Get Legal Information
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Response */}
+        {response && (
+          <div className="bg-blue-900/20 border border-blue-600/30 rounded-lg p-6">
+            <h4 className="text-lg font-semibold text-white mb-3">{response.title}</h4>
+            <div className="text-gray-200 whitespace-pre-line mb-4 leading-relaxed">
+              {response.content}
             </div>
-          )}
-          
-          <p className={`text-xs mt-2 ${isBot ? 'text-gray-500' : 'text-blue-100'}`}>
-            {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </p>
-        </div>
+            
+            {/* Sources */}
+            <div className="border-t border-blue-600/30 pt-4">
+              <h5 className="font-semibold text-blue-200 mb-2 flex items-center gap-2">
+                <ExternalLink className="w-4 h-4" />
+                Sources & Legal References:
+              </h5>
+              <ul className="space-y-1">
+                {response.sources.map((source, index) => (
+                  <li key={index} className="text-blue-300 text-sm flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>{source}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Additional Resources */}
+            <div className="mt-4 p-3 bg-gray-800/50 rounded border border-gray-600/30">
+              <p className="text-gray-300 text-sm">
+                <strong>Need immediate legal help?</strong> Contact your local ACLU chapter, 
+                legal aid organization, or consult with a civil rights attorney. 
+                For emergencies, call 911 or your local emergency services.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
