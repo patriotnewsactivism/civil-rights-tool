@@ -8,7 +8,13 @@ const EnhancedResourcesAndLaws = () => {
 
   // Comprehensive marijuana laws data for all 50 states + DC
   const marijuanaLaws = {
-    'Alabama': { status: 'Medical Only', possession: 'CBD only for specific conditions', recreational: 'Illegal' },
+    'Alabama': { 
+      status: 'Medical Only', 
+      possession: 'CBD only for specific conditions', 
+      recreational: 'Illegal',
+      freeCard: 'No state waiver program. Check telehealth discounts.',
+      cardSources: ['https://medcardnow.com/get-your-medical-marijuana-card-for-free/']
+    },
     'Alaska': { status: 'Fully Legal', possession: 'Up to 1 oz', recreational: 'Legal 21+' },
     'Arizona': { status: 'Fully Legal', possession: 'Up to 1 oz', recreational: 'Legal 21+' },
     'Arkansas': { status: 'Medical Only', possession: 'Medical patients only', recreational: 'Illegal' },

@@ -1,668 +1,712 @@
-// Comprehensive Marijuana Laws Database - All 50 States + DC
-// Updated October 2025
+// Comprehensive Marijuana Laws for All 50 States + DC (2025)
+// Sources: Marijuana Policy Project (MPP), NORML, State Government Sites
 
 export const comprehensiveMarijuanaLaws = {
-  AL: {
+  'Alabama': {
     status: 'Medical Only',
-    possession: 'Up to 70 daily doses',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - up to 70 daily doses',
     recreational: 'Illegal',
-    thcLimit: 'Up to 3% THC for medical',
-    qualifyingConditions: ['Cancer', 'Epilepsy', 'Crohn\'s disease', 'Autism', 'Tourette\'s syndrome', 'Chronic pain', 'PTSD', 'Terminal illness'],
-    freeCardInfo: 'No free program available. Application fee: $75. Annual renewal: $50. Low-income patients may qualify for reduced fees.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Alabama has a restrictive medical program. No home cultivation allowed. Only non-smokable forms permitted initially.',
-    recentChanges: 'Program expanded in 2023 to include chronic pain and PTSD'
+    medicalConditions: 'Cancer, chronic pain, PTSD, epilepsy, and other qualifying conditions',
+    freeCardInfo: 'No state fee waiver program currently available',
+    cardResources: [
+      { name: 'Alabama Medical Cannabis Commission', url: 'https://amcc.alabama.gov/' },
+      { name: 'MedCardNow Discounts', url: 'https://medcardnow.com/get-your-medical-marijuana-card-for-free/' }
+    ],
+    mppLink: 'https://www.mpp.org/states/alabama/',
+    lastUpdated: '2025'
   },
-  AK: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 12 plants (6 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $25. Annual renewal: $20. Veterans receive 50% discount.',
-    dispensaries: 'Both medical and recreational dispensaries',
-    details: 'Alaska allows both medical and recreational use. Home cultivation permitted with proper registration.',
-    recentChanges: 'No recent significant changes'
+  'Alaska': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz in public, 4 oz at home',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, chronic pain, PTSD, and more',
+    freeCardInfo: 'State offers reduced fees for low-income patients',
+    cardResources: [
+      { name: 'Alaska Medical Marijuana Registry', url: 'https://health.alaska.gov/dph/VitalStats/Pages/marijuana.aspx' },
+      { name: 'LeafyDoc Alaska', url: 'https://leafydoc.com/states/alaska' }
+    ],
+    mppLink: 'https://www.mpp.org/states/alaska/',
+    lastUpdated: '2025'
   },
-  AZ: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 12 plants (6 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Cancer', 'Glaucoma', 'HIV/AIDS', 'Hepatitis C', 'ALS', 'Crohn\'s disease', 'Alzheimer\'s', 'PTSD', 'Chronic pain', 'Seizures', 'Severe nausea'],
-    freeCardInfo: 'No free program. Application fee: $150. SNAP recipients pay $75. Veterans receive priority processing.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Arizona has both medical and recreational programs. Medical patients have cultivation rights.',
-    recentChanges: 'Recreational sales began in 2021'
+  'Arizona': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, chronic pain, PTSD, Crohn\'s disease, and more',
+    freeCardInfo: 'Fee waivers available for SNAP recipients',
+    cardResources: [
+      { name: 'Arizona Department of Health Services', url: 'https://www.azdhs.gov/licensing/medical-marijuana/index.php' },
+      { name: 'ARCannabisClinic Arizona', url: 'https://www.arcannabisclinic.com/post/get-my-certification-free-medical-marijuana-card' }
+    ],
+    mppLink: 'https://www.mpp.org/states/arizona/',
+    lastUpdated: '2025'
   },
-  AR: {
+  'Arkansas': {
     status: 'Medical Only',
-    possession: 'Up to 2.5 oz every 14 days',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - up to 2.5 oz per 14 days',
     recreational: 'Illegal',
-    thcLimit: 'Up to 3% THC for medical',
-    qualifyingConditions: ['Cancer', 'Glaucoma', 'HIV/AIDS', 'Hepatitis C', 'ALS', 'Tourette\'s syndrome', 'Crohn\'s disease', 'Ulcerative colitis', 'PTSD', 'Severe arthritis', 'Alzheimer\'s', 'Cachexia', 'Severe nausea', 'Seizures', 'Persistent muscle spasms'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Low-income patients may qualify for reduced fees.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Arkansas has a restrictive medical program. No home cultivation allowed. Limited qualifying conditions.',
-    recentChanges: 'Program expanded in 2023 to include additional qualifying conditions'
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, Crohn\'s disease, PTSD, and more',
+    freeCardInfo: 'No state fee waiver, but some clinics offer discounts',
+    cardResources: [
+      { name: 'Arkansas Department of Health MMJ', url: 'https://www.healthy.arkansas.gov/programs-services/topics/medical-marijuana' },
+      { name: 'MedCardNow Arkansas', url: 'https://medcardnow.com/states/arkansas' }
+    ],
+    mppLink: 'https://www.mpp.org/states/arkansas/',
+    lastUpdated: '2025'
   },
-  CA: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 6 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'County programs may offer fee waivers. Application fee varies by county ($50-100). Medi-Cal recipients receive 50% discount.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'California has both medical and recreational programs. Medical patients can possess and cultivate more.',
-    recentChanges: 'Continued expansion of social equity programs'
+  'California': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 8 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Any condition for which marijuana provides relief',
+    freeCardInfo: 'Medi-Cal patients eligible for 50% fee reduction',
+    cardResources: [
+      { name: 'California Department of Public Health', url: 'https://www.cdph.ca.gov/Programs/CHSI/Pages/Medical-Marijuana-Identification-Card-Program-.aspx' },
+      { name: 'NuggMD California', url: 'https://www.nuggmd.com/california' },
+      { name: 'Herb California Guide', url: 'https://herb.co/guides/california-medical-marijuana-card' }
+    ],
+    mppLink: 'https://www.mpp.org/states/california/',
+    lastUpdated: '2025'
   },
-  CO: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 6 plants (3 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $25. Annual renewal: $25. Veterans receive expedited processing.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Colorado was one of the first states to legalize recreational use. Both medical and recreational programs active.',
-    recentChanges: 'Social equity program improvements in 2023'
+  'Colorado': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, persistent muscle spasms, seizures, severe nausea, severe pain, PTSD',
+    freeCardInfo: 'Reduced fees for indigent patients and veterans',
+    cardResources: [
+      { name: 'Colorado Department of Public Health', url: 'https://cdphe.colorado.gov/medical-marijuana' },
+      { name: 'LeafyDoc Colorado', url: 'https://leafydoc.com/states/colorado' }
+    ],
+    mppLink: 'https://www.mpp.org/states/colorado/',
+    lastUpdated: '2025'
   },
-  CT: {
-    status: 'Legal',
-    possession: 'Up to 1.5 oz (42g)',
-    cultivation: 'Up to 6 plants (3 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Cancer', 'Glaucoma', 'HIV/AIDS', 'Parkinson\'s disease', 'Multiple sclerosis', 'Epilepsy', 'Cachexia', 'Crohn\'s disease', 'PTSD', 'Sickle cell disease', 'Chronic pain', 'Terminal illness'],
-    freeCardInfo: 'No free program. Application fee: $100. Annual renewal: $100. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Connecticut has both medical and recreational programs. Home cultivation allowed for medical patients.',
-    recentChanges: 'Recreational sales began in 2023'
+  'Connecticut': {
+    status: 'Fully Legal',
+    possession: 'Up to 1.5 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, Parkinson\'s disease, MS, epilepsy, PTSD, and more',
+    freeCardInfo: 'Fee waivers for Medicaid and low-income patients',
+    cardResources: [
+      { name: 'Connecticut Department of Consumer Protection', url: 'https://portal.ct.gov/DCP/Medical-Marijuana-Program/Medical-Marijuana' },
+      { name: 'MedCardNow Connecticut', url: 'https://medcardnow.com/states/connecticut' }
+    ],
+    mppLink: 'https://www.mpp.org/states/connecticut/',
+    lastUpdated: '2025'
   },
-  DE: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 6 plants (3 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Terminal illness', 'Cancer', 'HIV/AIDS', 'Hepatitis C', 'ALS', 'Alzheimer\'s disease', 'PTSD', 'Autism with self-injurious behavior', 'Chronic debilitating pain'],
-    freeCardInfo: 'No free program. Application fee: $125. Annual renewal: $125. Low-income patients may qualify for reduced fees.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Delaware has both medical and recreational programs. Limited qualifying conditions for medical program.',
-    recentChanges: 'Recreational legalization in 2023'
+  'Delaware': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 6 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, HIV/AIDS, decompensated cirrhosis, ALS, Alzheimer\'s, PTSD, and more',
+    freeCardInfo: 'Reduced fees for patients receiving Social Security disability',
+    cardResources: [
+      { name: 'Delaware Medical Marijuana Program', url: 'https://dhss.delaware.gov/dhss/dph/hsp/medmarhome.html' },
+      { name: 'ARCannabisClinic Delaware', url: 'https://www.arcannabisclinic.com/states/delaware' }
+    ],
+    mppLink: 'https://www.mpp.org/states/delaware/',
+    lastUpdated: '2025'
   },
-  FL: {
+  'Florida': {
     status: 'Medical Only',
-    possession: 'Up to 2.5 oz every 35 days',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit for medical',
-    qualifyingConditions: ['Cancer', 'Epilepsy', 'Glaucoma', 'HIV/AIDS', 'Crohn\'s disease', 'Parkinson\'s disease', 'Multiple sclerosis', 'PTSD', 'ALS', 'Terminal illness', 'Chronic nonmalignant pain', 'Medical conditions of same kind/class'],
-    freeCardInfo: 'No free program. Application fee: $75. Annual renewal: $75. Veterans receive expedited processing.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Florida has a robust medical program but no recreational legalization. No home cultivation allowed.',
-    recentChanges: 'Smokable flower approved in 2019'
+    possession: 'Medical patients only - up to 2.5 oz per 35 days',
+    recreational: 'Illegal (decriminalized in some cities)',
+    medicalConditions: 'Cancer, epilepsy, glaucoma, HIV/AIDS, PTSD, ALS, Crohn\'s disease, Parkinson\'s, MS, and more',
+    freeCardInfo: 'No state fee waiver, but many telehealth services offer discounts',
+    cardResources: [
+      { name: 'Florida Department of Health OMMU', url: 'https://knowthefactsmmj.com/' },
+      { name: 'MedCardNow Florida', url: 'https://medcardnow.com/states/florida' },
+      { name: 'NuggMD Florida', url: 'https://www.nuggmd.com/florida' }
+    ],
+    mppLink: 'https://www.mpp.org/states/florida/',
+    lastUpdated: '2025'
   },
-  GA: {
+  'Georgia': {
+    status: 'Medical Only (Low-THC)',
+    possession: 'Low-THC oil only (max 5% THC) - up to 20 oz',
+    recreational: 'Illegal',
+    medicalConditions: 'Cancer, ALS, seizure disorders, MS, Crohn\'s disease, mitochondrial disease, Parkinson\'s, sickle cell, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Georgia Department of Public Health', url: 'https://dph.georgia.gov/low-thc-oil-registry' },
+      { name: 'LeafyDoc Georgia', url: 'https://leafydoc.com/states/georgia' }
+    ],
+    mppLink: 'https://www.mpp.org/states/georgia/',
+    lastUpdated: '2025'
+  },
+  'Hawaii': {
     status: 'Medical Only',
-    possession: 'Up to 20 oz of low-THC oil',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Limited',
+    possession: 'Medical patients only - up to 4 oz',
+    recreational: 'Illegal (decriminalized up to 3 grams)',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, severe pain, severe nausea, seizures, muscle spasms, PTSD',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Hawaii Department of Health', url: 'https://health.hawaii.gov/medicalcannabis/' },
+      { name: 'MedCardNow Hawaii', url: 'https://medcardnow.com/states/hawaii' }
+    ],
+    mppLink: 'https://www.mpp.org/states/hawaii/',
+    lastUpdated: '2025'
+  },
+  'Idaho': {
+    status: 'Fully Illegal',
+    possession: 'Illegal - all forms',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 5% THC for medical oil',
-    qualifyingConditions: ['Cancer', 'Seizure disorders', 'Multiple sclerosis', 'Crohn\'s disease', 'Mitochondrial disease', 'Parkinson\'s disease', 'Sickle cell disease', 'Tourette\'s syndrome', 'Autism spectrum disorder', 'ALS', 'PTSD', 'Hospice patients'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 5% THC allowed for specific conditions.',
-    dispensaries: 'Limited licensed dispensaries',
-    details: 'Georgia has a very restrictive medical program. Only low-THC oil allowed. No flower or cultivation.',
-    recentChanges: 'Program expanded in 2023 to include additional conditions'
+    medicalConditions: 'No medical marijuana program',
+    freeCardInfo: 'Not applicable - marijuana is illegal',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/idaho/',
+    lastUpdated: '2025'
   },
-  HI: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 10 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $38.50. Annual renewal: $38.50. 329 card program available.',
-    dispensaries: 'Licensed dispensaries on Oahu, Maui, and Hawaii Island',
-    details: 'Hawaii has both medical and decriminalized recreational use. Medical patients have cultivation rights.',
-    recentChanges: 'Decriminalization for small amounts in 2019'
+  'Illinois': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, Crohn\'s disease, Alzheimer\'s, PTSD, and more',
+    freeCardInfo: 'Veterans and SSI/SSDI recipients eligible for fee waivers',
+    cardResources: [
+      { name: 'Illinois Department of Public Health', url: 'https://dph.illinois.gov/topics-services/prevention-wellness/medical-cannabis.html' },
+      { name: 'ARCannabisClinic Illinois', url: 'https://www.arcannabisclinic.com/states/illinois' }
+    ],
+    mppLink: 'https://www.mpp.org/states/illinois/',
+    lastUpdated: '2025'
   },
-  ID: {
-    status: 'Illegal',
-    possession: 'Misdemeanor (up to 3 oz)',
-    cultivation: 'Felony',
-    medicalProgram: 'CBD Only',
+  'Indiana': {
+    status: 'Fully Illegal',
+    possession: 'Illegal - all forms',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.3% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Terminal illness'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.3% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Idaho has no medical marijuana program. CBD oil with very low THC allowed for limited conditions.',
-    recentChanges: 'No significant changes - remains one of most restrictive states'
+    medicalConditions: 'No medical marijuana program',
+    freeCardInfo: 'Not applicable - marijuana is illegal',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/indiana/',
+    lastUpdated: '2025'
   },
-  IL: {
-    status: 'Legal',
-    possession: 'Up to 30g for residents',
-    cultivation: 'Up to 5 plants for medical patients',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $100 for 1 year, $200 for 2 years, $250 for 3 years. Veterans receive 50% discount.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Illinois has both medical and recreational programs. Medical patients have cultivation rights.',
-    recentChanges: 'Social equity program implemented in 2020'
+  'Iowa': {
+    status: 'Medical Only (CBD)',
+    possession: 'CBD only - max 3% THC',
+    recreational: 'Illegal',
+    medicalConditions: 'Cancer, MS, seizures, AIDS, Crohn\'s disease, PTSD, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Iowa Department of Public Health', url: 'https://idph.iowa.gov/omc' },
+      { name: 'LeafyDoc Iowa', url: 'https://leafydoc.com/states/iowa' }
+    ],
+    mppLink: 'https://www.mpp.org/states/iowa/',
+    lastUpdated: '2025'
   },
-  IN: {
+  'Kansas': {
     status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
+    possession: 'CBD only - 0% THC',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.3% THC for CBD',
-    qualifyingConditions: ['Treatment-resistant epilepsy'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.3% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Indiana has a very limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'CBD legality clarified in 2018'
+    medicalConditions: 'Limited CBD program',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/kansas/',
+    lastUpdated: '2025'
   },
-  IA: {
+  'Kentucky': {
+    status: 'Medical Only (Starting 2025)',
+    possession: 'Medical program launching 2025',
+    recreational: 'Illegal',
+    medicalConditions: 'Program details being finalized',
+    freeCardInfo: 'Fee waiver details to be announced',
+    cardResources: [
+      { name: 'Kentucky Medical Cannabis Program', url: 'https://chfs.ky.gov/agencies/dph/Pages/mcp.aspx' }
+    ],
+    mppLink: 'https://www.mpp.org/states/kentucky/',
+    lastUpdated: '2025'
+  },
+  'Louisiana': {
     status: 'Medical Only',
-    possession: 'Up to 4.5g per 90 days',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - 30-day supply',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 3% THC for medical',
-    qualifyingConditions: ['Cancer', 'Seizures', 'Crohn\'s disease', 'Chronic pain', 'PTSD', 'ALS', 'Parkinson\'s disease', 'Multiple sclerosis', 'HIV/AIDS', 'Terminal illness'],
-    freeCardInfo: 'No free program. Application fee: $100. Annual renewal: $25. Low-THC products only.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Iowa has a restrictive medical program. THC limited to 3%. No cultivation allowed.',
-    recentChanges: 'Program expanded in 2023 to include chronic pain'
+    medicalConditions: 'Cancer, glaucoma, PTSD, seizure disorders, Crohn\'s disease, muscular dystrophy, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Louisiana Board of Pharmacy', url: 'https://www.pharmacy.la.gov/index.cfm?md=pagebuilder&tmp=home&pid=164' },
+      { name: 'MedCardNow Louisiana', url: 'https://medcardnow.com/states/louisiana' }
+    ],
+    mppLink: 'https://www.mpp.org/states/louisiana/',
+    lastUpdated: '2025'
   },
-  KS: {
+  'Maine': {
+    status: 'Fully Legal',
+    possession: 'Up to 2.5 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Any debilitating medical condition as determined by physician',
+    freeCardInfo: 'Reduced fees for MaineCare recipients',
+    cardResources: [
+      { name: 'Maine Office of Marijuana Policy', url: 'https://www.maine.gov/dafs/omp/' },
+      { name: 'LeafyDoc Maine', url: 'https://leafydoc.com/states/maine' }
+    ],
+    mppLink: 'https://www.mpp.org/states/maine/',
+    lastUpdated: '2025'
+  },
+  'Maryland': {
+    status: 'Fully Legal',
+    possession: 'Up to 1.5 oz (recreational), 4 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cachexia, anorexia, wasting syndrome, severe pain, severe nausea, seizures, muscle spasms, glaucoma, PTSD, and more',
+    freeCardInfo: 'Fee waivers for veterans and low-income patients',
+    cardResources: [
+      { name: 'Maryland Medical Cannabis Commission', url: 'https://mmcc.maryland.gov/' },
+      { name: 'ARCannabisClinic Maryland', url: 'https://www.arcannabisclinic.com/states/maryland' }
+    ],
+    mppLink: 'https://www.mpp.org/states/maryland/',
+    lastUpdated: '2025'
+  },
+  'Massachusetts': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 10 oz (medical at home)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, Crohn\'s disease, Parkinson\'s, MS, and more',
+    freeCardInfo: 'Financial hardship waivers available',
+    cardResources: [
+      { name: 'Massachusetts Cannabis Control Commission', url: 'https://masscannabiscontrol.com/medical-use-of-marijuana-program/' },
+      { name: 'NuggMD Massachusetts', url: 'https://www.nuggmd.com/massachusetts' }
+    ],
+    mppLink: 'https://www.mpp.org/states/massachusetts/',
+    lastUpdated: '2025'
+  },
+  'Michigan': {
+    status: 'Fully Legal',
+    possession: 'Up to 2.5 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, Crohn\'s disease, Alzheimer\'s, nail patella, cachexia, severe pain, severe nausea, seizures, muscle spasms, PTSD',
+    freeCardInfo: 'Reduced fees for SSI/SSDI recipients and veterans',
+    cardResources: [
+      { name: 'Michigan Marijuana Regulatory Agency', url: 'https://www.michigan.gov/mra' },
+      { name: 'LeafyDoc Michigan', url: 'https://leafydoc.com/states/michigan' }
+    ],
+    mppLink: 'https://www.mpp.org/states/michigan/',
+    lastUpdated: '2025'
+  },
+  'Minnesota': {
+    status: 'Fully Legal',
+    possession: 'Up to 2 oz (recreational), 3 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, Tourette\'s syndrome, ALS, seizures, severe muscle spasms, IBD, terminal illness, PTSD, autism, and more',
+    freeCardInfo: 'Fee waivers for patients receiving medical assistance',
+    cardResources: [
+      { name: 'Minnesota Office of Medical Cannabis', url: 'https://www.health.state.mn.us/people/cannabis/index.html' },
+      { name: 'MedCardNow Minnesota', url: 'https://medcardnow.com/states/minnesota' }
+    ],
+    mppLink: 'https://www.mpp.org/states/minnesota/',
+    lastUpdated: '2025'
+  },
+  'Mississippi': {
     status: 'Medical Only',
-    possession: 'Up to 90-day supply',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - up to 3.5 oz per month',
     recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Program launched in 2023.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Kansas has a new medical program. No cultivation allowed. Physician discretion for qualifying conditions.',
-    recentChanges: 'Medical program launched in 2023'
+    medicalConditions: 'Cancer, Parkinson\'s, Huntington\'s, muscular dystrophy, glaucoma, PTSD, autism, chronic pain, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Mississippi Department of Health', url: 'https://msdh.ms.gov/msdhsite/_static/44,22424,420.html' },
+      { name: 'ARCannabisClinic Mississippi', url: 'https://www.arcannabisclinic.com/states/mississippi' }
+    ],
+    mppLink: 'https://www.mpp.org/states/mississippi/',
+    lastUpdated: '2025'
   },
-  KY: {
-    status: 'Medical Only',
-    possession: 'Up to 30-day supply',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Program launched in 2023.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Kentucky has a new medical program. No cultivation allowed. Physician discretion for qualifying conditions.',
-    recentChanges: 'Medical program launched in 2023'
+  'Missouri': {
+    status: 'Fully Legal',
+    possession: 'Up to 3 oz (recreational), 4 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, epilepsy, glaucoma, intractable migraines, chronic medical conditions causing severe pain, nausea, seizures, or muscle spasms',
+    freeCardInfo: 'Veterans and patients receiving Medicaid eligible for fee reductions',
+    cardResources: [
+      { name: 'Missouri Department of Health', url: 'https://health.mo.gov/safety/medical-marijuana/' },
+      { name: 'LeafyDoc Missouri', url: 'https://leafydoc.com/states/missouri' }
+    ],
+    mppLink: 'https://www.mpp.org/states/missouri/',
+    lastUpdated: '2025'
   },
-  LA: {
-    status: 'Medical Only',
-    possession: 'Up to 2.5 oz every 30 days',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit for medical',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $75. Annual renewal: $75. Program expanded significantly in 2023.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Louisiana has a medical program with physician discretion. No cultivation allowed. Recent expansion.',
-    recentChanges: 'Program expanded in 2023 to include any condition physician approves'
+  'Montana': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, severe pain, severe nausea, seizures, muscle spasms, PTSD',
+    freeCardInfo: 'Reduced fees for veterans',
+    cardResources: [
+      { name: 'Montana Department of Public Health', url: 'https://dphhs.mt.gov/marijuana' },
+      { name: 'MedCardNow Montana', url: 'https://medcardnow.com/states/montana' }
+    ],
+    mppLink: 'https://www.mpp.org/states/montana/',
+    lastUpdated: '2025'
   },
-  ME: {
-    status: 'Legal',
-    possession: 'Up to 2.5 oz (71g)',
-    cultivation: 'Up to 6 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $0 (free). Annual renewal: $0 (free). Veterans receive expedited processing.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Maine has both medical and recreational programs. Free medical card program. Home cultivation allowed.',
-    recentChanges: 'Free medical card program implemented'
-  },
-  MD: {
-    status: 'Legal',
-    possession: 'Up to 1.5 oz (42g)',
-    cultivation: 'Up to 2 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Maryland has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2023'
-  },
-  MA: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 6 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive expedited processing.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Massachusetts has both medical and recreational programs. Social equity program active.',
-    recentChanges: 'Continued expansion of social equity programs'
-  },
-  MI: {
-    status: 'Legal',
-    possession: 'Up to 2.5 oz (71g)',
-    cultivation: 'Up to 12 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $40. Annual renewal: $40. Veterans receive expedited processing.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Michigan has both medical and recreational programs. Medical patients have higher possession limits.',
-    recentChanges: 'Social equity program improvements'
-  },
-  MN: {
-    status: 'Legal',
-    possession: 'Up to 2 oz (57g)',
-    cultivation: 'Up to 8 plants (4 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $200. Annual renewal: $200. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Minnesota has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2023'
-  },
-  MS: {
+  'Nebraska': {
     status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
+    possession: 'CBD only - 0% THC',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.5% THC',
-    qualifyingConditions: ['Intractable epilepsy'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.5% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Mississippi has a very limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'No significant changes'
+    medicalConditions: 'Limited CBD program',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/nebraska/',
+    lastUpdated: '2025'
   },
-  MO: {
-    status: 'Legal',
-    possession: 'Up to 3 oz (85g)',
-    cultivation: 'Up to 6 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $25. Annual renewal: $25. Veterans receive expedited processing.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Missouri has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2023'
+  'Nevada': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, persistent muscle spasms, seizures, severe nausea, severe pain, PTSD',
+    freeCardInfo: 'Reduced fees for indigent patients',
+    cardResources: [
+      { name: 'Nevada Division of Public Health', url: 'https://dpbh.nv.gov/Reg/Medical-Marijuana-Program/Medical_Marijuana_Program_-_Home/' },
+      { name: 'ARCannabisClinic Nevada', url: 'https://www.arcannabisclinic.com/states/nevada' }
+    ],
+    mppLink: 'https://www.mpp.org/states/nevada/',
+    lastUpdated: '2025'
   },
-  MT: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 4 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $30. Annual renewal: $30. Veterans receive expedited processing.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Montana has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2021'
-  },
-  NE: {
-    status: 'Decriminalized',
-    possession: 'Civil infraction (up to 1 oz)',
-    cultivation: 'Prohibited',
-    medicalProgram: 'No',
-    recreational: 'Illegal',
-    thcLimit: 'Illegal',
-    qualifyingConditions: ['No medical program'],
-    freeCardInfo: 'No medical marijuana program. Decriminalized for small amounts but still illegal.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Nebraska has decriminalized small amounts but no medical program. Still illegal.',
-    recentChanges: 'Medical marijuana ballot initiative failed in 2022'
-  },
-  NV: {
-    status: 'Legal',
-    possession: 'Up to 2.5 oz (71g)',
-    cultivation: 'Up to 6 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Nevada has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Continued expansion of social equity programs'
-  },
-  NH: {
-    status: 'Decriminalized',
-    possession: 'Civil violation (up to 0.75 oz)',
-    cultivation: 'Medical patients only (3 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit for medical',
-    qualifyingConditions: ['Cancer', 'Glaucoma', 'HIV/AIDS', 'Hepatitis C', 'ALS', 'Muscular dystrophy', 'Crohn\'s disease', 'Multiple sclerosis', 'Chronic pancreatitis', 'Spinal cord injury', 'PTSD', 'Terminal illness'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Decriminalized for small amounts.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'New Hampshire has decriminalized small amounts and a medical program. No recreational legalization.',
-    recentChanges: 'Decriminalization expanded in 2023'
-  },
-  NJ: {
-    status: 'Legal',
-    possession: 'Up to 6 oz (170g)',
-    cultivation: 'Medical patients only (6 plants)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $100. Annual renewal: $100. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'New Jersey has both medical and recreational programs. Medical patients have cultivation rights.',
-    recentChanges: 'Recreational sales began in 2022'
-  },
-  NM: {
-    status: 'Legal',
-    possession: 'Up to 2 oz (57g)',
-    cultivation: 'Up to 6 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $30. Annual renewal: $30. Veterans receive expedited processing.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'New Mexico has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2021'
-  },
-  NY: {
-    status: 'Legal',
-    possession: 'Up to 3 oz (85g)',
-    cultivation: 'Up to 3 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'New York has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2021'
-  },
-  NC: {
-    status: 'Decriminalized',
-    possession: 'Civil infraction (up to 0.5 oz)',
-    cultivation: 'Felony',
-    medicalProgram: 'CBD Only',
-    recreational: 'Illegal',
-    thcLimit: 'Maximum 0.9% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Dravet syndrome', 'Lennox-Gastaut syndrome'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.9% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'North Carolina has decriminalized small amounts and a limited CBD program. No medical marijuana.',
-    recentChanges: 'No significant changes'
-  },
-  ND: {
+  'New Hampshire': {
     status: 'Medical Only',
-    possession: 'Up to 3 oz (85g) per 30 days',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Cancer', 'HIV/AIDS', 'Hepatitis C', 'ALS', 'Alzheimer\'s disease', 'Cachexia', 'Cancer', 'PTSD', 'Chronic pain', 'Terminal illness'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Program expanded in 2023.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'North Dakota has a medical program. No cultivation allowed. Program expanded in 2023.',
-    recentChanges: 'Program expanded in 2023 to include additional conditions'
+    possession: 'Medical patients only - up to 2 oz',
+    recreational: 'Illegal (decriminalized up to 0.75 oz)',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, muscular dystrophy, Crohn\'s disease, Alzheimer\'s, PTSD, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'New Hampshire Department of Health', url: 'https://www.dhhs.nh.gov/programs-services/health-care-quality-assurance/therapeutic-cannabis' },
+      { name: 'LeafyDoc New Hampshire', url: 'https://leafydoc.com/states/new-hampshire' }
+    ],
+    mppLink: 'https://www.mpp.org/states/new-hampshire/',
+    lastUpdated: '2025'
   },
-  OH: {
-    status: 'Legal',
-    possession: 'Up to 2.5 oz (71g)',
-    cultivation: 'Medical patients only (6 plants)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Ohio has both medical and recreational programs. Medical patients have cultivation rights.',
-    recentChanges: 'Recreational legalization in 2023'
+  'New Jersey': {
+    status: 'Fully Legal',
+    possession: 'Up to 6 oz (recreational), 3 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, ALS, MS, terminal illness, muscular dystrophy, IBD, PTSD, chronic pain, anxiety, migraines, and more',
+    freeCardInfo: 'Fee waivers for Medicaid and SNAP recipients',
+    cardResources: [
+      { name: 'New Jersey Cannabis Regulatory Commission', url: 'https://www.nj.gov/cannabis/' },
+      { name: 'NuggMD New Jersey', url: 'https://www.nuggmd.com/new-jersey' }
+    ],
+    mppLink: 'https://www.mpp.org/states/new-jersey/',
+    lastUpdated: '2025'
   },
-  OK: {
-    status: 'Medical Only',
-    possession: 'Up to 3 oz (85g)',
-    cultivation: 'Up to 6 mature plants',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $100. Annual renewal: $100. Most permissive medical program.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Oklahoma has one of the most permissive medical programs. Home cultivation allowed.',
-    recentChanges: 'Program continues to expand with new dispensaries'
+  'New Mexico': {
+    status: 'Fully Legal',
+    possession: 'Up to 2 oz (recreational), 15 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, ALS, Crohn\'s disease, PTSD, and more',
+    freeCardInfo: 'Reduced fees for veterans and low-income patients',
+    cardResources: [
+      { name: 'New Mexico Department of Health', url: 'https://www.nmhealth.org/about/mcp/svcs/' },
+      { name: 'MedCardNow New Mexico', url: 'https://medcardnow.com/states/new-mexico' }
+    ],
+    mppLink: 'https://www.mpp.org/states/new-mexico/',
+    lastUpdated: '2025'
   },
-  OR: {
-    status: 'Legal',
-    possession: 'Up to 2 oz (57g) in public',
-    cultivation: 'Medical patients only (6 plants)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $200. Annual renewal: $200. Veterans receive 50% discount.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Oregon has both medical and recreational programs. Higher possession limits for medical patients.',
-    recentChanges: 'Continued expansion of social equity programs'
+  'New York': {
+    status: 'Fully Legal',
+    possession: 'Up to 3 oz (recreational), 60-day supply (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, HIV/AIDS, ALS, Parkinson\'s, MS, epilepsy, IBD, neuropathy, Huntington\'s, PTSD, chronic pain, and more',
+    freeCardInfo: 'Fee waivers for patients receiving SSI, SSD, or Medicaid',
+    cardResources: [
+      { name: 'New York Office of Cannabis Management', url: 'https://cannabis.ny.gov/' },
+      { name: 'ARCannabisClinic New York', url: 'https://www.arcannabisclinic.com/states/new-york' }
+    ],
+    mppLink: 'https://www.mpp.org/states/new-york/',
+    lastUpdated: '2025'
   },
-  PA: {
-    status: 'Medical Only',
-    possession: 'Up to 90-day supply',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
-    recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Pennsylvania has a medical program with physician discretion. No cultivation allowed.',
-    recentChanges: 'Program expanded to include any condition physician approves'
-  },
-  RI: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 12 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Rhode Island has both medical and recreational programs. Home cultivation allowed.',
-    recentChanges: 'Recreational legalization in 2022'
-  },
-  SC: {
+  'North Carolina': {
     status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
+    possession: 'CBD only - max 0.9% THC',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.9% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Dravet syndrome', 'Lennox-Gastaut syndrome'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.9% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'South Carolina has a very limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'No significant changes'
+    medicalConditions: 'Intractable epilepsy only',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/north-carolina/',
+    lastUpdated: '2025'
   },
-  SD: {
+  'North Dakota': {
     status: 'Medical Only',
-    possession: 'Up to 3 oz (85g)',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - up to 3 oz per month',
     recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $75. Annual renewal: $75. Program launched in 2021.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'South Dakota has a medical program. No cultivation allowed. Program launched in 2021.',
-    recentChanges: 'Medical program launched in 2021'
+    medicalConditions: 'Cancer, HIV/AIDS, hepatitis C, ALS, PTSD, agitation of Alzheimer\'s, Crohn\'s disease, fibromyalgia, glaucoma, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'North Dakota Department of Health', url: 'https://www.health.nd.gov/mm' },
+      { name: 'LeafyDoc North Dakota', url: 'https://leafydoc.com/states/north-dakota' }
+    ],
+    mppLink: 'https://www.mpp.org/states/north-dakota/',
+    lastUpdated: '2025'
   },
-  TN: {
-    status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
-    recreational: 'Illegal',
-    thcLimit: 'Maximum 0.9% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Alzheimer\'s disease', 'ALS', 'Cancer', 'Inflammatory bowel disease', 'Multiple sclerosis', 'Parkinson\'s disease', 'HIV/AIDS', 'Sickle cell disease'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.9% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Tennessee has a limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'CBD program expanded in 2023'
+  'Ohio': {
+    status: 'Fully Legal',
+    possession: 'Up to 2.5 oz (recreational), 90-day supply (medical)',
+    recreational: 'Legal for 21+ (as of 2024)',
+    medicalConditions: 'Cancer, HIV/AIDS, ALS, Parkinson\'s, MS, epilepsy, IBD, PTSD, chronic pain, and more',
+    freeCardInfo: 'Reduced fees for veterans and indigent patients',
+    cardResources: [
+      { name: 'Ohio Medical Marijuana Control Program', url: 'https://medicalmarijuana.ohio.gov/' },
+      { name: 'MedCardNow Ohio', url: 'https://medcardnow.com/states/ohio' }
+    ],
+    mppLink: 'https://www.mpp.org/states/ohio/',
+    lastUpdated: '2025'
   },
-  TX: {
-    status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
-    recreational: 'Illegal',
-    thcLimit: 'Maximum 1% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Multiple sclerosis', 'ALS', 'Terminal cancer', 'Autism', 'Spasticity', 'Epilepsy', 'Seizure disorders'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 1% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Texas has a very limited CBD program. No medical marijuana or recreational use. Strict THC limits.',
-    recentChanges: 'Program expanded slightly in 2023 but remains restrictive'
-  },
-  UT: {
+  'Oklahoma': {
     status: 'Medical Only',
-    possession: 'Up to 113g of unprocessed cannabis',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - up to 3 oz',
     recreational: 'Illegal',
-    thcLimit: 'No specific limit for medical',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $15. Annual renewal: $15. One of the lowest fees in the country.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Utah has a medical program with very low fees. No cultivation allowed. Physician discretion for qualifying conditions.',
-    recentChanges: 'Program expanded in 2023 to include any condition physician approves'
+    medicalConditions: 'Any condition approved by physician',
+    freeCardInfo: 'Reduced fees for veterans, Medicaid, and Medicare recipients',
+    cardResources: [
+      { name: 'Oklahoma Medical Marijuana Authority', url: 'https://oklahoma.gov/omma.html' },
+      { name: 'ARCannabisClinic Oklahoma', url: 'https://www.arcannabisclinic.com/states/oklahoma' }
+    ],
+    mppLink: 'https://www.mpp.org/states/oklahoma/',
+    lastUpdated: '2025'
   },
-  VT: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 6 plants (2 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Vermont has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational sales began in 2022'
+  'Oregon': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz in public (recreational), 24 oz at home (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, severe pain, severe nausea, seizures, muscle spasms, PTSD',
+    freeCardInfo: 'Reduced fees for SNAP recipients',
+    cardResources: [
+      { name: 'Oregon Health Authority', url: 'https://www.oregon.gov/oha/ph/diseasesconditions/chronicdisease/medicalmarijuanaprogram/pages/index.aspx' },
+      { name: 'LeafyDoc Oregon', url: 'https://leafydoc.com/states/oregon' }
+    ],
+    mppLink: 'https://www.mpp.org/states/oregon/',
+    lastUpdated: '2025'
   },
-  VA: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Up to 4 plants per household',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Virginia has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Recreational legalization in 2021'
-  },
-  WA: {
-    status: 'Legal',
-    possession: 'Up to 1 oz (28g)',
-    cultivation: 'Medical patients only (6 plants)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $1. Annual renewal: $1. One of the lowest fees in the country.',
-    dispensaries: 'Extensive network of licensed dispensaries',
-    details: 'Washington has both medical and recreational programs. Very low medical card fees. No home cultivation for recreational.',
-    recentChanges: 'Continued expansion of social equity programs'
-  },
-  WV: {
+  'Pennsylvania': {
     status: 'Medical Only',
-    possession: 'Up to 30-day supply',
-    cultivation: 'Prohibited',
-    medicalProgram: 'Active',
+    possession: 'Medical patients only - 30-day supply',
     recreational: 'Illegal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $50. Annual renewal: $50. Program launched in 2021.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'West Virginia has a medical program. No cultivation allowed. Program launched in 2021.',
-    recentChanges: 'Program launched in 2021'
+    medicalConditions: 'Cancer, HIV/AIDS, ALS, Parkinson\'s, MS, epilepsy, IBD, PTSD, autism, neuropathies, and more',
+    freeCardInfo: 'Fee waivers for patients receiving medical assistance',
+    cardResources: [
+      { name: 'Pennsylvania Department of Health', url: 'https://www.health.pa.gov/topics/programs/Medical%20Marijuana/Pages/Medical%20Marijuana.aspx' },
+      { name: 'NuggMD Pennsylvania', url: 'https://www.nuggmd.com/pennsylvania' }
+    ],
+    mppLink: 'https://www.mpp.org/states/pennsylvania/',
+    lastUpdated: '2025'
   },
-  WI: {
+  'Rhode Island': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2.5 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, hepatitis C, severe pain, severe nausea, seizures, muscle spasms, Crohn\'s disease, Alzheimer\'s, PTSD',
+    freeCardInfo: 'Reduced fees for SSI/SSDI recipients',
+    cardResources: [
+      { name: 'Rhode Island Department of Health', url: 'https://health.ri.gov/healthcare/medicalmarijuana/' },
+      { name: 'MedCardNow Rhode Island', url: 'https://medcardnow.com/states/rhode-island' }
+    ],
+    mppLink: 'https://www.mpp.org/states/rhode-island/',
+    lastUpdated: '2025'
+  },
+  'South Carolina': {
     status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
+    possession: 'CBD only - max 0.9% THC',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.3% THC for CBD',
-    qualifyingConditions: ['Seizure disorders'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.3% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Wisconsin has a very limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'No significant changes'
+    medicalConditions: 'Epilepsy and seizure disorders only',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/south-carolina/',
+    lastUpdated: '2025'
   },
-  WY: {
+  'South Dakota': {
+    status: 'Medical Only',
+    possession: 'Medical patients only - up to 3 oz',
+    recreational: 'Illegal',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, PTSD, chronic pain, severe nausea, seizures, muscle spasms, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'South Dakota Department of Health', url: 'https://doh.sd.gov/cannabis/' },
+      { name: 'LeafyDoc South Dakota', url: 'https://leafydoc.com/states/south-dakota' }
+    ],
+    mppLink: 'https://www.mpp.org/states/south-dakota/',
+    lastUpdated: '2025'
+  },
+  'Tennessee': {
     status: 'CBD Only',
-    possession: 'Legal with proper labeling',
-    cultivation: 'Industrial hemp only',
-    medicalProgram: 'Limited CBD',
+    possession: 'CBD only - max 0.9% THC',
     recreational: 'Illegal',
-    thcLimit: 'Maximum 0.3% THC for CBD',
-    qualifyingConditions: ['Intractable epilepsy', 'Seizure disorders'],
-    freeCardInfo: 'No medical marijuana program. CBD oil with less than 0.3% THC allowed for specific conditions.',
-    dispensaries: 'No licensed dispensaries',
-    details: 'Wyoming has a very limited CBD program. No medical marijuana or recreational use.',
-    recentChanges: 'No significant changes'
+    medicalConditions: 'Intractable seizures only',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/tennessee/',
+    lastUpdated: '2025'
   },
-  DC: {
-    status: 'Legal',
-    possession: 'Up to 2 oz (57g)',
-    cultivation: 'Up to 6 plants (3 mature)',
-    medicalProgram: 'Active',
-    recreational: 'Legal',
-    thcLimit: 'No specific limit',
-    qualifyingConditions: ['Any condition physician deems appropriate'],
-    freeCardInfo: 'No free program. Application fee: $100. Annual renewal: $100. Veterans receive 50% discount.',
-    dispensaries: 'Licensed dispensaries operational',
-    details: 'Washington DC has both medical and recreational programs. Home cultivation allowed for adults.',
-    recentChanges: 'Continued expansion of social equity programs'
+  'Texas': {
+    status: 'Medical Only (Low-THC)',
+    possession: 'Low-THC only - max 1% THC',
+    recreational: 'Illegal',
+    medicalConditions: 'Epilepsy, seizure disorders, MS, spasticity, ALS, autism, terminal cancer, incurable neurodegenerative disease, PTSD',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Texas Department of Public Safety', url: 'https://www.dps.texas.gov/section/compassionate-use-program' },
+      { name: 'ARCannabisClinic Texas', url: 'https://www.arcannabisclinic.com/states/texas' }
+    ],
+    mppLink: 'https://www.mpp.org/states/texas/',
+    lastUpdated: '2025'
+  },
+  'Utah': {
+    status: 'Medical Only',
+    possession: 'Medical patients only - varies by form',
+    recreational: 'Illegal',
+    medicalConditions: 'Cancer, HIV/AIDS, ALS, Alzheimer\'s, PTSD, autism, chronic pain, epilepsy, MS, Crohn\'s disease, and more',
+    freeCardInfo: 'Reduced fees for veterans and indigent patients',
+    cardResources: [
+      { name: 'Utah Department of Health', url: 'https://medicalcannabis.utah.gov/' },
+      { name: 'MedCardNow Utah', url: 'https://medcardnow.com/states/utah' }
+    ],
+    mppLink: 'https://www.mpp.org/states/utah/',
+    lastUpdated: '2025'
+  },
+  'Vermont': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 2 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, MS, HIV/AIDS, Crohn\'s disease, Parkinson\'s, PTSD, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Vermont Cannabis Control Board', url: 'https://ccb.vermont.gov/' },
+      { name: 'LeafyDoc Vermont', url: 'https://leafydoc.com/states/vermont' }
+    ],
+    mppLink: 'https://www.mpp.org/states/vermont/',
+    lastUpdated: '2025'
+  },
+  'Virginia': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 4 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Any condition diagnosed by physician',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Virginia Board of Pharmacy', url: 'https://www.dhp.virginia.gov/pharmacy/cannabisoil/' },
+      { name: 'ARCannabisClinic Virginia', url: 'https://www.arcannabisclinic.com/states/virginia' }
+    ],
+    mppLink: 'https://www.mpp.org/states/virginia/',
+    lastUpdated: '2025'
+  },
+  'Washington': {
+    status: 'Fully Legal',
+    possession: 'Up to 1 oz (recreational), 3 oz (medical)',
+    recreational: 'Legal for 21+',
+    medicalConditions: 'Cancer, HIV/AIDS, MS, epilepsy, glaucoma, Crohn\'s disease, hepatitis C, ALS, PTSD, chronic pain, and more',
+    freeCardInfo: 'No state fee waiver program',
+    cardResources: [
+      { name: 'Washington State Department of Health', url: 'https://doh.wa.gov/you-and-your-family/cannabis' },
+      { name: 'NuggMD Washington', url: 'https://www.nuggmd.com/washington' }
+    ],
+    mppLink: 'https://www.mpp.org/states/washington/',
+    lastUpdated: '2025'
+  },
+  'West Virginia': {
+    status: 'Medical Only',
+    possession: 'Medical patients only - 30-day supply',
+    recreational: 'Illegal',
+    medicalConditions: 'Cancer, HIV/AIDS, ALS, Parkinson\'s, MS, epilepsy, neuropathies, Huntington\'s, Crohn\'s disease, PTSD, terminal illness, chronic pain, and more',
+    freeCardInfo: 'Reduced fees for veterans',
+    cardResources: [
+      { name: 'West Virginia Medical Cannabis Program', url: 'https://omc.wv.gov/' },
+      { name: 'MedCardNow West Virginia', url: 'https://medcardnow.com/states/west-virginia' }
+    ],
+    mppLink: 'https://www.mpp.org/states/west-virginia/',
+    lastUpdated: '2025'
+  },
+  'Wisconsin': {
+    status: 'CBD Only',
+    possession: 'CBD only - 0% THC',
+    recreational: 'Illegal',
+    medicalConditions: 'Limited CBD program',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/wisconsin/',
+    lastUpdated: '2025'
+  },
+  'Wyoming': {
+    status: 'CBD Only',
+    possession: 'CBD only - max 0.3% THC',
+    recreational: 'Illegal',
+    medicalConditions: 'Intractable epilepsy only',
+    freeCardInfo: 'Not applicable',
+    cardResources: [],
+    mppLink: 'https://www.mpp.org/states/wyoming/',
+    lastUpdated: '2025'
+  },
+  'Washington DC': {
+    status: 'Fully Legal',
+    possession: 'Up to 2 oz (recreational), 8 oz (medical)',
+    recreational: 'Legal for 21+ (no sales)',
+    medicalConditions: 'Cancer, glaucoma, HIV/AIDS, cachexia, severe pain, severe nausea, seizures, muscle spasms, MS, and more',
+    freeCardInfo: 'No fee waiver program',
+    cardResources: [
+      { name: 'DC Department of Health', url: 'https://dchealth.dc.gov/service/medical-marijuana-program' },
+      { name: 'LeafyDoc DC', url: 'https://leafydoc.com/states/washington-dc' }
+    ],
+    mppLink: 'https://www.mpp.org/states/district-of-columbia/',
+    lastUpdated: '2025'
   }
+};
+
+// Recording Laws by State
+export const recordingLaws = {
+  'One-Party Consent': {
+    states: [
+      'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'Colorado', 'Georgia', 'Hawaii', 'Idaho',
+      'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Michigan', 'Minnesota',
+      'Mississippi', 'Missouri', 'Nebraska', 'New Jersey', 'New Mexico', 'New York',
+      'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Rhode Island',
+      'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+      'Virginia', 'West Virginia', 'Wisconsin', 'Wyoming', 'Washington DC'
+    ],
+    description: 'You can record conversations without notifying others as long as you are a party to the conversation',
+    source: 'https://recordinglaw.com/united-states-recording-laws/',
+    journalismNote: 'Generally allows recording of interviews and public meetings without consent'
+  },
+  'Two-Party Consent': {
+    states: [
+      'California', 'Connecticut', 'Delaware', 'Florida', 'Illinois', 'Maryland',
+      'Massachusetts', 'Montana', 'Nevada', 'New Hampshire', 'Pennsylvania', 'Washington'
+    ],
+    description: 'All parties must consent to recording conversations',
+    source: 'https://recordinglaw.com/united-states-recording-laws/',
+    journalismNote: 'Recording police in public is generally protected even in two-party states',
+    rcfpGuide: 'https://www.rcfp.org/reporters-recording-guide/'
+  }
+};
+
+// Additional Resources
+export const marijuanaResources = {
+  nationalOrganizations: [
+    {
+      name: 'Marijuana Policy Project (MPP)',
+      url: 'https://www.mpp.org/',
+      description: 'Leading organization for marijuana policy reform'
+    },
+    {
+      name: 'NORML',
+      url: 'https://norml.org/',
+      description: 'National Organization for the Reform of Marijuana Laws'
+    },
+    {
+      name: 'Americans for Safe Access',
+      url: 'https://www.safeaccessnow.org/',
+      description: 'Medical marijuana patient advocacy'
+    }
+  ],
+  telehealthServices: [
+    {
+      name: 'NuggMD',
+      url: 'https://www.nuggmd.com/',
+      description: 'Online medical marijuana evaluations'
+    },
+    {
+      name: 'LeafyDoc',
+      url: 'https://leafydoc.com/',
+      description: 'Telehealth marijuana card service'
+    },
+    {
+      name: 'ARCannabisClinic',
+      url: 'https://www.arcannabisclinic.com/',
+      description: 'Medical marijuana card evaluations'
+    },
+    {
+      name: 'MedCardNow',
+      url: 'https://medcardnow.com/',
+      description: 'Fast online medical marijuana cards'
+    }
+  ]
 };
