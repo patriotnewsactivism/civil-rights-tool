@@ -57,12 +57,18 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 4. **Police Scanner Directory** - 100+ police scanner frequencies across all 50 states with Broadcastify live feed links
 5. **Marijuana Laws** - Comprehensive 50-state + DC marijuana law database
 6. **Admin Moderation Panel** - Password-protected panel for moderating violation reports (approve/reject/pending)
-7. **Case Explorer** - Search and analyze legal cases via CourtListener API
-8. **Real-Time Dashboard** - Live legal data and statistics
-9. **Legislative Tracker** - Track legislative changes and updates
-10. **AI Legal Assistant** - AI-powered legal guidance
-11. **Affiliate Program** - Referral and commission tracking system
-12. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
+7. **FREE PRESS PASS GENERATOR** - Instant digital press credential generator for journalists and activists
+   - Generate professional press passes instantly
+   - Download as PDF or PNG image
+   - Protected by First Amendment
+   - Includes photo upload, contact details, and organization info
+   - Credit card-sized format for easy printing/lamination
+8. **Case Explorer** - Search and analyze legal cases via CourtListener API
+9. **Real-Time Dashboard** - Live legal data and statistics
+10. **Legislative Tracker** - Track legislative changes and updates
+11. **AI Legal Assistant** - AI-powered legal guidance
+12. **Affiliate Program** - Referral and commission tracking system
+13. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
 
 ## External Integrations
 - **CourtListener API**: Legal case search and data
@@ -73,6 +79,18 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 - **News Aggregator API**: Legal news updates (planned)
 
 ## Recent Changes
+
+### October 21, 2025 - Free Press Pass Generator Integration
+- **freepresspass.com functionality built-in**: No need to leave the platform
+- **Instant press credential generation** for journalists and activists
+  - Professional credit card-sized design
+  - Upload photo, enter details (name, organization, role, location, contact)
+  - Download as high-quality PDF or PNG image
+  - First Amendment protection statement included
+  - Perfect for printing and lamination
+- **Accessible from main navigation**: "Free Press Pass" tab visible to all users
+- **Roles supported**: Journalist, Reporter, Photographer, Videographer, Correspondent, Citizen Journalist, Blogger, Podcaster, Documentary Filmmaker
+- **Educational content**: First Amendment rights, citizen journalism, and know-your-rights information included
 
 ### October 21, 2025 - Full Social Media Platform for Journalists & Activists
 - **Complete Social Network**: Transformed into full-featured social media platform

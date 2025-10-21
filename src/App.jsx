@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
-import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi, Zap, Brain, Sparkles, TrendingUp, Map, Grid } from 'lucide-react';
+import { Search, Scale, AlertCircle, Gavel, Shield, AlertTriangle, BookMarked, TrendingDown, Users, FileText, Camera, Globe, Leaf, Phone, Moon, Sun, AlertOctagon, RefreshCw, Wifi, Zap, Brain, Sparkles, TrendingUp, Map, Grid, CreditCard } from 'lucide-react';
 import './App.css';
 import ErrorBoundary, { withErrorBoundary } from './components/ErrorBoundary.jsx';
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws.jsx';
@@ -23,6 +23,7 @@ const CaseExplorer = React.lazy(() => import('./components/EnhancedCaseExplorer.
 const LegalToolkitPro = React.lazy(() => import('./components/LegalToolkitPro.jsx'));
 const ResourcesAndLaws = React.lazy(() => import('./components/EnhancedResourcesAndLaws.jsx'));
 const ToolkitsHub = React.lazy(() => import('./components/ToolkitsHub.jsx'));
+const PressPassGenerator = React.lazy(() => import('./components/PressPassGenerator.tsx'));
 
 import { useAuth } from './context/AuthContext.jsx';
 import { useTheme } from './context/ThemeContext.jsx';
@@ -50,6 +51,7 @@ const SafeCaseExplorer = withErrorBoundary(CaseExplorer);
 const SafeLegalToolkitPro = withErrorBoundary(LegalToolkitPro);
 const SafeResourcesAndLaws = withErrorBoundary(ResourcesAndLaws);
 const SafeToolkitsHub = withErrorBoundary(ToolkitsHub);
+const SafePressPassGenerator = withErrorBoundary(PressPassGenerator);
 
 const CivilRightsLegalTool = () => {
   const [selectedState, setSelectedState] = useState('');
@@ -260,6 +262,15 @@ const CivilRightsLegalTool = () => {
             >
               <FileText className="h-5 w-5 mr-2" />
               Legal Toolkit Pro
+            </button>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'presspass' ? 
+                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('presspass')}
+            >
+              <Camera className="h-5 w-5 mr-2" />
+              Free Press Pass
             </button>
           </div>
         </div>
@@ -481,6 +492,14 @@ const CivilRightsLegalTool = () => {
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
                 <EnhancedAILegalAssistant darkMode={darkMode} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+          
+          {activeTab === 'presspass' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafePressPassGenerator />
               </Suspense>
             </ErrorBoundary>
           )}

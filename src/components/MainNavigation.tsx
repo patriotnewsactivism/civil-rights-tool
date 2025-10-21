@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Shield, Home, Users, MessageSquare, Bell, Search, MapPin, Scale, BookOpen, TrendingUp, Menu, X, User, LogOut } from 'lucide-react';
+import { Shield, Home, Users, MessageSquare, Bell, Search, MapPin, Scale, BookOpen, TrendingUp, Menu, X, User, LogOut, Camera } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import AuthModal from './AuthModal';
 
@@ -72,6 +72,7 @@ export default function MainNavigation({ currentPage, onNavigate }: MainNavigati
     { id: 'home', label: 'Home', icon: Home },
     { id: 'feed', label: 'Feed', icon: MessageSquare },
     { id: 'network', label: 'Network', icon: Users },
+    { id: 'press-pass', label: 'Press Pass', icon: Camera },
     { id: 'violations', label: 'Violations', icon: MapPin },
     { id: 'legal', label: 'Legal Tools', icon: Scale },
     { id: 'cases', label: 'Cases', icon: BookOpen },
