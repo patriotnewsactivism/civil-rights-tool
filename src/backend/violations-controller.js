@@ -1,10 +1,16 @@
 // Violations API Controller - Handle civil rights violation reports
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Hash IP address for privacy
+function hashIP(ip) {
+  return crypto.createHash('sha256').update(ip + 'salt_for_violations').digest('hex');
+}
 
 // POST /api/violations - Submit a new violation report
 export async function submitViolation(req, res) {
@@ -38,10 +44,11 @@ export async function submitViolation(req, res) {
       });
     }
 
-    // Create hash of IP for rate limiting (without storing actual IP)
-    const ipHash = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
+    // Hash IP for rate limiting (never store actual IP)
+    const rawIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
+    const ipHash = hashIP(rawIP);
 
-    // Insert violation (starts as 'pending' by default)
+    // Insert violation (starts as 'pending' for moderation)
     const { data, error } = await supabase
       .from('violations')
       .insert([{
@@ -58,9 +65,10 @@ export async function submitViolation(req, res) {
         severity: severity || 3,
         media_url,
         ip_hash: ipHash,
-        status: 'approved' // Auto-approve for demo - in production, use 'pending' and moderate
+        reporter_hash: ipHash,
+        status: 'pending' // Requires moderation before appearing on map
       }])
-      .select()
+      .select('id, title, category, severity, created_at')
       .single();
 
     if (error) {
@@ -70,7 +78,13 @@ export async function submitViolation(req, res) {
 
     res.status(201).json({
       success: true,
-      violation: data
+      message: 'Violation report submitted successfully and is pending moderation.',
+      violation: {
+        id: data.id,
+        title: data.title,
+        category: data.category,
+        severity: data.severity
+      }
     });
   } catch (error) {
     console.error('Error submitting violation:', error);
@@ -83,9 +97,10 @@ export async function getViolations(req, res) {
   try {
     const { state, category, limit = 100 } = req.query;
 
+    // Only return safe fields - never expose ip_hash or reporter_hash
     let query = supabase
       .from('violations')
-      .select('*')
+      .select('id, title, description, category, incident_at, latitude, longitude, address, city, state, zip_code, severity, created_at')
       .eq('status', 'approved')
       .order('incident_at', { ascending: false })
       .limit(parseInt(limit));
