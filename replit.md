@@ -74,6 +74,52 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 
 ## Recent Changes
 
+### October 21, 2025 - Community Features: User Accounts, Messaging & Comments
+- **User Authentication System**: Complete signup/login with email or Google OAuth
+  - User profiles with customizable bio, display name, and role
+  - Role-based badges: User, Activist, Journalist, Attorney, Moderator, Admin
+  - Profile verification system
+- **Contributor Stats & Gamification**: 
+  - Track violations reported, comments posted, messages sent
+  - Automatic contributor levels: New Member → Regular → Active → Expert → Elite
+  - Achievement badges for milestones
+  - Follower/following system
+  - Account age tracking
+- **Private Messaging System**:
+  - Send/receive private messages between users
+  - Inbox and Sent folders
+  - Message threading and replies
+  - Unread message notifications
+  - Star and delete messages
+- **Public Commenting System**:
+  - Comment on violations, news articles, cases, and legislation
+  - Threaded replies for discussions
+  - Upvote/downvote system with vote tracking
+  - Flag comments for moderation
+  - Role badges displayed on comments
+- **Database Schema**: Created `community-schema.sql` with 5 tables
+  - user_profiles: User information and stats
+  - private_messages: Person-to-person messaging
+  - comments: Public comments on content
+  - comment_votes: Upvote/downvote tracking
+  - user_connections: Follow system
+  - Full Row Level Security (RLS) policies implemented
+
+### October 21, 2025 - We The People News Integration & PDF Toolkit
+- **WTP News Integration**: 10 featured civil rights articles from wtpnews.org throughout platform
+  - Special red/blue gradient styling with "WTP NEWS" badges
+  - Integrated into dashboard, hub news tab, and breaking news sections
+  - Categories: First Amendment, Police Misconduct, Judicial Corruption, Press Freedom
+- **Sponsored Sections**: BuildMyBot and We The People News promotions
+  - Banner, inline, and sidebar placement options
+  - Professional gradient styling with clear sponsorship labels
+- **Activist & Journalist PDF Toolkit**:
+  - Comprehensive 10+ page legal guide with constitutional rights, best practices
+  - Pocket-sized ID card generator (credit card dimensions)
+  - State-specific customization
+  - Sections: Know Your Rights, First Amendment, Recording Police, Emergency Contacts
+  - Professional PDF generation with jsPDF library
+
 ### October 21, 2025 - Secure Admin Authentication & Violations Transparency
 - **Public Violation Display**: ALL violation reports are now immediately visible to everyone on the map
   - Transparency-first approach: violations show in real-time until admin moderates
