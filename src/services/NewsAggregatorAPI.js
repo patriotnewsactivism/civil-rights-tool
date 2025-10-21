@@ -1,18 +1,24 @@
-// Real-time news aggregation service for civil rights issues
+// Real-time news aggregation service for civil rights issues (via backend proxy)
 class NewsAggregatorAPI {
   constructor() {
-    this.newsAPIKey = import.meta.env.VITE_NEWS_API_KEY || 'demo_key';
-    this.baseURL = 'https://newsapi.org/v2';
-    this.sources = [
-      'cnn', 'bbc-news', 'the-new-york-times', 'washington-post', 'npr',
-      'reuters', 'associated-press', 'usa-today', 'abc-news', 'cbs-news'
-    ];
+    // Use backend proxy to avoid exposing API keys
+    this.baseURL = '/api/news';
   }
 
   // Get latest civil rights news
   async getLatestCivilRightsNews(limit = 20) {
     try {
-      const response = await fetch(`${this.baseURL}/everything?q=civil+rights+OR+discrimination+OR+police+reform&apiKey=${this.newsAPIKey}&sortBy=publishedAt&pageSize=${limit}`);
+      const query = 'civil+rights+OR+discrimination+OR+police+reform';
+      const response = await fetch(`${this.baseURL}/everything?q=${query}&limit=${limit}`);
+      
+      if (!response.ok) {
+        if (response.status === 503) {
+          console.warn('NewsAPI not configured');
+          return [];
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
+      
       const data = await response.json();
       return data.articles || [];
     } catch (error) {
@@ -24,7 +30,17 @@ class NewsAggregatorAPI {
   // Get state-specific civil rights news
   async getStateNews(state, limit = 10) {
     try {
-      const response = await fetch(`${this.baseURL}/everything?q=${state}+civil+rights+OR+${state}+discrimination&apiKey=${this.newsAPIKey}&sortBy=publishedAt&pageSize=${limit}`);
+      const query = `${state}+civil+rights+OR+${state}+discrimination`;
+      const response = await fetch(`${this.baseURL}/everything?q=${encodeURIComponent(query)}&limit=${limit}`);
+      
+      if (!response.ok) {
+        if (response.status === 503) {
+          console.warn('NewsAPI not configured');
+          return [];
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
+      
       const data = await response.json();
       return data.articles || [];
     } catch (error) {
@@ -36,7 +52,16 @@ class NewsAggregatorAPI {
   // Get breaking news alerts
   async getBreakingAlerts(limit = 5) {
     try {
-      const response = await fetch(`${this.baseURL}/top-headlines?q=civil+rights&apiKey=${this.newsAPIKey}&pageSize=${limit}`);
+      const response = await fetch(`${this.baseURL}/top-headlines?q=civil+rights&limit=${limit}`);
+      
+      if (!response.ok) {
+        if (response.status === 503) {
+          console.warn('NewsAPI not configured');
+          return [];
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
+      
       const data = await response.json();
       return data.articles || [];
     } catch (error) {
