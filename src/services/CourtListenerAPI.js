@@ -2,7 +2,7 @@
 // API Documentation: https://www.courtlistener.com/api/rest/v4/
 
 const COURTLISTENER_API_BASE = 'https://www.courtlistener.com/api/rest/v4';
-const API_TOKEN = '868e4ddf04497269550c58f0bd6c92242af7e34b';
+const API_TOKEN = import.meta.env.VITE_COURTLISTENER_API_KEY || '';
 
 class CourtListenerAPIService {
   constructor() {

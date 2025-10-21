@@ -4,11 +4,11 @@
 This document provides comprehensive information about the CourtListener API integration in the Civil Rights Legal Tool.
 
 ## Authentication
-**Authorization Token**: `868e4ddf04497269550c58f0bd6c92242af7e34b`
+**Authorization Token**: Stored in `VITE_COURTLISTENER_API_KEY` environment variable
 
 ### Authentication Method
 ```bash
-Authorization: Token 868e4ddf04497269550c58f0bd6c92242af7e34b
+Authorization: Token YOUR_API_KEY_HERE
 ```
 
 ## API Endpoints
