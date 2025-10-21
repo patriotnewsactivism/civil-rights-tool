@@ -1,232 +1,44 @@
 # Legal Toolkit - Civil Rights Platform
 
 ## Overview
-A comprehensive legal toolkit and civil rights platform built with React and Vite, featuring real-time legal data, interactive maps, case exploration tools, and affiliate program management.
+This project is a comprehensive legal toolkit and civil rights platform built to empower activists, journalists, and citizens. It provides tools for reporting civil rights violations, accessing legal resources, tracking legislation, and connecting with legal professionals. The platform aims to foster transparency, facilitate legal aid, and build a community around civil rights advocacy. Key capabilities include interactive maps of violations, attorney and police scanner directories, an AI legal assistant, and a social networking aspect for activists and journalists. The platform also features an affiliate program and subscription plans, indicating a business vision for sustainable operation and widespread impact.
 
-## Project Structure
-- **Frontend**: React 18 + Vite 7 (TypeScript/JSX)
-- **Backend**: Express.js API server (affiliate program endpoints)
-- **Styling**: Tailwind CSS with custom forms and typography plugins
-- **Charts**: Chart.js with React integration
-- **Authentication**: Supabase (with fallback mock client)
-- **Legal Data**: CourtListener API integration
+## User Preferences
+I prefer iterative development with clear communication at each stage. Please ask before making major architectural changes or introducing new external dependencies. Focus on delivering production-ready code.
 
-## Technology Stack
-- React 18.2.0
-- Vite 7.1.9 (build tool)
-- Express 5.1.0 (backend API)
-- Supabase 2.58.0 (authentication & database)
-- Chart.js 4.5.0 (data visualization)
-- Tailwind CSS 3.4.18 (styling)
-- Lucide React (icons)
+## System Architecture
+The platform is built with a React 18 + Vite frontend (TypeScript/JSX) and an Express.js backend for specific API endpoints (e.g., affiliate program, admin moderation). Styling is handled with Tailwind CSS, including custom forms and typography. Data visualization uses Chart.js. Authentication and core database services are managed by Supabase, fully configured with Google OAuth and Row Level Security (RLS).
 
-## Development Setup
+Key architectural decisions include:
+- **UI/UX**: A bold, modern design featuring a black background with blue/purple/pink gradients for the homepage, emphasizing activist/journalist messaging and prominent sign-up CTAs. Interactive elements like the Violations Map and social feed are central to the user experience.
+- **Modularity**: Separation of concerns with dedicated components for different features (e.g., HomePage, MainNavigation, SocialFeed).
+- **Real-time Data**: Emphasis on displaying real-time information for civil rights violations and social interactions.
+- **Transparency**: All reported civil rights violations are immediately public on an interactive map, with color-coded status badges (Pending, Approved, Rejected) reflecting admin moderation.
+- **Scalability**: Designed as a stateless web app for autoscale deployment.
+- **Social Platform**: Integration of a full social network with post creation, likes, comments, shares, hashtags, trending topics, notifications, and user networking features.
+- **Community Features**: User profiles with roles (Activist, Journalist, Attorney, Moderator, Admin), verification, contributor stats, private messaging, and public commenting with upvote/downvote functionality.
+- **Security**: Server-side password validation for admin login, cryptographically secure session tokens, and robust Row Level Security (RLS) policies implemented in Supabase.
+- **PDF Generation**: Utilizes jsPDF for generating professional-grade press passes and activist toolkits.
 
-### Frontend (Port 5000)
-- **Host**: 0.0.0.0 (configured for Replit proxy)
-- **Port**: 5000
-- **Command**: `npm run dev`
-- **HMR**: WebSocket on port 443 with WSS protocol
+Feature Specifications:
+- **Civil Rights Hub**: Centralized access to resources, including a directory of 618 civil rights attorneys across all 50 US states and a directory of 100+ police scanner frequencies with Broadcastify live feed links.
+- **Violations Map**: Interactive OpenStreetMap displaying real-time civil rights violations with detailed tooltips.
+- **Free Press Pass Generator**: Instant digital press credential generation (PDF/PNG) with photo upload, contact details, and organization info.
+- **Case Explorer**: Search and analysis of legal cases via the CourtListener API.
+- **Affiliate Program**: Referral and commission tracking system.
+- **Subscription Plans**: Multi-tier pricing structure (Starter, Pro, Ultimate).
+- **WTP News Integration**: Featured civil rights articles from wtpnews.org integrated throughout the platform, including sponsored sections.
+- **Activist & Journalist PDF Toolkit**: Comprehensive legal guide and pocket-sized ID card generator.
 
-### Backend (Port 3001)
-- **Host**: localhost
-- **Port**: 3001
-- **Command**: `node src/backend/server.js`
-- **Endpoints**:
-  - `/health` - Health check
-  - `/api/violations` - Submit and get violation reports
-  - `/api/violations/stats` - Violation statistics
-  - `/api/admin/login` - Admin authentication (requires ADMIN_PASSWORD)
-  - `/api/admin/moderate/:id` - Moderate violations (requires session token)
-  - `/api/affiliates/dashboard/:userId` - Affiliate dashboard data
-  - `/api/affiliates/referrals/:userId` - Referral list
-  - `/api/affiliates/stats/:userId` - Affiliate statistics
-  - `/api/affiliates/generate-code` - Generate referral code
-  - `/api/affiliates/track-referral` - Track new referrals
-
-## Deployment Configuration
-- **Target**: Autoscale (stateless web app)
-- **Build**: `npm run build`
-- **Serve**: `npx serve -s dist -l 5000`
-- **Output**: `dist/` directory
-
-## Key Features
-1. **Civil Rights Hub** - Central hub for reporting violations, finding attorneys, and accessing resources
-2. **Violations Map** - Interactive OpenStreetMap showing ALL real-time civil rights violations (700px height, scroll zoom, status badges)
-3. **Attorney Directory** - 618 civil rights attorneys across all 50 US states (10+ per state)
-4. **Police Scanner Directory** - 100+ police scanner frequencies across all 50 states with Broadcastify live feed links
-5. **Marijuana Laws** - Comprehensive 50-state + DC marijuana law database
-6. **Admin Moderation Panel** - Password-protected panel for moderating violation reports (approve/reject/pending)
-7. **FREE PRESS PASS GENERATOR** - Instant digital press credential generator for journalists and activists
-   - Generate professional press passes instantly
-   - Download as PDF or PNG image
-   - Protected by First Amendment
-   - Includes photo upload, contact details, and organization info
-   - Credit card-sized format for easy printing/lamination
-8. **Case Explorer** - Search and analyze legal cases via CourtListener API
-9. **Real-Time Dashboard** - Live legal data and statistics
-10. **Legislative Tracker** - Track legislative changes and updates
-11. **AI Legal Assistant** - AI-powered legal guidance
-12. **Affiliate Program** - Referral and commission tracking system
-13. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
-
-## External Integrations
-- **CourtListener API**: Legal case search and data
-- **Supabase**: Authentication and database (with mock fallback)
-- **FBI Crime Data API**: Historical crime statistics (via CrimeDataAPI service)
-- **Broadcastify**: Live police scanner feeds (linked from scanner directory)
-- **Legislative Tracker API**: Legislative data (planned)
-- **News Aggregator API**: Legal news updates (planned)
-
-## Recent Changes
-
-### October 21, 2025 - Homepage Redesign & Codebase Cleanup
-- **Bold Black Homepage Now Live**: HomePage.tsx with black background and blue/purple/pink gradients is now the default landing page
-- **Fixed Routing Issue**: App.jsx now properly imports and renders HomePage.tsx instead of jumping directly to legal tools
-- **Codebase Cleanup**: Removed redundant files that were causing confusion:
-  - Deleted backup files: App.jsx.backup, CaseExplorer.jsx.backup, LegalToolkitPro.jsx.backup, marijuanaLaws.js.backup
-  - Deleted redundant components: AppWrapper.tsx, ToolkitsHub.jsx
-  - Deleted committed build/ directory (should be in .gitignore)
-- **Improved File Organization**: Cleaner codebase with single authoritative HomePage component
-
-### October 21, 2025 - Free Press Pass Generator Integration
-- **freepresspass.com functionality built-in**: No need to leave the platform
-- **Instant press credential generation** for journalists and activists
-  - Professional credit card-sized design
-  - Upload photo, enter details (name, organization, role, location, contact)
-  - Download as high-quality PDF or PNG image
-  - First Amendment protection statement included
-  - Perfect for printing and lamination
-- **Accessible from main navigation**: "Free Press Pass" tab visible to all users
-- **Roles supported**: Journalist, Reporter, Photographer, Videographer, Correspondent, Citizen Journalist, Blogger, Podcaster, Documentary Filmmaker
-- **Educational content**: First Amendment rights, citizen journalism, and know-your-rights information included
-
-### October 21, 2025 - Full Social Media Platform for Journalists & Activists
-- **Complete Social Network**: Transformed into full-featured social media platform
-  - BOLD branded homepage (black/blue/purple/pink) with MASSIVE signup CTAs
-  - Clear activist/journalist messaging throughout
-  - Social feed with post creation, likes, shares, comments, and hashtags
-  - Trending hashtags sidebar and user discovery suggestions
-  - Main navigation bar with notification badges and user menu
-  - Mobile-responsive design throughout
-- **Social Features**:
-  - Create and share posts with text and hashtags
-  - Like, comment, and share posts
-  - Real-time notification system (likes, comments, follows, mentions, messages)
-  - Notifications center with filter and mark-as-read functionality
-  - User network/discovery page with search and role filtering
-  - Follow/unfollow system with following count
-- **Enhanced User Experience**:
-  - Professional landing page (HomePage.tsx)
-  - Unified navigation across all sections (MainNavigation.tsx)
-  - Social feed with sidebar widgets (SocialFeed.tsx)
-  - User discovery and networking (UserNetwork.tsx)
-  - Notifications center (NotificationsCenter.tsx)
-- **Database Extensions**:
-  - Created `social-schema.sql` for social features
-  - Added tables: posts, post_likes, post_shares, notifications, user_activity
-  - Automatic activity tracking and contributor stats
-  - Trending hashtags functionality
-- **Documentation**:
-  - Created `SOCIAL_PLATFORM_GUIDE.md` with complete platform documentation
-  - Setup instructions for both database schemas
-  - Component integration examples
-  - Testing checklist and troubleshooting guide
-
-### October 21, 2025 - Community Features: User Accounts, Messaging & Comments
-- **User Authentication System**: Complete signup/login with email or Google OAuth
-  - User profiles with customizable bio, display name, and role
-  - Role-based badges: User, Activist, Journalist, Attorney, Moderator, Admin
-  - Profile verification system
-- **Contributor Stats & Gamification**: 
-  - Track violations reported, comments posted, messages sent
-  - Automatic contributor levels: New Member → Regular → Active → Expert → Elite
-  - Achievement badges for milestones
-  - Follower/following system
-  - Account age tracking
-- **Private Messaging System**:
-  - Send/receive private messages between users
-  - Inbox and Sent folders
-  - Message threading and replies
-  - Unread message notifications
-  - Star and delete messages
-- **Public Commenting System**:
-  - Comment on violations, news articles, cases, and legislation
-  - Threaded replies for discussions
-  - Upvote/downvote system with vote tracking
-  - Flag comments for moderation
-  - Role badges displayed on comments
-- **Database Schema**: Created `community-schema.sql` with 5 tables
-  - user_profiles: User information and stats
-  - private_messages: Person-to-person messaging
-  - comments: Public comments on content
-  - comment_votes: Upvote/downvote tracking
-  - user_connections: Follow system
-  - Full Row Level Security (RLS) policies implemented
-
-### October 21, 2025 - We The People News Integration & PDF Toolkit
-- **WTP News Integration**: 10 featured civil rights articles from wtpnews.org throughout platform
-  - Special red/blue gradient styling with "WTP NEWS" badges
-  - Integrated into dashboard, hub news tab, and breaking news sections
-  - Categories: First Amendment, Police Misconduct, Judicial Corruption, Press Freedom
-- **Sponsored Sections**: BuildMyBot and We The People News promotions
-  - Banner, inline, and sidebar placement options
-  - Professional gradient styling with clear sponsorship labels
-- **Activist & Journalist PDF Toolkit**:
-  - Comprehensive 10+ page legal guide with constitutional rights, best practices
-  - Pocket-sized ID card generator (credit card dimensions)
-  - State-specific customization
-  - Sections: Know Your Rights, First Amendment, Recording Police, Emergency Contacts
-  - Professional PDF generation with jsPDF library
-
-### October 21, 2025 - Secure Admin Authentication & Violations Transparency
-- **Public Violation Display**: ALL violation reports are now immediately visible to everyone on the map
-  - Transparency-first approach: violations show in real-time until admin moderates
-  - Color-coded status badges: Yellow (Pending), Green (Approved), Red (Rejected)
-  - Interactive map tooltips show detailed violation information
-- **Secure Admin Moderation Panel**: Production-ready authentication system
-  - Server-side password validation (no credentials in client bundle)
-  - Cryptographically secure 64-character session tokens
-  - 24-hour session expiration
-  - Secure-by-default: NO default password, must be explicitly configured
-  - Setup via `.env` file with clear instructions in `.env.example`
-  - Graceful error handling with helpful setup messages
-- **Database Schema**: Created `violations-schema.sql` for Supabase table setup
-  - Stores violation reports with location, description, and evidence
-  - Tracks moderation status and timestamps
-  - Admin session management
-
-### October 21, 2025 - Civil Rights Hub Expansion
-- **Massively Expanded Attorney Directory**: Grew from 20 to **618 civil rights attorneys** (10+ per state across all 50 states)
-- **Police Scanner Directory**: Added 100+ police scanner frequencies across all 50 states
-  - Searchable by state, city, and agency type
-  - Includes frequency, mode (FM/Digital/P25), and type (Police/Fire/EMS)
-  - Direct links to Broadcastify live feeds where available
-  - Integrated as "Police Scanners" tab in Civil Rights Hub
-- **Enhanced Interactive Map**: 
-  - Increased height to 700px with prominent border styling
-  - Added scroll wheel zoom and better navigation controls
-  - Added helpful description text for users
-  - Properly displays OpenStreetMap tiles
-- **Crime Data API Service**: Created CrimeDataAPI.ts with FBI Crime Data API integration for historical crime statistics
-- **Marijuana Resources**: Updated to use comprehensive 50-state + DC dataset
-
-### October 12, 2025 - Initial Setup
-- Configured Vite to support Replit proxy with host 0.0.0.0 and HMR over WSS
-- Updated backend to use port 3001 (avoiding frontend port conflict)
-- Fixed browser-side code to use `import.meta.env` instead of `process.env` for Vite compatibility
-- Added .gitignore for Node.js project
-- Configured deployment settings for autoscale
-- Set up frontend workflow on port 5000
-- Installed serve package for production deployment
-- **Removed ALL mock/demo data** to ensure professional presentation:
-  - NewsAggregatorAPI: Removed fake news articles, returns empty arrays on API failure
-  - LegislativeTrackerAPI: Removed fake legislative bills, returns empty arrays on API failure
-  - AffiliateDashboard: Removed fake referrals and hardcoded earnings data
-  - Real-time subscriptions: Show proper "requires API configuration" messages instead of generating fake updates
-
-## Development Notes
-- The project uses a mock Supabase client when the real client is unavailable
-- **No mock data is displayed** - all services show real API data or proper empty states
-- Frontend is configured for Replit environment with proper host settings
-- All dependencies are installed and ready to use
+## External Dependencies
+- **Supabase**: Primary backend-as-a-service for authentication (Google OAuth configured) and database (PostgreSQL).
+- **CourtListener API**: For legal case search and data within the Case Explorer.
+- **Broadcastify**: Provides live police scanner feeds, linked from the Police Scanner Directory.
+- **FBI Crime Data API**: Integrated via `CrimeDataAPI.ts` for historical crime statistics.
+- **Chart.js**: For data visualization.
+- **OpenStreetMap**: Used for the interactive Violations Map.
+- **jsPDF**: For generating PDF documents (press passes, toolkits).
+- **Express.js**: Backend API server for specific functionalities.
+- **Vite**: Frontend build tool.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Lucide React**: Icon library.
