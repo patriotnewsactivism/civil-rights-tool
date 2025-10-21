@@ -3,7 +3,7 @@ import { MessageCircle, ThumbsUp, ThumbsDown, Send, Reply, Flag, User } from 'lu
 import { supabase } from '../lib/supabase';
 
 interface CommentsSectionProps {
-  contentType: 'violation' | 'news' | 'case' | 'legislation';
+  contentType: 'violation' | 'news' | 'case' | 'legislation' | 'post';
   contentId: string;
   title?: string;
 }

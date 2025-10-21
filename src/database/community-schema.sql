@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.private_messages (
 CREATE TABLE IF NOT EXISTS public.comments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES public.user_profiles(id) ON DELETE CASCADE,
-  content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('violation', 'news', 'case', 'legislation')),
+  content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('violation', 'news', 'case', 'legislation', 'post')),
   content_id VARCHAR(255) NOT NULL,  -- ID of the violation, news article, case, or bill
   comment_text TEXT NOT NULL,
   parent_comment_id UUID REFERENCES public.comments(id) ON DELETE CASCADE,  -- For threaded replies
