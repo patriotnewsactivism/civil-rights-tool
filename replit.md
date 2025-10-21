@@ -34,6 +34,10 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 - **Command**: `node src/backend/server.js`
 - **Endpoints**:
   - `/health` - Health check
+  - `/api/violations` - Submit and get violation reports
+  - `/api/violations/stats` - Violation statistics
+  - `/api/admin/login` - Admin authentication (requires ADMIN_PASSWORD)
+  - `/api/admin/moderate/:id` - Moderate violations (requires session token)
   - `/api/affiliates/dashboard/:userId` - Affiliate dashboard data
   - `/api/affiliates/referrals/:userId` - Referral list
   - `/api/affiliates/stats/:userId` - Affiliate statistics
@@ -69,6 +73,23 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 - **News Aggregator API**: Legal news updates (planned)
 
 ## Recent Changes
+
+### October 21, 2025 - Secure Admin Authentication & Violations Transparency
+- **Public Violation Display**: ALL violation reports are now immediately visible to everyone on the map
+  - Transparency-first approach: violations show in real-time until admin moderates
+  - Color-coded status badges: Yellow (Pending), Green (Approved), Red (Rejected)
+  - Interactive map tooltips show detailed violation information
+- **Secure Admin Moderation Panel**: Production-ready authentication system
+  - Server-side password validation (no credentials in client bundle)
+  - Cryptographically secure 64-character session tokens
+  - 24-hour session expiration
+  - Secure-by-default: NO default password, must be explicitly configured
+  - Setup via `.env` file with clear instructions in `.env.example`
+  - Graceful error handling with helpful setup messages
+- **Database Schema**: Created `violations-schema.sql` for Supabase table setup
+  - Stores violation reports with location, description, and evidence
+  - Tracks moderation status and timestamps
+  - Admin session management
 
 ### October 21, 2025 - Civil Rights Hub Expansion
 - **Massively Expanded Attorney Directory**: Grew from 20 to **618 civil rights attorneys** (10+ per state across all 50 states)
