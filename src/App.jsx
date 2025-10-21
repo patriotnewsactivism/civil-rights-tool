@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, FileText, MessageCircle, MapPin, Shield, Users, Eye, Clock, Newspaper, Database, Upload } from 'lucide-react';
+import { Search, FileText, MessageCircle, MapPin, Shield, Users, Eye, Clock, Newspaper, Database, Upload, LogOut } from 'lucide-react';
 import './App.css';
 import EnhancedInteractive3DMap from './components/EnhancedInteractive3DMap';
 import EnhancedResourcesAndLaws from './components/EnhancedResourcesAndLaws';
@@ -8,8 +8,11 @@ import EnhancedRealTimeDashboard from './components/EnhancedRealTimeDashboard';
 import EnhancedFOIARequestTool from './components/EnhancedFOIARequestTool';
 import PoliceAccountabilityDatabase from './components/PoliceAccountabilityDatabase';
 import InvestigativeJournalismSuite from './components/InvestigativeJournalismSuite';
+import { AuthTabs } from './components/auth/AuthForms';
+import { useAuth } from './context/AuthContext';
 
 const App = () => {
+  const { user, loading, signOut, supabaseAvailable } = useAuth();
   const [activeTab, setActiveTab] = useState('ultimate');
 
   const tabs = [
@@ -46,6 +49,122 @@ const App = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-white border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+          </div>
+          <h2 className="mt-4 text-xl font-semibold text-white">Loading Civil Rights Tool...</h2>
+          <p className="mt-2 text-white/70">Checking authentication status...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login page if user is not authenticated and Supabase is available
+  if (!user && supabaseAvailable) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+        {/* Header */}
+        <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center">
+                <Shield className="h-8 w-8 text-blue-400" />
+                <h1 className="ml-3 text-2xl font-bold text-white">Civil Rights Tool</h1>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Login Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Welcome to the Civil Rights Toolkit
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Your comprehensive platform for civil rights protection, legal guidance, and investigative journalism.
+              Please sign in to access all features.
+            </p>
+          </div>
+
+          {/* Auth Forms */}
+          <div className="max-w-md mx-auto">
+            <AuthTabs 
+              defaultTab="login"
+              onLoginSuccess={() => {
+                console.log('Login successful');
+              }}
+              onSignupSuccess={() => {
+                console.log('Signup successful');
+              }}
+            />
+          </div>
+
+          {/* Feature Preview */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-6">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                <Database className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-medium text-white mb-2">Police Accountability</h3>
+              <p className="text-gray-400">
+                Track officer misconduct and access comprehensive accountability data.
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-6">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white mb-4">
+                <Upload className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-medium text-white mb-2">Investigative Tools</h3>
+              <p className="text-gray-400">
+                Secure leak submission and comprehensive investigation management.
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-6">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white mb-4">
+                <MessageCircle className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-medium text-white mb-2">AI Legal Assistant</h3>
+              <p className="text-gray-400">
+                Zero-hallucination legal guidance with cited sources.
+              </p>
+            </div>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-slate-800/50 backdrop-blur-sm border-t border-slate-700 mt-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="text-center">
+              <p className="text-gray-400">
+                Empowering citizens with knowledge and tools to protect their civil rights.
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                Built for investigative journalism and community advocacy.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  // Show main app if user is authenticated OR if Supabase is not available (allow access without auth)
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -57,7 +176,22 @@ const App = () => {
               <h1 className="ml-3 text-2xl font-bold text-gray-900">Civil Rights Tool</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Empowering Communities</span>
+              {user ? (
+                <>
+                  <span className="text-sm text-gray-600">
+                    {user.email}
+                  </span>
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Sign Out</span>
+                  </button>
+                </>
+              ) : (
+                <span className="text-sm text-gray-600">Empowering Communities</span>
+              )}
               <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <Users className="h-4 w-4 text-white" />
               </div>
@@ -196,7 +330,7 @@ const UltimateDashboard = () => {
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <AlertTriangle className="h-8 w-8 text-red-500 mb-2" />
+            <Eye className="h-8 w-8 text-red-500 mb-2" />
             <span className="text-sm font-medium text-gray-900">Report Violation</span>
           </button>
           <button className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
