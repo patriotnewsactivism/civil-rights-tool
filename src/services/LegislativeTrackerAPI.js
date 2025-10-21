@@ -1,15 +1,23 @@
-// Real-time legislative tracking service
+// Real-time legislative tracking service (via backend proxy)
 class LegislativeTrackerAPI {
   constructor() {
-    this.baseURL = 'https://api.legiscan.com';
-    this.apiKey = import.meta.env.VITE_LEGISCAN_API_KEY || 'demo_key';
-    this.webhookURL = import.meta.env.VITE_WEBHOOK_URL || '';
+    // Use backend proxy to avoid exposing API keys
+    this.baseURL = '/api/legislative';
   }
 
   // Get current bills by state
   async getBillsByState(state, session = '2025') {
     try {
-      const response = await fetch(`${this.baseURL}/?key=${this.apiKey}&op=getMasterList&state=${state}&session=${session}`);
+      const response = await fetch(`${this.baseURL}/bills?state=${state}&session=${session}`);
+      
+      if (!response.ok) {
+        if (response.status === 503) {
+          console.warn('LegiScan API not configured');
+          return [];
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
+      
       const data = await response.json();
       return this.filterCivilRightsBills(data);
     } catch (error) {
@@ -40,7 +48,16 @@ class LegislativeTrackerAPI {
   // Get bill details
   async getBillDetails(billId) {
     try {
-      const response = await fetch(`${this.baseURL}/?key=${this.apiKey}&op=getBill&id=${billId}`);
+      const response = await fetch(`${this.baseURL}/bill/${billId}`);
+      
+      if (!response.ok) {
+        if (response.status === 503) {
+          console.warn('LegiScan API not configured');
+          return null;
+        }
+        throw new Error(`API error: ${response.status}`);
+      }
+      
       const data = await response.json();
       return data.bill;
     } catch (error) {
