@@ -10,6 +10,7 @@ import EnhancedInteractive3DMap from './components/EnhancedInteractive3DMap.jsx'
 import EnhancedLegislativeTracker from './components/EnhancedLegislativeTracker.jsx';
 import EnhancedAILegalAssistant from './components/EnhancedAILegalAssistant.jsx';
 import AILegalAssistant from './components/AILegalAssistant.jsx';
+import HomePage from './components/HomePage.tsx';
 
 // Import the enhanced components with lazy loading
 const CivilRightsHub = React.lazy(() => import('./components/CivilRightsHub.tsx'));
@@ -526,4 +527,9 @@ const CivilRightsLegalTool = () => {
   );
 };
 
-export default CivilRightsLegalTool;
+// Main App - Show bold black HomePage
+const App = () => {
+  return <HomePage />;
+};
+
+export default App;
