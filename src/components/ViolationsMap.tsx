@@ -156,15 +156,18 @@ export default function ViolationsMap() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden" style={{ height: '600px' }}>
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden border-4 border-blue-500" style={{ height: '700px' }}>
         <MapContainer
           center={[39.8283, -98.5795]} // Center of US
           zoom={4}
-          style={{ height: '100%', width: '100%' }}
+          style={{ height: '100%', width: '100%', minHeight: '700px' }}
+          scrollWheelZoom={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maxZoom={19}
+            minZoom={3}
           />
           {filteredViolations.map((violation) => (
             <Marker
@@ -192,6 +195,13 @@ export default function ViolationsMap() {
             </Marker>
           ))}
         </MapContainer>
+      </div>
+
+      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <p className="text-sm text-blue-800">
+          <strong>Map Features:</strong> This interactive map displays all approved civil rights violation reports in real-time. 
+          Click on markers to view details. Drag to pan, scroll to zoom. Reports are moderated before appearing publicly.
+        </p>
       </div>
 
       {filteredViolations.length === 0 && (
