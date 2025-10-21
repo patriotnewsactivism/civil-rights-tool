@@ -49,11 +49,11 @@ CREATE INDEX IF NOT EXISTS idx_violations_incident_at ON public.violations(incid
 -- Enable Row Level Security
 ALTER TABLE public.violations ENABLE ROW LEVEL SECURITY;
 
--- Policy: Anyone can view approved violations
-CREATE POLICY "Approved violations are viewable by everyone"
+-- Policy: Anyone can view ALL violations (transparency until moderated)
+CREATE POLICY "All violations are viewable by everyone"
   ON public.violations
   FOR SELECT
-  USING (status = 'approved');
+  USING (true);
 
 -- Policy: Anyone can insert violations (they start as pending)
 CREATE POLICY "Anyone can submit violations"

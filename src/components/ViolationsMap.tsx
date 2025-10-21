@@ -184,6 +184,13 @@ export default function ViolationsMap() {
                     <span className={`inline-block px-2 py-1 text-xs font-semibold ml-2 ${getSeverityColor(violation.severity)}`}>
                       Severity: {violation.severity}/5
                     </span>
+                    <span className={`inline-block px-2 py-1 text-xs font-semibold ml-2 rounded ${
+                      violation.status === 'approved' ? 'bg-green-100 text-green-800' :
+                      violation.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                      'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {violation.status.toUpperCase()}
+                    </span>
                   </div>
                   <p className="text-sm text-gray-700 mb-2">{violation.description}</p>
                   <div className="text-xs text-gray-500">
@@ -199,8 +206,8 @@ export default function ViolationsMap() {
 
       <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-800">
-          <strong>Map Features:</strong> This interactive map displays all approved civil rights violation reports in real-time. 
-          Click on markers to view details. Drag to pan, scroll to zoom. Reports are moderated before appearing publicly.
+          <strong>Map Features:</strong> This interactive map displays ALL civil rights violation reports in real-time for transparency. 
+          Click on markers to view details. Drag to pan, scroll to zoom. All reports are publicly visible until reviewed by administrators.
         </p>
       </div>
 

@@ -1,10 +1,25 @@
 import express from 'express';
 import cors from 'cors';
+import crypto from 'crypto';
 import apiProxy from './api-proxy.js';
-import { submitViolation, getViolations, getViolationStats } from './violations-controller.js';
+import { submitViolation, getViolations, getViolationStats, moderateViolation } from './violations-controller.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Validate admin password is configured
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+if (!ADMIN_PASSWORD) {
+  console.error('\n❌ ERROR: ADMIN_PASSWORD environment variable is not set!');
+  console.error('📝 To fix this:');
+  console.error('   1. Copy .env.example to .env');
+  console.error('   2. Set ADMIN_PASSWORD=your_secure_password');
+  console.error('   3. Restart the server\n');
+  console.error('⚠️  Admin moderation panel will be disabled until password is configured.\n');
+}
+
+// Store active admin sessions (in-memory for simplicity, use Redis in production)
+const adminSessions = new Map();
 
 // Middleware
 app.use(cors());
@@ -18,6 +33,61 @@ app.use('/api', apiProxy);
 app.post('/api/violations', submitViolation);
 app.get('/api/violations', getViolations);
 app.get('/api/violations/stats', getViolationStats);
+
+// Admin authentication endpoints
+app.post('/api/admin/login', (req, res) => {
+  try {
+    // Check if admin password is configured
+    if (!ADMIN_PASSWORD) {
+      return res.status(503).json({ 
+        error: 'Admin panel not configured',
+        message: 'ADMIN_PASSWORD environment variable must be set. See .env.example for setup instructions.'
+      });
+    }
+    
+    const { password } = req.body;
+    
+    if (!password || password !== ADMIN_PASSWORD) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+    
+    // Generate secure session token
+    const sessionToken = crypto.randomBytes(32).toString('hex');
+    const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+    
+    // Store session
+    adminSessions.set(sessionToken, { createdAt: Date.now(), expiresAt });
+    
+    res.json({ success: true, sessionToken });
+  } catch (error) {
+    console.error('Error during admin login:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Middleware to verify admin session
+function verifyAdminSession(req, res, next) {
+  const sessionToken = req.headers['x-admin-token'];
+  
+  if (!sessionToken) {
+    return res.status(401).json({ error: 'No session token provided' });
+  }
+  
+  const session = adminSessions.get(sessionToken);
+  
+  if (!session) {
+    return res.status(401).json({ error: 'Invalid session token' });
+  }
+  
+  if (Date.now() > session.expiresAt) {
+    adminSessions.delete(sessionToken);
+    return res.status(401).json({ error: 'Session expired' });
+  }
+  
+  next();
+}
+
+app.patch('/api/violations/:id/moderate', verifyAdminSession, moderateViolation);
 
 // Mock data for demonstration
 const mockAffiliates = [

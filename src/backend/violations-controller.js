@@ -92,16 +92,15 @@ export async function submitViolation(req, res) {
   }
 }
 
-// GET /api/violations - Get approved violations (with optional filtering)
+// GET /api/violations - Get ALL violations for transparency (with optional filtering)
 export async function getViolations(req, res) {
   try {
-    const { state, category, limit = 100 } = req.query;
+    const { state, category, status, limit = 100 } = req.query;
 
     // Only return safe fields - never expose ip_hash or reporter_hash
     let query = supabase
       .from('violations')
-      .select('id, title, description, category, incident_at, latitude, longitude, address, city, state, zip_code, severity, created_at')
-      .eq('status', 'approved')
+      .select('id, title, description, category, incident_at, latitude, longitude, address, city, state, zip_code, severity, status, created_at')
       .order('incident_at', { ascending: false })
       .limit(parseInt(limit));
 
@@ -111,6 +110,10 @@ export async function getViolations(req, res) {
 
     if (category) {
       query = query.eq('category', category);
+    }
+
+    if (status) {
+      query = query.eq('status', status);
     }
 
     const { data, error } = await query;
@@ -126,6 +129,48 @@ export async function getViolations(req, res) {
     });
   } catch (error) {
     console.error('Error fetching violations:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+// PATCH /api/violations/:id/moderate - Moderate a violation (approve/reject)
+// Requires admin authentication (verified by middleware)
+export async function moderateViolation(req, res) {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Validate status
+    if (!['pending', 'approved', 'rejected'].includes(status)) {
+      return res.status(400).json({
+        error: 'Invalid status. Must be pending, approved, or rejected'
+      });
+    }
+
+    // Update violation status
+    const { data, error } = await supabase
+      .from('violations')
+      .update({ status })
+      .eq('id', id)
+      .select('id, title, status')
+      .single();
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return res.status(500).json({ error: 'Failed to moderate violation' });
+    }
+
+    if (!data) {
+      return res.status(404).json({ error: 'Violation not found' });
+    }
+
+    res.json({
+      success: true,
+      message: `Violation ${status}`,
+      violation: data
+    });
+  } catch (error) {
+    console.error('Error moderating violation:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }

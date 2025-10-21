@@ -48,16 +48,17 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 
 ## Key Features
 1. **Civil Rights Hub** - Central hub for reporting violations, finding attorneys, and accessing resources
-2. **Violations Map** - Interactive OpenStreetMap showing real-time civil rights violations with 700px height and scroll zoom
+2. **Violations Map** - Interactive OpenStreetMap showing ALL real-time civil rights violations (700px height, scroll zoom, status badges)
 3. **Attorney Directory** - 618 civil rights attorneys across all 50 US states (10+ per state)
 4. **Police Scanner Directory** - 100+ police scanner frequencies across all 50 states with Broadcastify live feed links
 5. **Marijuana Laws** - Comprehensive 50-state + DC marijuana law database
-6. **Case Explorer** - Search and analyze legal cases via CourtListener API
-7. **Real-Time Dashboard** - Live legal data and statistics
-8. **Legislative Tracker** - Track legislative changes and updates
-9. **AI Legal Assistant** - AI-powered legal guidance
-10. **Affiliate Program** - Referral and commission tracking system
-11. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
+6. **Admin Moderation Panel** - Password-protected panel for moderating violation reports (approve/reject/pending)
+7. **Case Explorer** - Search and analyze legal cases via CourtListener API
+8. **Real-Time Dashboard** - Live legal data and statistics
+9. **Legislative Tracker** - Track legislative changes and updates
+10. **AI Legal Assistant** - AI-powered legal guidance
+11. **Affiliate Program** - Referral and commission tracking system
+12. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
 
 ## External Integrations
 - **CourtListener API**: Legal case search and data

@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { AlertCircle, Users, MapPin, Scale, Leaf, Megaphone, Radio } from 'lucide-react';
+import { AlertCircle, Users, MapPin, Scale, Leaf, Megaphone, Radio, Shield } from 'lucide-react';
 import ReportViolationForm from './ReportViolationForm';
 import ViolationsMap from './ViolationsMap';
 import AttorneyDirectory from './AttorneyDirectory';
 import MarijuanaResources from './MarijuanaResources';
 import EndorsementsPanel from './EndorsementsPanel';
 import PoliceScannerDirectory from './PoliceScannerDirectory';
+import AdminModerationPanel from './AdminModerationPanel';
 import NewsAggregatorAPI from '../services/NewsAggregatorAPI';
 import LegislativeTrackerAPI from '../services/LegislativeTrackerAPI';
 
-type ActiveTab = 'map' | 'report' | 'attorneys' | 'marijuana' | 'scanners' | 'news' | 'legislation';
+type ActiveTab = 'map' | 'report' | 'attorneys' | 'marijuana' | 'scanners' | 'admin' | 'news' | 'legislation';
 
 export default function CivilRightsHub() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('map');
@@ -159,6 +160,17 @@ export default function CivilRightsHub() {
               Police Scanners
             </button>
             <button
+              onClick={() => setActiveTab('admin')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+                activeTab === 'admin'
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              <Shield className="w-5 h-5 inline-block mr-2" />
+              Admin Panel
+            </button>
+            <button
               onClick={() => handleTabChange('news')}
               className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
                 activeTab === 'news'
@@ -216,6 +228,12 @@ export default function CivilRightsHub() {
         {activeTab === 'scanners' && (
           <div>
             <PoliceScannerDirectory />
+          </div>
+        )}
+
+        {activeTab === 'admin' && (
+          <div>
+            <AdminModerationPanel />
           </div>
         )}
 
