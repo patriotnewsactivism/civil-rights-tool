@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertCircle, Users, MapPin, Scale, Leaf, Megaphone, Radio, Shield } from 'lucide-react';
+import { AlertCircle, Users, MapPin, Scale, Leaf, Megaphone, Radio, Shield, Star, ExternalLink } from 'lucide-react';
 import ReportViolationForm from './ReportViolationForm';
 import ViolationsMap from './ViolationsMap';
 import AttorneyDirectory from './AttorneyDirectory';
@@ -9,6 +9,8 @@ import PoliceScannerDirectory from './PoliceScannerDirectory';
 import AdminModerationPanel from './AdminModerationPanel';
 import NewsAggregatorAPI from '../services/NewsAggregatorAPI';
 import LegislativeTrackerAPI from '../services/LegislativeTrackerAPI';
+import WTPNewsAPI from '../services/WTPNewsAPI';
+import SponsoredSection from './SponsoredSection';
 
 type ActiveTab = 'map' | 'report' | 'attorneys' | 'marijuana' | 'scanners' | 'admin' | 'news' | 'legislation';
 
