@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import apiProxy from './api-proxy.js';
+import { submitViolation, getViolations, getViolationStats } from './violations-controller.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,6 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // API Proxy routes (for secure API key handling)
 app.use('/api', apiProxy);
+
+// Violations API routes
+app.post('/api/violations', submitViolation);
+app.get('/api/violations', getViolations);
+app.get('/api/violations/stats', getViolationStats);
 
 // Mock data for demonstration
 const mockAffiliates = [

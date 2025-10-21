@@ -12,6 +12,7 @@ import EnhancedAILegalAssistant from './components/EnhancedAILegalAssistant.jsx'
 import AILegalAssistant from './components/AILegalAssistant.jsx';
 
 // Import the enhanced components with lazy loading
+const CivilRightsHub = React.lazy(() => import('./components/CivilRightsHub.tsx'));
 const ActivistToolkit = React.lazy(() => import('./components/activist/ActivistToolkit.jsx'));
 const JournalistToolkit = React.lazy(() => import('./components/journalist/JournalistToolkit.jsx'));
 const EnhancedStateProfile = React.lazy(() => import('./components/state-profiles/EnhancedStateProfile.jsx'));
@@ -38,6 +39,7 @@ const ComponentLoading = () => (
   );
 
 // Wrap each component with error boundary
+const SafeCivilRightsHub = withErrorBoundary(CivilRightsHub);
 const SafeActivistToolkit = withErrorBoundary(ActivistToolkit);
 const SafeJournalistToolkit = withErrorBoundary(JournalistToolkit);
 const SafeEnhancedStateProfile = withErrorBoundary(EnhancedStateProfile);
@@ -160,6 +162,15 @@ const CivilRightsLegalTool = () => {
 
         <div className="mb-8">
           <div className={`flex flex-wrap border-b ${darkMode ? 'border-white/30' : 'border-slate-400'}`}>
+            <button
+              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'civilrights' ? 
+                (darkMode ? 'text-white border-b-2 border-red-400' : 'text-blue-800 border-b-2 border-red-400') : 
+                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
+              onClick={() => setActiveTab('civilrights')}
+              >
+                <AlertOctagon className="h-5 w-5 mr-2" />
+              Civil Rights Hub
+            </button>
             <button
               className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'ultimate' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
@@ -426,6 +437,14 @@ const CivilRightsLegalTool = () => {
             </ErrorBoundary>
           )}
           
+          {activeTab === 'civilrights' && (
+            <ErrorBoundary>
+              <Suspense fallback={<ComponentLoading />}>
+                <SafeCivilRightsHub />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+
           {activeTab === 'ultimate' && (
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
