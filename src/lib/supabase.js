@@ -73,6 +73,19 @@ class MockSupabaseClient {
     return Promise.resolve({ data: null, error: new Error('Database is not available') });
   }
   
+  channel(channelName) {
+    return {
+      on: () => this.channel(channelName),
+      subscribe: () => ({
+        unsubscribe: () => {}
+      })
+    };
+  }
+  
+  removeChannel(channel) {
+    return;
+  }
+  
   async executeQuery(queryFn, retries = 0) {
     return { data: null, error: new Error('Database is not available') };
   }
@@ -341,6 +354,14 @@ class EnhancedSupabaseClient {
     
     const query = this.client.rpc(fn, params);
     return this.executeQuery(() => query);
+  }
+  
+  channel(channelName) {
+    return this.client.channel(channelName);
+  }
+  
+  removeChannel(channel) {
+    return this.client.removeChannel(channel);
   }
 }
 
