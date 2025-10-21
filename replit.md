@@ -47,22 +47,44 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 - **Output**: `dist/` directory
 
 ## Key Features
-1. **Legal Resources & Laws** - Comprehensive legal information and resources
-2. **Interactive 3D Map** - Geographical legal data visualization
-3. **Case Explorer** - Search and analyze legal cases via CourtListener API
-4. **Real-Time Dashboard** - Live legal data and statistics
-5. **Legislative Tracker** - Track legislative changes and updates
-6. **AI Legal Assistant** - AI-powered legal guidance
-7. **Affiliate Program** - Referral and commission tracking system
-8. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
+1. **Civil Rights Hub** - Central hub for reporting violations, finding attorneys, and accessing resources
+2. **Violations Map** - Interactive OpenStreetMap showing real-time civil rights violations with 700px height and scroll zoom
+3. **Attorney Directory** - 618 civil rights attorneys across all 50 US states (10+ per state)
+4. **Police Scanner Directory** - 100+ police scanner frequencies across all 50 states with Broadcastify live feed links
+5. **Marijuana Laws** - Comprehensive 50-state + DC marijuana law database
+6. **Case Explorer** - Search and analyze legal cases via CourtListener API
+7. **Real-Time Dashboard** - Live legal data and statistics
+8. **Legislative Tracker** - Track legislative changes and updates
+9. **AI Legal Assistant** - AI-powered legal guidance
+10. **Affiliate Program** - Referral and commission tracking system
+11. **Subscription Plans** - Multi-tier pricing (Starter, Pro, Ultimate)
 
 ## External Integrations
 - **CourtListener API**: Legal case search and data
 - **Supabase**: Authentication and database (with mock fallback)
+- **FBI Crime Data API**: Historical crime statistics (via CrimeDataAPI service)
+- **Broadcastify**: Live police scanner feeds (linked from scanner directory)
 - **Legislative Tracker API**: Legislative data (planned)
 - **News Aggregator API**: Legal news updates (planned)
 
-## Recent Changes (October 12, 2025)
+## Recent Changes
+
+### October 21, 2025 - Civil Rights Hub Expansion
+- **Massively Expanded Attorney Directory**: Grew from 20 to **618 civil rights attorneys** (10+ per state across all 50 states)
+- **Police Scanner Directory**: Added 100+ police scanner frequencies across all 50 states
+  - Searchable by state, city, and agency type
+  - Includes frequency, mode (FM/Digital/P25), and type (Police/Fire/EMS)
+  - Direct links to Broadcastify live feeds where available
+  - Integrated as "Police Scanners" tab in Civil Rights Hub
+- **Enhanced Interactive Map**: 
+  - Increased height to 700px with prominent border styling
+  - Added scroll wheel zoom and better navigation controls
+  - Added helpful description text for users
+  - Properly displays OpenStreetMap tiles
+- **Crime Data API Service**: Created CrimeDataAPI.ts with FBI Crime Data API integration for historical crime statistics
+- **Marijuana Resources**: Updated to use comprehensive 50-state + DC dataset
+
+### October 12, 2025 - Initial Setup
 - Configured Vite to support Replit proxy with host 0.0.0.0 and HMR over WSS
 - Updated backend to use port 3001 (avoiding frontend port conflict)
 - Fixed browser-side code to use `import.meta.env` instead of `process.env` for Vite compatibility
