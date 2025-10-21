@@ -23,7 +23,6 @@ const CircuitCourtCaseLawChart = React.lazy(() => import('./components/charts/Ci
 const CaseExplorer = React.lazy(() => import('./components/EnhancedCaseExplorer.jsx'));
 const LegalToolkitPro = React.lazy(() => import('./components/LegalToolkitPro.jsx'));
 const ResourcesAndLaws = React.lazy(() => import('./components/EnhancedResourcesAndLaws.jsx'));
-const ToolkitsHub = React.lazy(() => import('./components/ToolkitsHub.jsx'));
 const PressPassGenerator = React.lazy(() => import('./components/PressPassGenerator.tsx'));
 
 import { useAuth } from './context/AuthContext.jsx';
@@ -51,7 +50,6 @@ const SafeCircuitCourtCaseLawChart = withErrorBoundary(CircuitCourtCaseLawChart)
 const SafeCaseExplorer = withErrorBoundary(CaseExplorer);
 const SafeLegalToolkitPro = withErrorBoundary(LegalToolkitPro);
 const SafeResourcesAndLaws = withErrorBoundary(ResourcesAndLaws);
-const SafeToolkitsHub = withErrorBoundary(ToolkitsHub);
 const SafePressPassGenerator = withErrorBoundary(PressPassGenerator);
 
 const CivilRightsLegalTool = () => {
@@ -238,15 +236,6 @@ const CivilRightsLegalTool = () => {
               Resources & Laws
             </button>
             <button
-              className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'toolkits' ? 
-                (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
-                (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
-              onClick={() => setActiveTab('toolkits')}
-            >
-              <Users className="h-5 w-5 mr-2" />
-              Toolkits
-            </button>
-            <button
               className={`px-4 py-3 flex items-center font-bold text-base ${activeTab === 'cases' ? 
                 (darkMode ? 'text-white border-b-2 border-blue-400' : 'text-blue-800 border-b-2 border-blue-400') : 
                 (darkMode ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-blue-800')}`}
@@ -429,14 +418,6 @@ const CivilRightsLegalTool = () => {
             <ErrorBoundary>
               <Suspense fallback={<ComponentLoading />}>
                 <SafeResourcesAndLaws selectedState={selectedState} darkMode={darkMode} />
-              </Suspense>
-            </ErrorBoundary>
-          )}
-
-          {activeTab === 'toolkits' && (
-            <ErrorBoundary>
-              <Suspense fallback={<ComponentLoading />}>
-                <SafeToolkitsHub selectedState={selectedState} darkMode={darkMode} />
               </Suspense>
             </ErrorBoundary>
           )}
