@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useRef, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 import Button from './ui/Button';
-import { Copy, Download, FileText, Contact, Printer, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Copy, Download, FileText, Contact, Printer, RefreshCw, AlertTriangle, BookOpen } from 'lucide-react';
 import { 
   ALL_STATES, 
   PUBLIC_RECORDS, 
@@ -12,6 +12,7 @@ import {
   addBusinessDays,
   coveragePercent 
 } from '../data/legalDatasets';
+import { generateActivistToolkitPDF, generateIDCardPDF } from '../utils/pdfGenerator';
 
 // Document type definitions
 const DOC_TYPES = [
@@ -763,6 +764,39 @@ export default function LegalToolkitPro() {
             <CardTitle>Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
+            {/* Comprehensive Toolkit PDF Download */}
+            <div className="rounded-lg border-2 border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 mb-4">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1">
+                  <h4 className="font-bold text-blue-900 flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2" />
+                    Activist & Journalist Legal Toolkit PDF
+                  </h4>
+                  <p className="text-sm text-blue-700 mt-1">
+                    Comprehensive 10+ page guide with your rights, best practices, emergency contacts, and state-specific laws.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button 
+                  onClick={() => generateActivistToolkitPDF(state.selectedState)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Download className="mr-2 h-4 w-4"/>
+                  Download Complete Toolkit PDF
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => generateIDCardPDF(state.selectedState)}
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                >
+                  <Contact className="mr-2 h-4 w-4"/>
+                  Download Pocket ID Card
+                </Button>
+              </div>
+            </div>
+
+            {/* Standard Document Actions */}
             <div className="flex flex-wrap gap-2">
               <Button 
                 variant="outline" 

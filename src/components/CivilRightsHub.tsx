@@ -7,8 +7,11 @@ import MarijuanaResources from './MarijuanaResources';
 import EndorsementsPanel from './EndorsementsPanel';
 import PoliceScannerDirectory from './PoliceScannerDirectory';
 import AdminModerationPanel from './AdminModerationPanel';
+// @ts-ignore
 import NewsAggregatorAPI from '../services/NewsAggregatorAPI';
+// @ts-ignore
 import LegislativeTrackerAPI from '../services/LegislativeTrackerAPI';
+// @ts-ignore
 import WTPNewsAPI from '../services/WTPNewsAPI';
 import SponsoredSection from './SponsoredSection';
 
@@ -25,8 +28,12 @@ export default function CivilRightsHub() {
     if (news.length > 0) return;
     setNewsLoading(true);
     try {
-      const articles = await NewsAggregatorAPI.getCivilRightsNews(10);
-      setNews(articles);
+      // Load WTP News articles first
+      const wtpArticles = WTPNewsAPI.getAllArticles();
+      const apiArticles = await NewsAggregatorAPI.getLatestCivilRightsNews(10);
+      // Combine WTP News with API news (WTP first for prominence)
+      const combinedNews = [...wtpArticles, ...apiArticles];
+      setNews(combinedNews);
     } catch (error) {
       console.error('Error fetching news:', error);
     } finally {
@@ -242,6 +249,12 @@ export default function CivilRightsHub() {
         {activeTab === 'news' && (
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Latest Civil Rights News</h2>
+            
+            {/* Sponsored Section */}
+            <div className="mb-8">
+              <SponsoredSection placement="inline" />
+            </div>
+
             {newsLoading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -253,23 +266,55 @@ export default function CivilRightsHub() {
               </div>
             ) : (
               <div className="space-y-6">
-                {news.map((article, index) => (
-                  <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{article.title}</h3>
-                    <p className="text-gray-600 mb-3">{article.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">{article.source?.name || 'Unknown Source'}</span>
-                      <a
-                        href={article.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                      >
-                        Read More
-                      </a>
+                {news.map((article, index) => {
+                  const isWTPNews = article.source === 'We The People News' || article.sponsored;
+                  return (
+                    <div 
+                      key={index} 
+                      className={`rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow ${
+                        isWTPNews ? 'bg-gradient-to-r from-red-50 via-blue-50 to-white border-2 border-red-200' : 'bg-white'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1">
+                          {isWTPNews && (
+                            <div className="mb-2">
+                              <span className="inline-flex items-center bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                <Star className="h-3 w-3 mr-1 fill-current" />
+                                WE THE PEOPLE NEWS
+                              </span>
+                              {article.category && (
+                                <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">
+                                  {article.category}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          <h3 className="text-xl font-bold text-gray-900 mb-2">{article.title}</h3>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 mb-3">{article.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-sm ${isWTPNews ? 'text-red-600 font-semibold' : 'text-gray-500'}`}>
+                          {article.source?.name || article.source || 'Unknown Source'}
+                        </span>
+                        <a
+                          href={article.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                            isWTPNews 
+                              ? 'bg-red-600 hover:bg-red-700 text-white' 
+                              : 'bg-blue-600 hover:bg-blue-700 text-white'
+                          }`}
+                        >
+                          <span>Read More</span>
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
