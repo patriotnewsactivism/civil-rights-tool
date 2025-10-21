@@ -267,9 +267,19 @@ export default function PressPassGenerator() {
             {/* Disclaimer */}
             <div className="mt-6 bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
               <div className="flex items-start space-x-3">
-                <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5" />
+                <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-yellow-300">
                   <strong>Important:</strong> This press pass is protected by the First Amendment and serves as a statement of your constitutional rights. It does not replace event-specific media credentials or provide legal immunity.
+                </div>
+              </div>
+            </div>
+
+            {/* Liability Disclaimer */}
+            <div className="mt-4 bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+              <div className="flex items-start space-x-3">
+                <AlertCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                <div className="text-xs text-red-300">
+                  <strong>Legal Disclaimer:</strong> This press pass generator is provided for informational purposes only. By using this tool, you acknowledge that Civil Rights Network (CRN) and its operators are not liable for any consequences arising from the use, misuse, or presentation of this credential. This credential does not constitute legal advice, authorization, or accreditation. Users are solely responsible for understanding and complying with all applicable laws, regulations, and event-specific requirements. CRN makes no warranties regarding the acceptance or recognition of this credential by any party.
                 </div>
               </div>
             </div>
@@ -284,64 +294,64 @@ export default function PressPassGenerator() {
                 {/* Press Pass Preview */}
                 <div 
                   ref={passRef}
-                  className="bg-white p-6 rounded-lg shadow-2xl"
+                  className="bg-white p-5 rounded-lg shadow-2xl"
                   style={{ width: '400px', height: '252px' }}
                 >
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-blue-600">
+                  <div className="flex items-center justify-between mb-3 pb-2 border-b-2 border-blue-600">
                     <div className="flex items-center space-x-2">
-                      <Shield className="h-8 w-8 text-blue-600" />
+                      <Shield className="h-10 w-10 text-blue-600" />
                       <div>
-                        <div className="text-2xl font-black text-blue-600">PRESS</div>
-                        <div className="text-xs text-gray-600 -mt-1">FIRST AMENDMENT</div>
+                        <div className="text-4xl font-black text-blue-600 leading-none" style={{ letterSpacing: '0.05em' }}>PRESS</div>
+                        <div className="text-[10px] text-gray-600 uppercase tracking-wide">First Amendment</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs font-bold text-gray-800">ISSUED</div>
-                      <div className="text-xs text-gray-600">{new Date().toLocaleDateString()}</div>
+                      <div className="text-[10px] font-bold text-gray-800 uppercase">Issued</div>
+                      <div className="text-[10px] text-gray-600">{new Date().toLocaleDateString()}</div>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="flex space-x-4">
+                  <div className="flex space-x-3">
                     {/* Photo */}
                     <div className="flex-shrink-0">
                       {formData.photo ? (
                         <img 
                           src={formData.photo} 
                           alt="Photo" 
-                          className="w-24 h-24 object-cover rounded border-2 border-gray-300"
+                          className="w-20 h-20 object-cover rounded border-2 border-gray-300"
                         />
                       ) : (
-                        <div className="w-24 h-24 bg-gray-200 rounded border-2 border-gray-300 flex items-center justify-center">
-                          <Camera className="h-8 w-8 text-gray-400" />
+                        <div className="w-20 h-20 bg-gray-200 rounded border-2 border-gray-300 flex items-center justify-center">
+                          <Camera className="h-6 w-6 text-gray-400" />
                         </div>
                       )}
                     </div>
 
                     {/* Details */}
-                    <div className="flex-1">
-                      <div className="mb-2">
-                        <div className="text-lg font-black text-gray-900 uppercase leading-tight">
+                    <div className="flex-1 min-w-0">
+                      <div className="mb-1">
+                        <div className="text-base font-black text-gray-900 uppercase leading-tight truncate">
                           {formData.fullName}
                         </div>
-                        <div className="text-sm font-bold text-blue-600">
+                        <div className="text-xs font-bold text-blue-600 truncate">
                           {formData.role}
                         </div>
                       </div>
 
-                      <div className="text-xs text-gray-700 space-y-1">
-                        <div className="font-semibold">{formData.organization}</div>
-                        <div>{formData.city}, {formData.state}</div>
-                        {formData.phone && <div>{formData.phone}</div>}
-                        <div className="text-blue-600">{formData.email}</div>
+                      <div className="text-[10px] text-gray-700 space-y-0.5">
+                        <div className="font-semibold truncate">{formData.organization}</div>
+                        <div className="truncate">{formData.city}, {formData.state}</div>
+                        {formData.phone && <div className="truncate">{formData.phone}</div>}
+                        <div className="text-blue-600 truncate">{formData.email}</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Footer */}
-                  <div className="mt-3 pt-3 border-t border-gray-300">
-                    <div className="text-xs text-gray-600 text-center">
+                  <div className="mt-2 pt-2 border-t border-gray-300">
+                    <div className="text-[9px] text-gray-600 text-center leading-tight">
                       <strong>Protected by the First Amendment of the U.S. Constitution</strong>
                       <br />
                       Civil Rights Network • freepresspass.com
