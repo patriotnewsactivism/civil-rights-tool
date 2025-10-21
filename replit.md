@@ -80,6 +80,15 @@ A comprehensive legal toolkit and civil rights platform built with React and Vit
 
 ## Recent Changes
 
+### October 21, 2025 - Homepage Redesign & Codebase Cleanup
+- **Bold Black Homepage Now Live**: HomePage.tsx with black background and blue/purple/pink gradients is now the default landing page
+- **Fixed Routing Issue**: App.jsx now properly imports and renders HomePage.tsx instead of jumping directly to legal tools
+- **Codebase Cleanup**: Removed redundant files that were causing confusion:
+  - Deleted backup files: App.jsx.backup, CaseExplorer.jsx.backup, LegalToolkitPro.jsx.backup, marijuanaLaws.js.backup
+  - Deleted redundant components: AppWrapper.tsx, ToolkitsHub.jsx
+  - Deleted committed build/ directory (should be in .gitignore)
+- **Improved File Organization**: Cleaner codebase with single authoritative HomePage component
+
 ### October 21, 2025 - Free Press Pass Generator Integration
 - **freepresspass.com functionality built-in**: No need to leave the platform
 - **Instant press credential generation** for journalists and activists
