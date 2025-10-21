@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, AlertTriangle, Clock, MapPin, Users, Scale, ExternalLink, BookOpen, Globe, Filter, Search } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Clock, MapPin, Users, Scale, ExternalLink, BookOpen, Globe, Filter, Search, Star } from 'lucide-react';
 import LegislativeTrackerAPI from '../services/LegislativeTrackerAPI';
 import NewsAggregatorAPI from '../services/NewsAggregatorAPI';
+import WTPNewsAPI from '../services/WTPNewsAPI';
+import SponsoredSection from './SponsoredSection';
 
 const EnhancedRealTimeDashboard = ({ darkMode }) => {
   const [legislativeUpdates, setLegislativeUpdates] = useState([]);
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [breakingAlerts, setBreakingAlerts] = useState([]);
+  const [wtpNewsArticles, setWtpNewsArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedState, setSelectedState] = useState('ALL');
   const [filterType, setFilterType] = useState('all'); // 'all', 'legislative', 'news', 'breaking'
@@ -21,17 +24,25 @@ const EnhancedRealTimeDashboard = ({ darkMode }) => {
     setIsLoading(true);
     
     try {
+      // Load WTP News (priority content)
+      const wtpArticles = WTPNewsAPI.getAllArticles();
+      setWtpNewsArticles(wtpArticles);
+
       // Load legislative updates
       const bills = await LegislativeTrackerAPI.getBillsByState(selectedState);
       setLegislativeUpdates(bills.slice(0, 10));
 
-      // Load news updates
+      // Load news updates from external API
       const news = await NewsAggregatorAPI.getLatestCivilRightsNews(15);
-      setNewsUpdates(news);
+      
+      // Merge WTP News with regular news (WTP News first, they're featured)
+      const combinedNews = [...wtpArticles, ...news];
+      setNewsUpdates(combinedNews);
 
-      // Load breaking alerts
+      // Load breaking alerts - combine WTP breaking news with regular alerts
+      const wtpBreaking = WTPNewsAPI.getBreakingNews();
       const alerts = await NewsAggregatorAPI.getBreakingAlerts(8);
-      setBreakingAlerts(alerts);
+      setBreakingAlerts([...wtpBreaking, ...alerts]);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -108,6 +119,9 @@ const EnhancedRealTimeDashboard = ({ darkMode }) => {
 
   return (
     <div className="space-y-6">
+      {/* Sponsored Banner */}
+      <SponsoredSection placement="banner" />
+
       {/* Header with Search and Filters */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
         <div>
@@ -273,50 +287,82 @@ const EnhancedRealTimeDashboard = ({ darkMode }) => {
           </div>
           
           <div className="space-y-3">
-            {filteredNewsUpdates.map((news, index) => (
-              <div key={index} className="border-l-4 border-green-400 pl-4 bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors cursor-pointer group">
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="font-semibold text-white group-hover:text-blue-300 transition-colors flex-1 mr-2">
-                    {news.title}
-                  </h4>
-                  <button
-                    onClick={() => openNewsSource(news)}
-                    className="text-blue-400 hover:text-blue-300 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Read full article"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </button>
-                </div>
-                
-                <p className="text-white/70 text-sm mb-2 line-clamp-2">
-                  {news.description}
-                </p>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-white/60 text-xs flex items-center">
-                      <Globe className="h-3 w-3 mr-1" />
-                      {news.source?.name || 'Unknown Source'}
-                    </span>
-                    <span className="text-white/60 text-xs">
-                      {new Date(news.publishedAt).toLocaleDateString()}
-                    </span>
+            {filteredNewsUpdates.map((news, index) => {
+              const isWTPNews = news.source === 'We The People News' || news.sponsored;
+              const isFeatured = news.featured;
+              
+              return (
+                <div 
+                  key={index} 
+                  className={`border-l-4 pl-4 rounded-lg p-4 hover:bg-white/10 transition-colors cursor-pointer group ${
+                    isWTPNews 
+                      ? 'border-red-500 bg-gradient-to-r from-red-900/20 via-blue-900/20 to-transparent' 
+                      : 'border-green-400 bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1 mr-2">
+                      <div className="flex items-center space-x-2 mb-1">
+                        {isWTPNews && (
+                          <span className="text-xs font-bold bg-red-600 text-white px-2 py-1 rounded flex items-center">
+                            <Star className="h-3 w-3 mr-1 fill-current" />
+                            WTP NEWS
+                          </span>
+                        )}
+                        {isFeatured && !isWTPNews && (
+                          <span className="text-xs font-semibold bg-yellow-600 text-white px-2 py-1 rounded">
+                            FEATURED
+                          </span>
+                        )}
+                        {news.category && (
+                          <span className="text-xs bg-white/20 text-white px-2 py-1 rounded">
+                            {news.category}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-semibold text-white group-hover:text-blue-300 transition-colors">
+                        {news.title}
+                      </h4>
+                    </div>
+                    <button
+                      onClick={() => openNewsSource(news)}
+                      className="text-blue-400 hover:text-blue-300 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Read full article"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </button>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
-                    {news.url && news.url !== '#' && !news.url.includes('example.com') && (
-                      <button
-                        onClick={() => openNewsSource(news)}
-                        className="text-blue-400 hover:text-blue-300 text-xs flex items-center"
-                      >
-                        <BookOpen className="h-3 w-3 mr-1" />
-                        Read More
-                      </button>
-                    )}
+                  <p className="text-white/70 text-sm mb-2 line-clamp-2">
+                    {news.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <span className={`text-xs flex items-center ${isWTPNews ? 'text-red-400 font-semibold' : 'text-white/60'}`}>
+                        <Globe className="h-3 w-3 mr-1" />
+                        {news.source?.name || news.source || 'Unknown Source'}
+                      </span>
+                      <span className="text-white/60 text-xs">
+                        {new Date(news.publishedAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      {news.url && news.url !== '#' && !news.url.includes('example.com') && (
+                        <button
+                          onClick={() => openNewsSource(news)}
+                          className="text-blue-400 hover:text-blue-300 text-xs flex items-center"
+                        >
+                          <BookOpen className="h-3 w-3 mr-1" />
+                          Read More
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
