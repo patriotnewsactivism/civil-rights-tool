@@ -286,14 +286,25 @@ const UltimateDashboard = () => {
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
-      <div className="text-center">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome to the Ultimate Civil Rights Toolkit
+      <div className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg p-8 shadow-xl">
+        <h2 className="text-4xl font-bold mb-4">
+          Welcome to the Civil Rights Network
         </h2>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="text-xl max-w-3xl mx-auto opacity-95">
           Your comprehensive platform for civil rights protection, legal guidance, and investigative journalism.
           Access real-time data, AI-powered legal assistance, and community organizing tools.
         </p>
+        <div className="mt-6 flex justify-center space-x-4">
+          <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span className="font-semibold">8 Tools</span> Available
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span className="font-semibold">50+ States</span> Covered
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+            <span className="font-semibold">24/7</span> Access
+          </div>
+        </div>
       </div>
 
       {/* Feature Cards */}
