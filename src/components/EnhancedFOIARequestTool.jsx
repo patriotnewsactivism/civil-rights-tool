@@ -104,43 +104,6 @@ const EnhancedFOIARequestTool = () => {
     if (!agencyType) return agencies;
     return agencies.filter(agency => agency.type === agencyType);
   };
-    'Kentucky': { law: 'Kentucky Open Records Act', fee: '$0.10/page', timeframe: '3 business days', expedited: 'Available' },
-    'Louisiana': { law: 'Louisiana Public Records Law', fee: '$0.25/page', timeframe: '3 business days', expedited: 'Available' },
-    'Maine': { law: 'Maine FOIA', fee: 'Actual cost', timeframe: '5 business days', expedited: 'Available' },
-    'Maryland': { law: 'Maryland Public Information Act', fee: '$0.36/page', timeframe: '30 days', expedited: 'Available' },
-    'Massachusetts': { law: 'Massachusetts Public Records Law', fee: '$0.05/page', timeframe: '10 business days', expedited: 'Available' },
-    'Michigan': { law: 'Michigan FOIA', fee: 'Actual cost', timeframe: '5 business days', expedited: 'Available' },
-    'Minnesota': { law: 'Minnesota Data Practices Act', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'Mississippi': { law: 'Mississippi Public Records Act', fee: '$0.50/page', timeframe: '7 business days', expedited: 'Limited' },
-    'Missouri': { law: 'Missouri Sunshine Law', fee: '$0.10/page', timeframe: '3 business days', expedited: 'Available' },
-    'Montana': { law: 'Montana Right to Know Law', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'Nebraska': { law: 'Nebraska Public Records Law', fee: 'Actual cost', timeframe: '4 business days', expedited: 'Available' },
-    'Nevada': { law: 'Nevada Public Records Law', fee: 'Actual cost', timeframe: '5 business days', expedited: 'Available' },
-    'New Hampshire': { law: 'New Hampshire Right-to-Know Law', fee: '$0.50/page', timeframe: '5 business days', expedited: 'Available' },
-    'New Jersey': { law: 'New Jersey OPRA', fee: '$0.05/page', timeframe: '7 business days', expedited: 'Available' },
-    'New Mexico': { law: 'New Mexico IPRA', fee: '$1.00/page', timeframe: '3 business days', expedited: 'Available' },
-    'New York': { law: 'New York FOIL', fee: '$0.25/page', timeframe: '5 business days', expedited: 'Available' },
-    'North Carolina': { law: 'North Carolina Public Records Law', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'North Dakota': { law: 'North Dakota Open Records Law', fee: 'Actual cost', timeframe: '3 business days', expedited: 'Limited' },
-    'Ohio': { law: 'Ohio Public Records Act', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'Oklahoma': { law: 'Oklahoma Open Records Act', fee: 'Actual cost', timeframe: '3 business days', expedited: 'Available' },
-    'Oregon': { law: 'Oregon Public Records Law', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'Pennsylvania': { law: 'Pennsylvania Right-to-Know Law', fee: '$0.25/page', timeframe: '5 business days', expedited: 'Available' },
-    'Rhode Island': { law: 'Rhode Island Access to Public Records Act', fee: '$0.15/page', timeframe: '10 business days', expedited: 'Available' },
-    'South Carolina': { law: 'South Carolina FOIA', fee: 'Actual cost', timeframe: '10 business days', expedited: 'Available' },
-    'South Dakota': { law: 'South Dakota Open Records Law', fee: 'Actual cost', timeframe: '3 business days', expedited: 'Limited' },
-    'Tennessee': { law: 'Tennessee Public Records Act', fee: '$0.15/page', timeframe: '7 business days', expedited: 'Available' },
-    'Texas': { law: 'Texas Public Information Act', fee: 'Actual cost', timeframe: '10 business days', expedited: 'Available' },
-    'Utah': { law: 'Utah GRAMA', fee: 'Actual cost', timeframe: '10 business days', expedited: 'Available' },
-    'Vermont': { law: 'Vermont Public Records Law', fee: '$0.25/page', timeframe: '3 business days', expedited: 'Available' },
-    'Virginia': { law: 'Virginia FOIA', fee: 'Actual cost', timeframe: '5 business days', expedited: 'Available' },
-    'Washington': { law: 'Washington Public Records Act', fee: '$0.15/page', timeframe: '5 business days', expedited: 'Available' },
-    'West Virginia': { law: 'West Virginia FOIA', fee: '$0.50/page', timeframe: '5 business days', expedited: 'Available' },
-    'Wisconsin': { law: 'Wisconsin Open Records Law', fee: 'Actual cost', timeframe: 'Reasonable time', expedited: 'Available' },
-    'Wyoming': { law: 'Wyoming Public Records Act', fee: 'Actual cost', timeframe: '3 business days', expedited: 'Limited' }
-  };
-
-  // Federal agencies
   const federalAgencies = {
     'FBI': { 
       email: 'foipa.request@ic.fbi.gov',
@@ -911,9 +874,5 @@ ${requestDetails.requesterInfo.organization || ''}`;
              </div>
            </div>
          </div>
-       </div>
-     );
-   };
-   
-   export default EnhancedFOIARequestTool;
+
 export default EnhancedFOIARequestTool;
