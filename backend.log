@@ -1,0 +1,6 @@
+🚀 Affiliate Program Backend Server running on port 3000
+📊 Health check: http://localhost:3000/health
+💰 Affiliate API endpoints:
+   - Dashboard: http://localhost:3000/api/affiliates/dashboard/:userId
+   - Referrals: http://localhost:3000/api/affiliates/referrals/:userId
+   - Stats: http://localhost:3000/api/affiliates/stats/:userId
