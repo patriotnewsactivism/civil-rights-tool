@@ -12,11 +12,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
-<<<<<<< HEAD
-    "@types/leaflet": "^1.9.21",
-=======
     "@tailwindcss/aspect-ratio": "^0.4.2",
->>>>>>> 80c2e1954a68162125132b7d79023abf0fce04fb
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^24.6.2",
     "chart.js": "^4.5.0",
     "cors": "^2.8.5",
